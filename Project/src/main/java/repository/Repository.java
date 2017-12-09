@@ -1,6 +1,6 @@
 package repository;
 
-import specifications.SqlSpecification;
+import specifications.sql.SqlSpecification;
 
 import java.util.List;
 

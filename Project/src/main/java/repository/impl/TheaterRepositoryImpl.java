@@ -49,7 +49,7 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
                 .append(" ");
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT ")
-                .append(DataBaseTableNames.THEATERS).append(".THEATER_ID")
+                .append(DataBaseTableNames.THEATERS).append(".THEATER_ID, ")
                 .append(DataBaseTableNames.THEATERS).append(".THEATER_NUMBER")
                 .append(" FROM ").append(tableNames)
                 .append(" WHERE ").append(sqlSpecification.toSqlClause());

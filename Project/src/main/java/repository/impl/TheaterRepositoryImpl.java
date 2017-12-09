@@ -2,6 +2,7 @@ package repository.impl;
 
 import model.Theater;
 import repository.Repository;
+import specifications.sql.DataBaseTableNames;
 import specifications.sql.SqlSpecification;
 
 import java.util.Collection;
@@ -38,6 +39,16 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
     }
 
     public List<Theater> query(SqlSpecification sqlSpecification) {
-        return null;
+        StringBuilder tableNames = new StringBuilder();
+        List sourceTables = sqlSpecification.getSourceTables();
+        for (int i = 0; i < sourceTables.size() - 1; i++){
+            tableNames.append(sourceTables.get(i))
+                    .append(", ");
+        }
+        tableNames.append(sourceTables.get(sourceTables.size()-1))
+                .append(" ");
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT * FROM ").append(tableNames)
+                .append("WHERE ").append(sqlSpecification.toSqlClause());
     }
 }

@@ -1,6 +1,8 @@
-package specifications.sql;
+package specifications.sql.impl;
 
 import model.Line;
+import specifications.sql.DataBaseTableNames;
+import specifications.sql.SqlSpecification;
 
 import java.util.Arrays;
 import java.util.Collections;

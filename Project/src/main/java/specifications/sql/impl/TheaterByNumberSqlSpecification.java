@@ -1,6 +1,8 @@
-package specifications.sql;
+package specifications.sql.impl;
 
 import model.Theater;
+import specifications.sql.DataBaseTableNames;
+import specifications.sql.SqlSpecification;
 
 import java.util.ArrayList;
 import java.util.Arrays;

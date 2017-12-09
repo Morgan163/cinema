@@ -2,7 +2,7 @@ package repository.impl;
 
 import model.Theater;
 import repository.Repository;
-import specifications.SqlSpecification;
+import specifications.sql.SqlSpecification;
 
 import java.util.Collection;
 import java.util.Collections;

@@ -1,4 +1,6 @@
-package specifications.sql;
+package specifications.sql.impl;
+
+import specifications.sql.SqlSpecification;
 
 import java.util.ArrayList;
 import java.util.List;

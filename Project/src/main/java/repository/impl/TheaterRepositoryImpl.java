@@ -48,7 +48,10 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
         tableNames.append(sourceTables.get(sourceTables.size()-1))
                 .append(" ");
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT * FROM ").append(tableNames)
-                .append("WHERE ").append(sqlSpecification.toSqlClause());
+        sql.append("SELECT ")
+                .append(DataBaseTableNames.THEATERS).append(".THEATER_ID")
+                .append(DataBaseTableNames.THEATERS).append(".THEATER_NUMBER")
+                .append(" FROM ").append(tableNames)
+                .append(" WHERE ").append(sqlSpecification.toSqlClause());
     }
 }

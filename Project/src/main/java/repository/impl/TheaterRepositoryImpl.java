@@ -2,10 +2,10 @@ package repository.impl;
 
 import model.Theater;
 import repository.Repository;
+import specifications.sql.TableNamesResolver;
 import specifications.sql.DataBaseTableNames;
 import specifications.sql.SqlSpecification;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,14 +39,7 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
     }
 
     public List<Theater> query(SqlSpecification sqlSpecification) {
-        StringBuilder tableNames = new StringBuilder();
-        List sourceTables = sqlSpecification.getSourceTables();
-        for (int i = 0; i < sourceTables.size() - 1; i++){
-            tableNames.append(sourceTables.get(i))
-                    .append(", ");
-        }
-        tableNames.append(sourceTables.get(sourceTables.size()-1))
-                .append(" ");
+        String tableNames = TableNamesResolver.getInstance().resolveNamesForSqlQuery(sqlSpecification);
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT ")
                 .append(DataBaseTableNames.THEATERS).append(".THEATER_ID, ")

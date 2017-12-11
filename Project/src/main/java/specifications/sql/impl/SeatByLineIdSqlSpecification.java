@@ -4,13 +4,9 @@ import model.Seat;
 import specifications.sql.DataBaseTableNames;
 import specifications.sql.SqlSpecification;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by niict on 09.12.2017.
- */
 public class SeatByLineIdSqlSpecification implements SqlSpecification<Seat> {
     private long lineId;
     private String tableName;

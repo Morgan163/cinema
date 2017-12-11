@@ -4,13 +4,9 @@ import model.Line;
 import specifications.sql.DataBaseTableNames;
 import specifications.sql.SqlSpecification;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by niict on 09.12.2017.
- */
 public class LineByTheaterIdSqlSpecification implements SqlSpecification<Line> {
     private long theaterId;
     private String tableName;

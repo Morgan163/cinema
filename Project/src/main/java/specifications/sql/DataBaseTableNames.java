@@ -1,8 +1,5 @@
 package specifications.sql;
 
-/**
- * Created by niict on 09.12.2017.
- */
 public class DataBaseTableNames {
     public static final String SEAT_TYPES = "SEAT_TYPES";
     public static final String LINES = "LINES";

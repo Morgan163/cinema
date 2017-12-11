@@ -4,13 +4,9 @@ import model.SeatType;
 import specifications.sql.DataBaseTableNames;
 import specifications.sql.SqlSpecification;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by niict on 09.12.2017.
- */
 public class SeatTypeByIdSqlSpecification implements SqlSpecification<SeatType> {
     private int typeId;
     private String tableName;

@@ -9882,9 +9882,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 840,
+									"left": 812,
 									"top": 351,
-									"width": 159.427734375,
+									"width": 215.01416015625,
 									"height": 13,
 									"autoResize": false,
 									"alpha": -2.010121294612802,
@@ -9894,7 +9894,7 @@
 									},
 									"edgePosition": 1,
 									"underline": false,
-									"text": "Нажатие на кнопку сеанса",
+									"text": "Нажатие на кнопку времени сеанса",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5,
 									"wordWrap": false
@@ -12647,7 +12647,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFgFklhvIdrrUs="
 									},
-									"name": "Нажатие на кнопку сеанса",
+									"name": "Нажатие на кнопку времени сеанса",
 									"visibility": "public",
 									"kind": "anyReceive"
 								}

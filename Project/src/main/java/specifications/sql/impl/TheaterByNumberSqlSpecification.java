@@ -8,9 +8,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class TheaterByNumberSqlSpecification implements SqlSpecification<Theater> {
-    private long theaterNumber;
+    private int theaterNumber;
     private String tableName;
 
+    /*
+    todo сделать в скрипте theaterNumber уникальным
+     */
     public TheaterByNumberSqlSpecification(int theaterNumber) {
         this.theaterNumber = theaterNumber;
         tableName = DataBaseTableNames.THEATERS;

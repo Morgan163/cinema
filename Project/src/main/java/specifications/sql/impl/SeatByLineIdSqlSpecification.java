@@ -1,7 +1,7 @@
 package specifications.sql.impl;
 
 import model.Seat;
-import specifications.sql.DataBaseTableNames;
+import specifications.sql.DataBaseNames;
 import specifications.sql.SqlSpecification;
 
 import java.util.Collections;
@@ -13,7 +13,7 @@ public class SeatByLineIdSqlSpecification implements SqlSpecification<Seat> {
 
     public SeatByLineIdSqlSpecification(int lineId) {
         this.lineId = lineId;
-        tableName = DataBaseTableNames.SEATS;
+        tableName = DataBaseNames.SEATS;
     }
 
     public boolean specified(Seat source) {

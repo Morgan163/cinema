@@ -1,7 +1,7 @@
 package specifications.sql.impl;
 
 import model.SeatType;
-import specifications.sql.DataBaseTableNames;
+import specifications.sql.DataBaseNames;
 import specifications.sql.SqlSpecification;
 
 import java.util.Collections;
@@ -13,7 +13,7 @@ public class SeatTypeByIdSqlSpecification implements SqlSpecification<SeatType> 
 
     public SeatTypeByIdSqlSpecification(int typeId) {
         this.typeId = typeId;
-        tableName = DataBaseTableNames.SEAT_TYPES;
+        tableName = DataBaseNames.SEAT_TYPES;
     }
 
     public boolean specified(SeatType source) {

@@ -2,7 +2,7 @@ package specifications.sql.impl;
 
 import model.Line;
 import model.Theater;
-import specifications.sql.DataBaseTableNames;
+import specifications.sql.DataBaseNames;
 import specifications.sql.SqlSpecification;
 
 import java.util.Collections;
@@ -13,7 +13,7 @@ public class LineByTheaterIdSqlSpecification implements SqlSpecification<Line> {
     private String tableName;
 
     private LineByTheaterIdSqlSpecification(){
-        tableName = DataBaseTableNames.LINES;
+        tableName = DataBaseNames.LINES;
     }
 
     /*

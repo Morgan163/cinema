@@ -6,6 +6,6 @@ import specifications.Specification;
 
 public interface SpecificationFactory
 {
-    Specification<Line> createLineByTheaterSpecification(Theater theater);
-    Specification<Theater> createTheaterByNumberSqlSpecification(int theaterNumber);
+    Specification<Line> getLineByTheaterSpecification(Theater theater);
+    Specification<Theater> getTheaterByIdSpecification(long theaterId);
 }

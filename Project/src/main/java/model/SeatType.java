@@ -1,13 +1,22 @@
 package model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+public enum  SeatType {
+    VIP(0, "VIP"),
+    GENERIC(1, "GENERIC");
 
-public class SeatType {
     private long seatTypeID;
     private String seatTypeName;
 
-    public SeatType(long seatTypeID, String seatTypeName) {
+    public static SeatType getById(long id){
+        SeatType[] allTypes = values();
+        for (SeatType type: allTypes){
+            if (type.getSeatTypeID() == id)
+                return type;
+        }
+        throw new RuntimeException("IllegalIdForAgeLimitType");
+    }
+
+    SeatType(long seatTypeID, String seatTypeName) {
         this.seatTypeID = seatTypeID;
         this.seatTypeName = seatTypeName;
     }
@@ -26,27 +35,5 @@ public class SeatType {
 
     public void setSeatTypeName(String seatTypeName) {
         this.seatTypeName = seatTypeName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (!(o instanceof SeatType)) return false;
-
-        SeatType seatType = (SeatType) o;
-
-        return new EqualsBuilder()
-                .append(seatTypeID, seatType.seatTypeID)
-                .append(seatTypeName, seatType.seatTypeName)
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(seatTypeID)
-                .append(seatTypeName)
-                .toHashCode();
     }
 }

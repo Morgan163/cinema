@@ -1,7 +1,7 @@
 package specifications.sql.impl;
 
 import model.Seat;
-import specifications.sql.DataBaseNames;
+import db.DataBaseNames;
 import specifications.sql.SqlSpecification;
 
 import java.util.Collections;

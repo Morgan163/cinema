@@ -7,20 +7,18 @@ import db.connections.ConnectionHolder;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import java.beans.PropertyVetoException;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.Properties;
 
 @ApplicationScoped
 public class PooledConnectionHolder implements ConnectionHolder
 {
-    private static final int MIN_POOL_SIZE = 5;
-    private static final int ACQUIRE_INCREMENT = 5;
-    private static final int MAX_POOL_SIZE = 20;
+    private static final String MIN_POOL_SIZE = "5";
+    private static final String ACQUIRE_INCREMENT = "5";
+    private static final String MAX_POOL_SIZE = "20";
     private ComboPooledDataSource cpds;
     private String propertyFileName;
 
@@ -41,7 +39,9 @@ public class PooledConnectionHolder implements ConnectionHolder
         InputStream input = null;
         try
         {
-            input = new FileInputStream(propertyFileName);
+            Locale.setDefault(Locale.ENGLISH);
+            ClassLoader classLoader = getClass().getClassLoader();
+            input = classLoader.getResourceAsStream(propertyFileName);
             Properties properties = new Properties();
             properties.load(input);
 
@@ -49,9 +49,9 @@ public class PooledConnectionHolder implements ConnectionHolder
             String dataBaseUrl = properties.getProperty(DBSettingsConstants.DB_URL_PROPERTY_NAME);
             String dataBaseUser = properties.getProperty(DBSettingsConstants.DB_USER_PROPERTY_NAME);
             String dataBasePassword = properties.getProperty(DBSettingsConstants.DB_PASSWORD_PROPERTY_NAME);
-            int minPoolSize = Integer.valueOf(properties.getProperty(DBSettingsConstants.DB_MIN_POOL_SIZE_PROPERTY_NAME),MIN_POOL_SIZE);
-            int acquireIncrement = Integer.valueOf(properties.getProperty(DBSettingsConstants.DB_ACQUIRE_INCREMENT__PROPERTY_NAME), ACQUIRE_INCREMENT);
-            int maxPoolSize = Integer.valueOf(properties.getProperty(DBSettingsConstants.DB_MAX_POOL_SIZE__PROPERTY_NAME), MAX_POOL_SIZE);
+            int minPoolSize = Integer.valueOf(properties.getProperty(DBSettingsConstants.DB_MIN_POOL_SIZE_PROPERTY_NAME,MIN_POOL_SIZE));
+            int acquireIncrement = Integer.valueOf(properties.getProperty(DBSettingsConstants.DB_ACQUIRE_INCREMENT__PROPERTY_NAME, ACQUIRE_INCREMENT));
+            int maxPoolSize = Integer.valueOf(properties.getProperty(DBSettingsConstants.DB_MAX_POOL_SIZE__PROPERTY_NAME, MAX_POOL_SIZE));
 
             cpds = new ComboPooledDataSource();
             cpds.setDriverClass(dataBaseDriver); //loads the jdbc driver

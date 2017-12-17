@@ -1,15 +1,26 @@
 package model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-public class AgeLimitType {
+public enum AgeLimitType {
+    MIN_0(0,0),
+    MIN_6(1,6),
+    MIN_12(2,12),
+    MIN_16(3, 16),
+    MIN_18(4, 18);
     private long ageLimitID;
     private int ageLimitValue;
 
-    public AgeLimitType(long ageLimitID, int ageLimitValue) {
+    AgeLimitType(long ageLimitID, int ageLimitValue) {
         this.ageLimitID = ageLimitID;
         this.ageLimitValue = ageLimitValue;
+    }
+
+    public static AgeLimitType getById(long id){
+        AgeLimitType[] allTypes = values();
+        for (AgeLimitType type: allTypes){
+            if (type.getAgeLimitID() == id)
+                return type;
+        }
+        throw new RuntimeException("IllegalIdForAgeLimitType");
     }
 
     public long getAgeLimitID() {
@@ -26,27 +37,5 @@ public class AgeLimitType {
 
     public void setAgeLimitValue(int ageLimitValue) {
         this.ageLimitValue = ageLimitValue;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (!(o instanceof AgeLimitType)) return false;
-
-        AgeLimitType that = (AgeLimitType) o;
-
-        return new EqualsBuilder()
-                .append(ageLimitID, that.ageLimitID)
-                .append(ageLimitValue, that.ageLimitValue)
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(ageLimitID)
-                .append(ageLimitValue)
-                .toHashCode();
     }
 }

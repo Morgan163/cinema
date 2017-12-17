@@ -1,9 +1,9 @@
-package specifications.sql;
+package db;
 
 public class DataBaseNames {
     public static final String SEAT_TYPES = "SEAT_TYPES";
     public static final String LINES = "LINES";
-    public static final String THEATERS = "THEATERS";
+    public static final String THEATERS_TABLE_NAME = "THEATERS";
     public static final String SEATS = "SEATS";
     public static final String SEATS_SEANCES = "SEATS_SEANCES";
     public static final String SEATS_SEANCES_STATUSES = "SEATS_SEANCES_STATUSES";

@@ -4,56 +4,48 @@ import db.connections.ConnectionHolder;
 import model.Theater;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
-import specifications.sql.DataBaseNames;
+import db.DataBaseNames;
 import specifications.sql.SqlSpecification;
 
 import javax.inject.Inject;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 
 public class TheaterRepositoryImpl implements Repository<Theater> {
-
     @Inject
     private SpecificationFactory specificationFactory;
     @Inject
-    private ConnectionHolder connectionHolder;
-    private Connection connection;
+    private DataBaseHelper dataBaseHelper;
     private List<String> nestedSelectTableColumns;
-    private List<String> nestedUpdateTableColumns;
 
     public TheaterRepositoryImpl(){
-        nestedSelectTableColumns = Arrays.asList(DataBaseNames.THEATERS + ".THEATER_ID",
-                                              DataBaseNames.THEATERS + ".THEATER_NUMBER");
-        nestedUpdateTableColumns = Arrays.asList("theater_id", "theater_number");
+        nestedSelectTableColumns = Arrays.asList(DataBaseNames.THEATERS_TABLE_NAME + ".THEATER_ID",
+                                              DataBaseNames.THEATERS_TABLE_NAME + ".THEATER_NUMBER");
     }
-
-    public void add(Theater item) {
-        add(Collections.singletonList(item));
-    }
-
-
 
     public void add(Iterable<Theater> items) {
         for (Theater theater : items) {
-            Map<String, String> params = new HashMap<String,String>();
-            params.put("theater_id", "NEXT VALUE FOR " + DataBaseNames.TABLE_ID_SEQUENCE);
-            params.put("theater_number", String.valueOf(theater.getTheaterNumber()));
-            String sql = SqlQueryBuilder.buildInsertQuery(DataBaseNames.THEATERS, params);
-            try {
-                connection = connectionHolder.getConnection();
-                Statement statement = connection.createStatement();
-                statement.executeUpdate(sql.toString());
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            add(theater);
+        }
+    }
+
+    public void add(Theater item) {
+        try {
+            item.setTheaterID(generateTheaterId());
+            String sql = getInsertSqlForTheater(item);
+            dataBaseHelper.executeUpdateQuery(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public void update(Theater item) {
-        //todo update
+        try {
+            String sql = getUpdateSqlForTheater(item);
+            dataBaseHelper.executeUpdateQuery(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void remove(Theater item) {
@@ -62,35 +54,65 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
     }
 
     public void remove(SqlSpecification sqlSpecification) {
-        String sql = SqlQueryBuilder.buildDeleteQueryBySQLSpecification(sqlSpecification);
         try {
-            connection = connectionHolder.getConnection();
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql.toString());
+            String sql = dataBaseHelper.buildDeleteQueryBySQLSpecification(sqlSpecification);
+            dataBaseHelper.executeUpdateQuery(sql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     public List<Theater> query(SqlSpecification sqlSpecification) {
-        String sql = SqlQueryBuilder.buildSelectQueryBySQLSpecification(nestedSelectTableColumns, sqlSpecification);
         try {
-            connection = connectionHolder.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            ArrayList<Theater> theaters = new ArrayList<Theater>();
-            while (resultSet.next()) {
-                long theaterId = resultSet.getLong("THEATER_ID");
-                int theaterNumber = resultSet.getInt("THEATER_NUMBER");
-                Theater theater = new Theater(theaterId, theaterNumber);
-                theaters.add(theater);
-            }
+            String sql = dataBaseHelper.buildSelectQueryBySQLSpecification(nestedSelectTableColumns, sqlSpecification);
+            List <Theater> theaters = executeSelect(sql);
             return theaters;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    private long generateTheaterId() throws SQLException {
+        return Long.valueOf(dataBaseHelper.getNextValueForSequence(DataBaseNames.TABLE_ID_SEQUENCE));
+    }
 
+    private String getInsertSqlForTheater(Theater theater){
+        ObjectColumnValues objectColumnValues = getObjectColumnValuesForTheater(theater);
+        String sql = dataBaseHelper.buildInsertQuery(DataBaseNames.THEATERS_TABLE_NAME, objectColumnValues);
+        return sql;
+    }
+
+    private String getUpdateSqlForTheater(Theater theater){
+        ObjectColumnValues objectColumnValues = getObjectColumnValuesForTheater(theater);
+        String sql = dataBaseHelper.buildUpdateQuery(DataBaseNames.THEATERS_TABLE_NAME, objectColumnValues);
+        return sql;
+    }
+
+    private List<Theater> executeSelect(String sql) throws SQLException {
+        ResultSet resultSet = dataBaseHelper.executeSelectQuery(sql);
+        List<Theater> theaters = parseResultSet(resultSet);
+        resultSet.close();
+        return theaters;
+    }
+
+    private List<Theater> parseResultSet(ResultSet resultSet) throws SQLException {
+        ArrayList<Theater> theaters = new ArrayList<Theater>();
+        while (resultSet.next()) {
+            long theaterId = resultSet.getLong("THEATER_ID");
+            int theaterNumber = resultSet.getInt("THEATER_NUMBER");
+            Theater theater = new Theater(theaterId, theaterNumber);
+            theaters.add(theater);
+        }
+        return theaters;
+    }
+
+    private ObjectColumnValues getObjectColumnValuesForTheater(Theater theater){
+        ObjectColumnValues objectColumnValues = new ObjectColumnValues();
+        objectColumnValues.setValueByColumnName("theater_number", String.valueOf(theater.getTheaterNumber()));
+        objectColumnValues.setValueByColumnName("theater_id", String.valueOf(theater.getTheaterID()));
+        objectColumnValues.setIdColumnName("theater_id");
+        objectColumnValues.setObjectId(String.valueOf(theater.getTheaterID()));
+        return objectColumnValues;
+    }
 }
 

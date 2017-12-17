@@ -2,7 +2,7 @@ package specifications.sql.impl;
 
 import model.Line;
 import model.Theater;
-import specifications.sql.DataBaseNames;
+import db.DataBaseNames;
 import specifications.sql.SqlSpecification;
 
 import java.util.Collections;
@@ -16,12 +16,6 @@ public class LineByTheaterIdSqlSpecification implements SqlSpecification<Line> {
         tableName = DataBaseNames.LINES;
     }
 
-    /*
-    todo
-    Убрать, если не используется.
-    По идее, не нужно никому знать, кроме этой спеки,
-    что ряд связан с залом именно по id
-    */
     public LineByTheaterIdSqlSpecification(long theaterId) {
         this();
         this.theaterId = theaterId;

@@ -1,7 +1,7 @@
 package specifications.sql.impl;
 
 import model.Theater;
-import specifications.sql.DataBaseNames;
+import db.DataBaseNames;
 import specifications.sql.SqlSpecification;
 
 import java.util.Collections;
@@ -16,7 +16,7 @@ public class TheaterByIdSqlSpecification implements SqlSpecification<Theater> {
      */
     public TheaterByIdSqlSpecification(long theaterId) {
         this.theaterId = theaterId;
-        tableName = DataBaseNames.THEATERS;
+        tableName = DataBaseNames.THEATERS_TABLE_NAME;
     }
 
     public boolean specified(Theater source) {

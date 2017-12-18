@@ -5,21 +5,31 @@ import specifications.sql.SqlSpecification;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SqlCompositeSpecification<T> implements SqlSpecification<T> {
-    private SqlSpecification<T> leftOperand;
-    private SqlSpecification<T> rightOperand;
+public class SqlCompositeSpecification implements SqlSpecification {
+    private SqlSpecification leftOperand;
+    private SqlSpecification rightOperand;
     private Operation operation;
+
+    public SqlCompositeSpecification(SqlSpecification leftOperand, SqlSpecification rightOperand) {
+        this.leftOperand = leftOperand;
+        this.rightOperand = rightOperand;
+    }
+
+    public void setOperation(Operation operation) {
+        this.operation = operation;
+    }
 
     public List<String> getSourceTables() {
         ArrayList<String> tables = new ArrayList<String>();
-        for (String tableName : leftOperand.getSourceTables()){
-            if (!tables.contains(tableName)){
-                tables.add(tableName);
+        leftOperand.getSourceTables();
+        for (Object tableName : leftOperand.getSourceTables()){
+            if (!tables.contains(tableName.toString())){
+                tables.add(tableName.toString());
             }
         }
-        for (String tableName : rightOperand.getSourceTables()){
-            if (!tables.contains(tableName)){
-                tables.add(tableName);
+        for (Object tableName : rightOperand.getSourceTables()){
+            if (!tables.contains(tableName.toString())){
+                tables.add(tableName.toString());
             }
         }
         return tables;
@@ -29,7 +39,7 @@ public class SqlCompositeSpecification<T> implements SqlSpecification<T> {
         return operation.createClause(leftOperand, rightOperand);
     }
 
-    public boolean specified(T source) {
+    public boolean specified(Object source) {
         return operation.perform(leftOperand, rightOperand, source);
     }
 

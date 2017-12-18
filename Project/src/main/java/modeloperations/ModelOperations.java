@@ -1,5 +1,5 @@
 package modeloperations;
 
-public interface ModelOperations
+public interface ModelOperations extends DataManager
 {
 }

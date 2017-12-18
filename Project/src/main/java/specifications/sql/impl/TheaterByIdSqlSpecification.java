@@ -11,9 +11,6 @@ public class TheaterByIdSqlSpecification implements SqlSpecification<Theater> {
     private long theaterId;
     private String tableName;
 
-    /*
-    todo сделать в скрипте theaterId уникальным
-     */
     public TheaterByIdSqlSpecification(long theaterId) {
         this.theaterId = theaterId;
         tableName = DataBaseNames.THEATERS_TABLE_NAME;

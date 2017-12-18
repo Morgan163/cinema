@@ -8,6 +8,7 @@ import specifications.factory.SpecificationFactory;
 import specifications.sql.SqlSpecification;
 import specifications.sql.impl.LineByTheaterIdSqlSpecification;
 import specifications.sql.impl.SeatByLineIdSqlSpecification;
+import specifications.sql.impl.SqlCompositeSpecification;
 import specifications.sql.impl.TheaterByIdSqlSpecification;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -15,7 +16,11 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class SQLSpecificationFactory implements SpecificationFactory
 {
-    public Specification<Seat> getSeatByLineIdSpecification(long lineId){
+    public Specification getCompositeSpecification(Specification leftOperand, Specification rightOperand) {
+        return new SqlCompositeSpecification((SqlSpecification) leftOperand, (SqlSpecification) rightOperand);
+    }
+
+    public SqlSpecification<Seat> getSeatByLineIdSpecification(long lineId){
         return new SeatByLineIdSqlSpecification(lineId);
     }
 

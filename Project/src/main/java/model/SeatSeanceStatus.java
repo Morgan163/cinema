@@ -1,15 +1,23 @@
 package model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-public class SeatSeanceStatus {
+public enum SeatSeanceStatus
+{
+    FREE(0, "FREE"), RESERVED(1, "RESERVED"), SOLD_OUT(2, "SOLD OUT");
     private long statusID;
     private String statusName;
 
-    public SeatSeanceStatus(long statusID, String statusName) {
+    SeatSeanceStatus(long statusID, String statusName){
         this.statusID = statusID;
         this.statusName = statusName;
+    }
+
+    public static SeatSeanceStatus getById(long id){
+        SeatSeanceStatus[] allTypes = values();
+        for (SeatSeanceStatus type : allTypes)
+        {
+            if (type.getStatusID() == id) return type;
+        }
+        throw new RuntimeException("IllegalIdForAgeLimitType");
     }
 
     public long getStatusID() {
@@ -26,27 +34,5 @@ public class SeatSeanceStatus {
 
     public void setStatusName(String statusName) {
         this.statusName = statusName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (!(o instanceof SeatSeanceStatus)) return false;
-
-        SeatSeanceStatus that = (SeatSeanceStatus) o;
-
-        return new EqualsBuilder()
-                .append(statusID, that.statusID)
-                .append(statusName, that.statusName)
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(statusID)
-                .append(statusName)
-                .toHashCode();
     }
 }

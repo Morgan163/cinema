@@ -84,11 +84,8 @@ public class Line {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-
         if (!(o instanceof Line)) return false;
-
         Line line = (Line) o;
-
         return new EqualsBuilder()
                 .append(lineID, line.lineID)
                 .append(lineNumber, line.lineNumber)

@@ -11,7 +11,7 @@ public class SeatByLineIdSqlSpecification implements SqlSpecification<Seat> {
     private long lineId;
     private String tableName;
 
-    public SeatByLineIdSqlSpecification(int lineId) {
+    public SeatByLineIdSqlSpecification(long lineId) {
         this.lineId = lineId;
         tableName = DataBaseNames.SEATS;
     }

@@ -396,7 +396,7 @@
 											"height": 26,
 											"autoResize": false,
 											"underline": false,
-											"text": "Web Server WildFly",
+											"text": "Web Server WildFly 11",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": true
@@ -4394,7 +4394,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFgZNYJpbwcu3U="
 					},
-					"name": "Web Server WildFly",
+					"name": "Web Server WildFly 11",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,

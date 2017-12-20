@@ -1,11 +1,13 @@
 package specifications.sql.impl;
 
+import specifications.CompositeSpecification;
 import specifications.sql.SqlSpecification;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SqlCompositeSpecification implements SqlSpecification {
+public class SqlCompositeSpecification implements SqlSpecification, CompositeSpecification
+{
     private SqlSpecification leftOperand;
     private SqlSpecification rightOperand;
     private Operation operation;
@@ -15,7 +17,12 @@ public class SqlCompositeSpecification implements SqlSpecification {
         this.rightOperand = rightOperand;
     }
 
-    public void setOperation(Operation operation) {
+    public void setOperation(CompositeSpecification.Operation abstractOperation){
+        Operation sqlCompositeOpetarion = Operation.valueOf(abstractOperation.name());
+        setOperation(sqlCompositeOpetarion);
+    }
+
+    private void setOperation(Operation operation) {
         this.operation = operation;
     }
 

@@ -4,7 +4,9 @@ import model.*;
 import model.user.User;
 import modeloperations.DataUtils;
 import repository.Repository;
+import specifications.CompositeSpecification;
 import specifications.factory.SpecificationFactory;
+import specifications.sql.SqlSpecification;
 
 import javax.inject.Inject;
 
@@ -14,9 +16,11 @@ import javax.inject.Inject;
  */
 public class DataUtilsImpl implements DataUtils {
     @Inject
-    Repository<SeatSeanceStatusMapper> seatSeanceStatusMapperRepository;
+    private Repository<SeatSeanceStatusMapper> seatSeanceStatusMapperRepository;
     @Inject
-    SpecificationFactory specificationFactory;
+    private Repository<User> userRepository;
+    @Inject
+    private SpecificationFactory specificationFactory;
 
     public boolean isObjectContainedInDataBase(Object object) {
         if (object instanceof User){
@@ -44,7 +48,8 @@ public class DataUtilsImpl implements DataUtils {
     }
 
     private boolean isUserContainedInDataBase(User user) {
-        return user.getUserID() > 0;
+        SqlSpecification userSpecification = buildSpecificationForCheckUser(user);
+        return userRepository.query(userSpecification).size() > 0;
     }
 
     private boolean isFilmContainedInDataBase(Film film) {
@@ -70,4 +75,13 @@ public class DataUtilsImpl implements DataUtils {
     private boolean isTheaterContainedInDataBase(Theater theater) {
         return theater.getTheaterID() > 0;
     }
+
+    private SqlSpecification buildSpecificationForCheckUser(User user){
+        SqlSpecification loginSpecification = (SqlSpecification)specificationFactory.getUserByLoginSpecification(user.getLogin());
+        SqlSpecification passwordSpecification = (SqlSpecification)specificationFactory.getUserByPasswordSpecification(user.getPassword());
+        CompositeSpecification resultSpecification = specificationFactory.getCompositeSpecification(loginSpecification, passwordSpecification);
+        resultSpecification.setOperation(CompositeSpecification.Operation.AND);
+        return (SqlSpecification) specificationFactory.getCompositeSpecification(loginSpecification, passwordSpecification);
+    }
+
 }

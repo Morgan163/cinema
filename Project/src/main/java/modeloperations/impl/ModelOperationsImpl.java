@@ -1,11 +1,9 @@
 package modeloperations.impl;
 
-import model.Film;
-import model.FilmType;
-import model.Seance;
-import model.Theater;
+import model.*;
 import model.user.User;
 import modeloperations.DataManager;
+import modeloperations.DataUtils;
 import modeloperations.ModelOperations;
 
 import javax.inject.Inject;
@@ -17,50 +15,36 @@ import java.util.Collection;
 public class ModelOperationsImpl implements ModelOperations {
     @Inject
     private DataManager dataManager;
+    @Inject
+    private DataUtils dataUtils;
 
 
-    public void createTheater(Theater theater) {
-        dataManager.createTheater(theater);
+    public void bookSeatsForSeance(Collection <Seat> seats, Seance seance, String contacts){
+
     }
 
-    public void createFilmType(FilmType filmType) {
-        dataManager.createFilmType(filmType);
+    public Collection <Seat> redeemSeatsForSeance(Seance seance, String code){
+        return null;
     }
 
-    public void createFilm(Film film) {
-        dataManager.createFilm(film);
+    public void buySeatForSeance(Seat seat){
+
     }
 
-    public void createSeanceForTheater(Seance seance, Theater theater) {
-        dataManager.createSeanceForTheater(seance, theater);
+    public void refund(Collection <Seat> seats, Seance seance){
+
     }
 
-    public void createUser(User user) {
-        dataManager.createUser(user);
+    public double calculatePriceForSeatsAndSeance(Collection <Seat> seats, Seance seance){
+        return 0;
     }
 
-    public Theater getTheater(long theaterId) {
-        return dataManager.getTheater(theaterId);
+    public boolean isUserExists(User user){
+        return false;
     }
 
-    public Collection<Theater> getAllTheaters() {
-        return dataManager.getAllTheaters();
-    }
+    public void authorize(User user){
 
-    public Seance getSeance(long seanceId) {
-        return dataManager.getSeance(seanceId);
-    }
-
-    public Collection<Seance> getAllSeances() {
-        return dataManager.getAllSeances();
-    }
-
-    public User getUser(long userId) {
-        return dataManager.getUser(userId);
-    }
-
-    public void updateTheater(Theater theater) {
-        dataManager.updateTheater(theater);
     }
 }
 

@@ -3,6 +3,9 @@ package model.user;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class User {
     private long userID;
     private String login;

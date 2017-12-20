@@ -20,7 +20,7 @@ public interface DataManager {
     Seance getSeance(long seanceId);
     Collection<Seance> getAllSeances();
     SeatSeanceStatusMapper getSeatSeanceStatusMapper(Seat seat, Seance seance);
-    Collection<SeatSeanceStatusMapper> getSeatSeanceStatusMappersByCode(String code);
+    Collection<SeatSeanceStatusMapper> getSeatSeanceStatusMappersByKey(String code);
     User getUser(long userId);
     void updateTheater(Theater theater);
     void updateSeatSeanceMappers(Collection<SeatSeanceStatusMapper> mapper);

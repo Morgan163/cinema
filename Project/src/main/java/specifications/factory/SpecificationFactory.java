@@ -12,6 +12,7 @@ import specifications.sql.impl.SqlCompositeSpecification;
 public interface SpecificationFactory
 {
     CompositeSpecification getCompositeSpecification(Specification leftOperand, Specification rightOperand);
+    Specification<Theater> getAnyTheaterSpecification();
     Specification<User> getUserByLoginSpecification(String name);
     Specification<User> getUserByPasswordSpecification(String password);
     Specification<Seat> getSeatByLineIdSpecification(long lineId);

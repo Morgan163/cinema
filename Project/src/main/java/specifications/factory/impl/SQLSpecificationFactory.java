@@ -3,21 +3,32 @@ package specifications.factory.impl;
 import model.Line;
 import model.Seat;
 import model.Theater;
+import model.user.User;
+import specifications.CompositeSpecification;
 import specifications.Specification;
 import specifications.factory.SpecificationFactory;
 import specifications.sql.SqlSpecification;
-import specifications.sql.impl.LineByTheaterIdSqlSpecification;
-import specifications.sql.impl.SeatByLineIdSqlSpecification;
-import specifications.sql.impl.SqlCompositeSpecification;
-import specifications.sql.impl.TheaterByIdSqlSpecification;
+import specifications.sql.impl.*;
 
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class SQLSpecificationFactory implements SpecificationFactory
 {
-    public Specification getCompositeSpecification(Specification leftOperand, Specification rightOperand) {
+    public CompositeSpecification getCompositeSpecification(Specification leftOperand, Specification rightOperand) {
         return new SqlCompositeSpecification((SqlSpecification) leftOperand, (SqlSpecification) rightOperand);
+    }
+
+    public Specification<Theater> getAnyTheaterSpecification(){
+        return new AnyTheaterSqlSpecification();
+    }
+
+    public Specification<User> getUserByLoginSpecification(String name){
+        return null;
+    }
+
+    public Specification<User> getUserByPasswordSpecification(String password){
+        return null;
     }
 
     public SqlSpecification<Seat> getSeatByLineIdSpecification(long lineId){

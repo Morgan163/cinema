@@ -9,8 +9,9 @@ import java.util.Collection;
 public interface ModelOperations
 {
     void bookSeatsForSeance(Collection<Seat> seats, Seance seance, String contacts);
-    Collection<Seat> redeemSeatsByCode(String code);
-    void buySeatForSeance(Seat seat);
+    Collection<Seat> getSeatsByBookingKey(String code);
+    void closeReservationByKey(String key);
+    void buySeatsForSeance(Collection<Seat> seat, Seance seance);
     void refund(Collection<Seat> seats, Seance seance);
     double calculatePriceForSeatsAndSeance(Collection<Seat> seats, Seance seance);
     boolean isUserExists(User user);

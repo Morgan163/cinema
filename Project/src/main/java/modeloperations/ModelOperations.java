@@ -9,7 +9,7 @@ import java.util.Collection;
 public interface ModelOperations
 {
     void bookSeatsForSeance(Collection<Seat> seats, Seance seance, String contacts);
-    Collection<Seat> redeemSeatsForSeance(Seance seance, String code);
+    Collection<Seat> redeemSeatsByCode(String code);
     void buySeatForSeance(Seat seat);
     void refund(Collection<Seat> seats, Seance seance);
     double calculatePriceForSeatsAndSeance(Collection<Seat> seats, Seance seance);

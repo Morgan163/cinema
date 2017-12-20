@@ -1,9 +1,6 @@
 package modeloperations;
 
-import model.Film;
-import model.FilmType;
-import model.Seance;
-import model.Theater;
+import model.*;
 import model.user.User;
 
 import java.util.Collection;
@@ -22,6 +19,9 @@ public interface DataManager {
     Collection<Theater> getAllTheaters();
     Seance getSeance(long seanceId);
     Collection<Seance> getAllSeances();
+    SeatSeanceStatusMapper getSeatSeanceStatusMapper(Seat seat, Seance seance);
+    Collection<SeatSeanceStatusMapper> getSeatSeanceStatusMappersByCode(String code);
     User getUser(long userId);
     void updateTheater(Theater theater);
+    void updateSeatSeanceMappers(Collection<SeatSeanceStatusMapper> mapper);
 }

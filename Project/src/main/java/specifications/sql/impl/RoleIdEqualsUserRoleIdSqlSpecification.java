@@ -15,11 +15,7 @@ public class RoleIdEqualsUserRoleIdSqlSpecification implements SqlSpecification
     }
 
     public String toSqlClause(){
-        StringBuilder sql = new StringBuilder();
-        sql.append(DataBaseNames.USER_ROLES).append(".role_id")
-                .append(" = ")
-                .append(DataBaseNames.USERS).append(".role_id");
-        return sql.toString();
+        return String.format("%s.role_id = %s.rode_id", DataBaseNames.USER_ROLES, DataBaseNames.USERS);
     }
 
     public boolean specified(Object source){

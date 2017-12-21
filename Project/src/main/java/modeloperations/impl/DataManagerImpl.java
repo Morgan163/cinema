@@ -84,19 +84,22 @@ public class DataManagerImpl implements DataManager
         return theaters;
     }
 
-    //TODO остановился тут
     public Seance getSeance(long seanceId){
-        return null;
+        SqlSpecification seanceSpecification = (SqlSpecification) specificationFactory.getSeanceByIdSqlSpecification(seanceId);
+        return seanceRepository.query(seanceSpecification).get(0);
     }
 
     public Collection<Seance> getAllSeances(){
-        return null;
+        SqlSpecification seanceSpecification = (SqlSpecification) specificationFactory.getAnySeanceSpecification();
+        return seanceRepository.query(seanceSpecification);
     }
 
     public SeatSeanceStatusMapper getSeatSeanceStatusMapper(Seat seat, Seance seance){
-        return null;
+        SqlSpecification mapperSpecification = buildSpecificationForStatusMapper(seat, seance);
+        return seatSeanceStatusMapperRepository.query(mapperSpecification).get(0);
     }
 
+    //todo остановился тут
     public Collection<SeatSeanceStatusMapper> getSeatSeanceStatusMappersByKey(String code){
         return null;
     }
@@ -245,6 +248,15 @@ public class DataManagerImpl implements DataManager
         userSpecification.setOperation(CompositeSpecification.Operation.AND);
         SqlSpecification roleSpecification = (SqlSpecification)specificationFactory.getRoleIdEqualsUserRoleIdSpecification();
         CompositeSpecification resultSpecification = specificationFactory.getCompositeSpecification(roleSpecification, userSpecification);
-        return (SqlSpecification) specificationFactory.getCompositeSpecification(loginSpecification, passwordSpecification);
+        resultSpecification.setOperation(CompositeSpecification.Operation.AND);
+        return (SqlSpecification)resultSpecification;
+    }
+
+    private SqlSpecification buildSpecificationForStatusMapper(Seat seat, Seance seance){
+        SqlSpecification mapperBySeatSpecification = (SqlSpecification)specificationFactory.getMapperBySeatIdSpecification(seat.getSeatID());
+        SqlSpecification mapperBySeanceSpecification = (SqlSpecification)specificationFactory.getMapperBySeanceIdSpecification(seance.getSeanceID());
+        CompositeSpecification mapperSpecification = specificationFactory.getCompositeSpecification(mapperBySeatSpecification, mapperBySeanceSpecification);
+        mapperSpecification.setOperation(CompositeSpecification.Operation.AND);
+        return (SqlSpecification)mapperSpecification;
     }
 }

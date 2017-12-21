@@ -9,8 +9,6 @@ public class BookingCodeGeneratorImpl implements BookingCodeGenerator {
         String code = uuid.toString();
         return code.substring(0,code.indexOf("-"));
     }
-
-
 }
 
 

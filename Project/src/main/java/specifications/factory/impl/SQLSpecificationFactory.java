@@ -1,8 +1,6 @@
 package specifications.factory.impl;
 
-import model.Line;
-import model.Seat;
-import model.Theater;
+import model.*;
 import model.user.User;
 import specifications.CompositeSpecification;
 import specifications.Specification;
@@ -19,12 +17,20 @@ public class SQLSpecificationFactory implements SpecificationFactory
         return new RoleIdEqualsUserRoleIdSqlSpecification();
     }
 
+    public Specification<Seance> getSeanceByIdSqlSpecification(long seanceId){
+        return new SeanceByIdSqlSpecification(seanceId);
+    }
+
     public CompositeSpecification getCompositeSpecification(Specification leftOperand, Specification rightOperand) {
         return new SqlCompositeSpecification((SqlSpecification) leftOperand, (SqlSpecification) rightOperand);
     }
 
     public Specification<Theater> getAnyTheaterSpecification(){
         return new AnyTheaterSqlSpecification();
+    }
+
+    public Specification<Seance> getAnySeanceSpecification(){
+        return new AnySeanceSqlSpecification();
     }
 
     public Specification<User> getUserByLoginSpecification(String name){
@@ -45,5 +51,13 @@ public class SQLSpecificationFactory implements SpecificationFactory
 
     public SqlSpecification<Theater> getTheaterByIdSpecification(long theaterId){
         return new TheaterByIdSqlSpecification(theaterId);
+    }
+
+    public SqlSpecification<SeatSeanceStatusMapper> getMapperBySeanceIdSpecification(long seanceId){
+        return new MapperBySeanceIdSqlSpecification(seanceId);
+    }
+
+    public Specification<SeatSeanceStatusMapper> getMapperBySeatIdSpecification(long seatId){
+        return new MapperBySeanceIdSqlSpecification(seatId);
     }
 }

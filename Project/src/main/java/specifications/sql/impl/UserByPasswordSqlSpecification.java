@@ -22,10 +22,7 @@ public class UserByPasswordSqlSpecification implements SqlSpecification<User>
     }
 
     public String toSqlClause(){
-        StringBuilder clauses = new StringBuilder();
-        clauses.append(tableName).append(".password").
-                append(" = ").append(password);
-        return clauses.toString();
+        return String.format("%s.password = %s", tableName, password);
     }
 
     public boolean specified(User source){

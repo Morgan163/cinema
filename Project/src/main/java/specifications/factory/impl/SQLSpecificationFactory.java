@@ -15,6 +15,10 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class SQLSpecificationFactory implements SpecificationFactory
 {
+    public Specification getRoleIdEqualsUserRoleIdSpecification(){
+        return new RoleIdEqualsUserRoleIdSqlSpecification();
+    }
+
     public CompositeSpecification getCompositeSpecification(Specification leftOperand, Specification rightOperand) {
         return new SqlCompositeSpecification((SqlSpecification) leftOperand, (SqlSpecification) rightOperand);
     }
@@ -24,11 +28,11 @@ public class SQLSpecificationFactory implements SpecificationFactory
     }
 
     public Specification<User> getUserByLoginSpecification(String name){
-        return null;
+        return new UserByLoginSqlSpecification(name);
     }
 
     public Specification<User> getUserByPasswordSpecification(String password){
-        return null;
+        return new UserByPasswordSqlSpecification(password);
     }
 
     public SqlSpecification<Seat> getSeatByLineIdSpecification(long lineId){

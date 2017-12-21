@@ -11,6 +11,7 @@ import specifications.sql.impl.SqlCompositeSpecification;
 
 public interface SpecificationFactory
 {
+    Specification getRoleIdEqualsUserRoleIdSpecification();
     CompositeSpecification getCompositeSpecification(Specification leftOperand, Specification rightOperand);
     Specification<Theater> getAnyTheaterSpecification();
     Specification<User> getUserByLoginSpecification(String name);

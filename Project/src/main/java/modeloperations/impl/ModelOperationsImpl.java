@@ -96,15 +96,20 @@ public class ModelOperationsImpl implements ModelOperations {
     }
 
     public double calculatePriceForSeatsAndSeance(Collection <Seat> seats, Seance seance){
-        return 0;
+        double seanceBasePrice = seance.getPriceValue();
+        double totalPrice = 0;
+        for (Seat seat : seats){
+            totalPrice += SeatType.VIP.equals(seat.getSeatType()) ? seanceBasePrice*1.5 : seanceBasePrice;
+        }
+        return totalPrice;
     }
 
     public boolean isUserExists(User user){
-        return false;
+        return dataUtils.isObjectContainedInDataBase(user);
     }
 
     public void authorize(User user){
-
+        dataManager.wireUserWithRole(user);
     }
 }
 

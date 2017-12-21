@@ -2,9 +2,11 @@ package modeloperations.impl;
 
 import model.*;
 import model.user.User;
+import model.user.UserRole;
 import modeloperations.DataManager;
 import modeloperations.DataUtils;
 import repository.Repository;
+import specifications.CompositeSpecification;
 import specifications.factory.SpecificationFactory;
 import specifications.sql.SqlSpecification;
 
@@ -19,6 +21,10 @@ public class DataManagerImpl implements DataManager
     private Repository<User> userRepository;
     @Inject
     private Repository<AgeLimitType> ageLimitTypeRepository;
+    @Inject
+    private Repository<UserRole> userRoleRepository;
+    @Inject
+    private Repository<SeatType> seatTypeRepository;
     @Inject
     private Repository<Film> filmRepository;
     @Inject
@@ -104,8 +110,23 @@ public class DataManagerImpl implements DataManager
         updateLinesOrCreateNewOnes(theater);
     }
 
-    public void updateSeatSeanceMappers(Collection<SeatSeanceStatusMapper> mapper){
+    public void updateSeatSeanceMappers(Collection<SeatSeanceStatusMapper> mappers){
+        for(SeatSeanceStatusMapper mapper : mappers)
+        {
+            if (dataUtils.isObjectContainedInDataBase(mapper))
+            {
+                seatSeanceStatusMapperRepository.update(mapper);
+            }
+        }
+    }
 
+    public void wireUserWithRole(User user){
+        SqlSpecification specification = buildSpecificationForUserRole(user);
+        UserRole foundRole = userRoleRepository.query(specification).get(0);
+        if (foundRole == null){
+            throw new RuntimeException("Role for user has not been found");
+        }
+        user.setUserRole(foundRole);
     }
 
     private void createLines(Iterable<Line> lines){
@@ -135,7 +156,7 @@ public class DataManagerImpl implements DataManager
         List<Seat> seats = getSeatsForTheater(theater);
         for (Seat seat : seats)
         {
-            createSeatSeanceStatusMapping(seat, seance);
+            createSeatSeanceStatusMapper(seat, seance);
         }
     }
 
@@ -149,7 +170,7 @@ public class DataManagerImpl implements DataManager
         return seats;
     }
 
-    private void createSeatSeanceStatusMapping(Seat seat, Seance seance){
+    private void createSeatSeanceStatusMapper(Seat seat, Seance seance){
         SeatSeanceStatusMapper mapper = new SeatSeanceStatusMapper(seat, seance, SeatSeanceStatus.FREE);
         seatSeanceStatusMapperRepository.add(mapper);
     }
@@ -215,5 +236,15 @@ public class DataManagerImpl implements DataManager
         SqlSpecification seatByLineIdSpecification = (SqlSpecification) specificationFactory.getSeatByLineIdSpecification(line.getLineID());
         List<Seat> seats = seatRepository.query(seatByLineIdSpecification);
         return seats;
+    }
+
+    private SqlSpecification buildSpecificationForUserRole(User user){
+        SqlSpecification loginSpecification = (SqlSpecification)specificationFactory.getUserByLoginSpecification(user.getLogin());
+        SqlSpecification passwordSpecification = (SqlSpecification)specificationFactory.getUserByPasswordSpecification(user.getPassword());
+        CompositeSpecification userSpecification = specificationFactory.getCompositeSpecification(loginSpecification, passwordSpecification);
+        userSpecification.setOperation(CompositeSpecification.Operation.AND);
+        SqlSpecification roleSpecification = (SqlSpecification)specificationFactory.getRoleIdEqualsUserRoleIdSpecification();
+        CompositeSpecification resultSpecification = specificationFactory.getCompositeSpecification(roleSpecification, userSpecification);
+        return (SqlSpecification) specificationFactory.getCompositeSpecification(loginSpecification, passwordSpecification);
     }
 }

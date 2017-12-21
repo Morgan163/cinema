@@ -24,4 +24,5 @@ public interface DataManager {
     User getUser(long userId);
     void updateTheater(Theater theater);
     void updateSeatSeanceMappers(Collection<SeatSeanceStatusMapper> mapper);
+    void wireUserWithRole(User user);
 }

@@ -1,7 +1,10 @@
 import model.Theater;
+import model.user.User;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import repository.impl.TheaterRepositoryImpl;
+import specifications.CompositeSpecification;
+import specifications.factory.SpecificationFactory;
 import specifications.factory.impl.SQLSpecificationFactory;
 import specifications.sql.SqlSpecification;
 
@@ -12,7 +15,17 @@ import java.util.List;
  */
 public class MainForTests {
     public static void main(String[] args) throws ClassNotFoundException {
-        testUpdateTheater();
+//        testUpdateTheater();
+        SpecificationFactory specificationFactory = new SQLSpecificationFactory();
+        User user = new User(1, "login", "pass", null);
+        SqlSpecification loginSpecification = (SqlSpecification)specificationFactory.getUserByLoginSpecification(user.getLogin());
+        SqlSpecification passwordSpecification = (SqlSpecification)specificationFactory.getUserByPasswordSpecification(user.getPassword());
+        CompositeSpecification userSpecification = specificationFactory.getCompositeSpecification(loginSpecification, passwordSpecification);
+        userSpecification.setOperation(CompositeSpecification.Operation.AND);
+        SqlSpecification roleSpecification = (SqlSpecification)specificationFactory.getRoleIdEqualsUserRoleIdSpecification();
+        CompositeSpecification resultSpecification = specificationFactory.getCompositeSpecification(roleSpecification, userSpecification);
+        resultSpecification.setOperation(CompositeSpecification.Operation.AND);
+        System.out.println(((SqlSpecification)resultSpecification).toSqlClause());
     }
 
     private static void testSelectTheater() throws ClassNotFoundException {

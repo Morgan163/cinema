@@ -25,7 +25,7 @@ public class ModelOperationsImpl implements ModelOperations {
 
     public void bookSeatsForSeance(Collection <Seat> seats, Seance seance, String contacts){
         Collection<SeatSeanceStatusMapper> mappersToUpdate = new ArrayList<SeatSeanceStatusMapper>();
-        String bookingKey = bookingCodeGenerator.generateCode();
+        String bookingKey = generateUniqueBookingCode();
         for (Seat seat: seats){
             SeatSeanceStatusMapper mapper = dataManager.getSeatSeanceStatusMapper(seat, seance);
             if (SeatSeanceStatus.FREE.equals(mapper.getSeatSeanceStatus())){
@@ -39,6 +39,19 @@ public class ModelOperationsImpl implements ModelOperations {
             dataManager.updateSeatSeanceMappers(mappersToUpdate);
             bookingNotifier.sendKeyToContacts(bookingKey, contacts);
         }
+    }
+
+    private String generateUniqueBookingCode(){
+        String code;
+        do
+        {
+            code =  bookingCodeGenerator.generateCode();
+        } while (isCodeExists(code));
+        return code;
+    }
+
+    private boolean isCodeExists(String code){
+        return dataManager.getSeatSeanceStatusMappersByKey(code).size() > 0;
     }
 
     public Collection<Seat> getSeatsByBookingKey(String key){

@@ -6,6 +6,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
 import model.user.User;
 import model.user.UserRole;
+import ui.utils.Utils;
 
 import javax.inject.Inject;
 
@@ -59,10 +60,8 @@ public class AdministratorUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        if (!user.getUserRole().equals(UserRole.ADMIN)){
-            String currentLocation = getUI().getPage().getLocation().toString();
-            String newLocation = currentLocation.substring(0, currentLocation.lastIndexOf("/") - 1);
-            getUI().getPage().setLocation(newLocation);
+        if(Utils.checkUserRoleAndRedirectIfNeeded(user,UserRole.ADMIN)){
+            getUI().getPage().setLocation(Utils.redirectToMainPage(getUI().getPage().getLocation().toString()));
         }
 
         createButton.addClickListener(e -> createButtonListener());
@@ -161,5 +160,7 @@ public class AdministratorUI extends UI {
     private void operatorHelpButtonListener(){
 
     }
+
+
 
 }

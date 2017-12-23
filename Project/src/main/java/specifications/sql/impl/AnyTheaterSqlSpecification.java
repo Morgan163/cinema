@@ -14,7 +14,7 @@ public class AnyTheaterSqlSpecification implements SqlSpecification<Theater>
     }
 
     public String toSqlClause(){
-        return "True";
+        return "1 = 1";
     }
 
     public boolean specified(Theater source){

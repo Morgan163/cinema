@@ -20,7 +20,7 @@ public class AnySeanceSqlSpecification implements SqlSpecification<Seance>
     }
 
     public String toSqlClause(){
-        return "TRUE";
+        return "1 = 1";
     }
 
     public boolean specified(Seance source){

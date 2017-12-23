@@ -20,12 +20,6 @@ public class DataManagerImpl implements DataManager
     @Inject
     private Repository<User> userRepository;
     @Inject
-    private Repository<AgeLimitType> ageLimitTypeRepository;
-    @Inject
-    private Repository<UserRole> userRoleRepository;
-    @Inject
-    private Repository<SeatType> seatTypeRepository;
-    @Inject
     private Repository<Film> filmRepository;
     @Inject
     private Repository<FilmType> filmTypeRepository;

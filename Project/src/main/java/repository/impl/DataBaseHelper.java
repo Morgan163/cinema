@@ -151,12 +151,20 @@ public class DataBaseHelper {
     }
 
     @PreDestroy
-    private void destroy() throws SQLException {
-        connection.close();
+    private void destroy() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostConstruct
-    private void init() throws SQLException {
-        connection = connectionHolder.getConnection();
+    private void init(){
+        try {
+            connection = connectionHolder.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

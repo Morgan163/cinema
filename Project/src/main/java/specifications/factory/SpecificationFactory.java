@@ -7,6 +7,8 @@ import specifications.CompositeSpecification;
 import specifications.Specification;
 import specifications.sql.impl.SqlCompositeSpecification;
 
+import java.util.Calendar;
+
 public interface SpecificationFactory
 {
     Specification getRoleIdEqualsUserRoleIdSpecification();
@@ -27,4 +29,6 @@ public interface SpecificationFactory
     Specification<FilmType> getFilmTypeByIdSpecification(long filmTypeID);
     Specification<SeatSeanceStatusMapper> getMapperByIdSpecification(long mappingId);
     Specification<User> getUserByIdSpecification(long userID);
+    Specification<Seance> getSeanceEarlierThanSpecification(Calendar date);
+    Specification<Seance> getSeanceLaterThanSpecification(Calendar date);
 }

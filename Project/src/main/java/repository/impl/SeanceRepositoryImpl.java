@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -107,6 +108,7 @@ public class SeanceRepositoryImpl implements Repository<Seance> {
     }
 
     private List<Seance> executeSelect(String sql) throws SQLException {
+        System.out.println(sql);
         ResultSet resultSet = dataBaseHelper.executeSelectQuery(sql);
         List<Seance> seances = parseResultSet(resultSet);
         resultSet.close();
@@ -120,7 +122,7 @@ public class SeanceRepositoryImpl implements Repository<Seance> {
             long filmId = resultSet.getLong("FILM_ID");
             int basePriceValue = resultSet.getInt("BASE_PRICE_VALUE");
             Calendar startDate = Calendar.getInstance();
-            startDate.setTime(resultSet.getDate("SEANCE_START_DATE"));
+            startDate.setTimeInMillis(resultSet.getDate("SEANCE_START_DATE").getTime());
             Film film = filmRepository.query((SqlSpecification)specificationFactory.getFilmByIdSpecification(filmId)).get(0);
             Seance seance = new Seance();
             seance.setSeanceID(seanceId);
@@ -137,7 +139,7 @@ public class SeanceRepositoryImpl implements Repository<Seance> {
         objectColumnValues.setValueByColumnName("FILM_ID", String.valueOf(seance.getFilm().getFilmID()));
         objectColumnValues.setValueByColumnName("SEANCE_ID", String.valueOf(seance.getSeanceID()));
         objectColumnValues.setValueByColumnName("BASE_PRICE_VALUE", String.valueOf(seance.getPriceValue()));
-        java.sql.Date startDate = new Date(seance.getSeanceStartDate().getTimeInMillis());
+        java.sql.Timestamp startDate = new Timestamp(seance.getSeanceStartDate().getTimeInMillis());
         objectColumnValues.setValueByColumnName("SEANCE_START_DATE", String.valueOf(startDate));
         objectColumnValues.setIdColumnName("SEANCE_ID");
         objectColumnValues.setObjectId(String.valueOf(seance.getSeanceID()));

@@ -9,6 +9,7 @@ import specifications.sql.SqlSpecification;
 import specifications.sql.impl.*;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.util.Calendar;
 
 @ApplicationScoped
 public class SQLSpecificationFactory implements SpecificationFactory
@@ -92,5 +93,15 @@ public class SQLSpecificationFactory implements SpecificationFactory
     @Override
     public Specification<User> getUserByIdSpecification(long userID) {
         return new UserByIdSqlSpecification(userID);
+    }
+
+    @Override
+    public Specification<Seance> getSeanceEarlierThanSpecification(Calendar date) {
+        return new SeanceEarlierThanSqlCpecification(date);
+    }
+
+    @Override
+    public Specification<Seance> getSeanceLaterThanSpecification(Calendar date) {
+        return new SeanceLaterThanSqlSpecification(date);
     }
 }

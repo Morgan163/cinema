@@ -183,6 +183,9 @@ public class DataManagerImpl implements DataManager
 
     private void wireWithLines(Theater theater){
         List<Line> lines = getLinesForTheater(theater);
+        for (Line line : lines){
+            line.setTheater(theater);
+        }
         wireWithSeats(lines);
         theater.addLines(lines);
     }
@@ -196,6 +199,9 @@ public class DataManagerImpl implements DataManager
 
     private void wireWithSeats(Line line){
         List<Seat> seats = getSeatsForLine(line);
+        for (Seat seat : seats){
+            seat.setLine(line);
+        }
         line.addSeats(seats);
     }
 

@@ -21,4 +21,5 @@ public interface SpecificationFactory
     Specification<Theater> getTheaterByIdSpecification(long theaterId);
     Specification<SeatSeanceStatusMapper> getMapperBySeanceIdSpecification(long seanceId);
     Specification<SeatSeanceStatusMapper> getMapperBySeatIdSpecification(long seatId);
+    Specification<Line> getLineByIdSpecification(long lineID);
 }

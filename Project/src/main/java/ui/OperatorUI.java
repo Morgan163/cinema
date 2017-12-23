@@ -20,10 +20,19 @@ public class OperatorUI extends UI {
     private User user;
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        if (!user.getUserRole().equals(UserRole.OPERATOR)){
-            String currentLocation = getUI().getPage().getLocation().toString();
-            String newLocation = currentLocation.substring(0, currentLocation.lastIndexOf("/") - 1);
-            getUI().getPage().setLocation(newLocation);
+        checkUserRoleAndRedirectIfNeeded();
+
+    }
+
+    private void checkUserRoleAndRedirectIfNeeded(){
+        if (user.getUserRole() == null || !user.getUserRole().equals(UserRole.OPERATOR)){
+            redirectToMainPage();
         }
+    }
+
+    private void redirectToMainPage(){
+        String currentLocation = getUI().getPage().getLocation().toString();
+        String newLocation = currentLocation.substring(0, currentLocation.lastIndexOf("/"));
+        getUI().getPage().setLocation(newLocation);
     }
 }

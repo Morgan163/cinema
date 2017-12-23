@@ -97,7 +97,7 @@ public class SQLSpecificationFactory implements SpecificationFactory
 
     @Override
     public Specification<Seance> getSeanceEarlierThanSpecification(Calendar date) {
-        return new SeanceEarlierThanSqlCpecification(date);
+        return new SeanceEarlierThanSqlSpecification(date);
     }
 
     @Override

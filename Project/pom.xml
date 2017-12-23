@@ -7,6 +7,7 @@
     <groupId>pi-group</groupId>
     <artifactId>cinema</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
     <properties>
         <vaadin.version>8.2.0</vaadin.version>
     </properties>
@@ -47,6 +48,12 @@
             <groupId>c3p0</groupId>
             <artifactId>c3p0</artifactId>
             <version>0.9.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>mchange-commons-java</artifactId>
+            <version>0.2.3.4</version>
         </dependency>
 
         <dependency>

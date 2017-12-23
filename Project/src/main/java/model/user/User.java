@@ -4,9 +4,10 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.enterprise.context.SessionScoped;
+import java.io.Serializable;
 
 @SessionScoped
-public class User {
+public class User implements Serializable {
     private long userID;
     private String login;
     private String password;

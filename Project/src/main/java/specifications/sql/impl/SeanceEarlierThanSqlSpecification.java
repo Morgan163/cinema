@@ -11,11 +11,11 @@ import java.util.List;
 /**
  * Created by niict on 23.12.2017.
  */
-public class SeanceEarlierThanSqlCpecification implements SqlSpecification<Seance> {
+public class SeanceEarlierThanSqlSpecification implements SqlSpecification<Seance> {
     private Calendar date;
     private String tableName;
 
-    public SeanceEarlierThanSqlCpecification(Calendar date) {
+    public SeanceEarlierThanSqlSpecification(Calendar date) {
         this.date = date;
         tableName = DataBaseNames.SEANCES;
     }

@@ -24,4 +24,5 @@ public interface SpecificationFactory
     Specification<Line> getLineByIdSpecification(long lineID);
     Specification<Film> getFilmByIdSpecification(long filmID);
     Specification<Seat> getSeatByIdSpecification(long seatID);
+    Specification<FilmType> getFilmTypeByIdSpecification(long filmTypeID);
 }

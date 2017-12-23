@@ -19,4 +19,5 @@ public class DataBaseNames {
     public static final String SEANCE_ID_SEQUENCE = "SEANCE_ID_SEQUENCE";
     public static final String LINE_ID_SEQUENCE = "LINE_ID_SEQUENCE";
     public static final String SEAT_ID_SEQUENCE = "SEAT_ID_SEQUENCE";
+    public static final String FILM_TYPE_ID_SEQUENCE = "FILM_TYPE_ID_SEQUENCE";
 }

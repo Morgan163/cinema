@@ -23,7 +23,7 @@ public class FilmType {
         this.filmTypeID = filmTypeID;
     }
 
-    public String getFolmTypeName() {
+    public String getFilmTypeName() {
         return folmTypeName;
     }
 

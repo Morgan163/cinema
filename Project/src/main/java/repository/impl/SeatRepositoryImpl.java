@@ -85,7 +85,7 @@ public class SeatRepositoryImpl implements Repository<Seat> {
     }
 
     private long generateSeatId() throws SQLException {
-        return Long.valueOf(dataBaseHelper.getNextValueForSequence(DataBaseNames.SEANCE_ID_SEQUENCE));
+        return Long.valueOf(dataBaseHelper.getNextValueForSequence(DataBaseNames.SEAT_ID_SEQUENCE));
     }
 
     private String getInsertSqlForSeat(Seat seat){

@@ -2,6 +2,7 @@ package repository.impl;
 
 import db.DataBaseNames;
 import model.Seat;
+import model.SeatType;
 import repository.Repository;
 import repository.impl.DataBaseHelper;
 import specifications.factory.SpecificationFactory;
@@ -26,7 +27,8 @@ public class SeatRepositoryImpl implements Repository<Seat> {
 
     public SeatRepositoryImpl(){
         neededSelectTableColumns = Arrays.asList(DataBaseNames.SEATS + ".SEAT_ID",
-                DataBaseNames.SEATS + ".SEAT_NUMBER");
+                DataBaseNames.SEATS + ".SEAT_NUMBER",
+                DataBaseNames.SEATS + ".SEAT_TYPE_ID");
     }
 
     @Override
@@ -111,10 +113,13 @@ public class SeatRepositoryImpl implements Repository<Seat> {
         ArrayList<Seat> seats = new ArrayList<Seat>();
         while (resultSet.next()) {
             long seatId = resultSet.getLong("SEAT_ID");
+            long seatTypeId = resultSet.getLong("SEAT_TYPE_ID");
             int seatNumber = resultSet.getInt("SEAT_NUMBER");
+            SeatType seatType = SeatType.getById(seatTypeId);
             Seat seat = new Seat();
             seat.setSeatID(seatId);
             seat.setNumber(seatNumber);
+            seat.setSeatType(seatType);
             seats.add(seat);
         }
         return seats;

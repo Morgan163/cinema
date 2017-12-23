@@ -1,7 +1,9 @@
 package repository.impl;
 
 import db.DataBaseNames;
+import model.AgeLimitType;
 import model.Film;
+import model.FilmType;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
 import specifications.sql.SqlSpecification;
@@ -22,11 +24,15 @@ public class FilmRepositoryImpl implements Repository<Film> {
     private SpecificationFactory specificationFactory;
     @Inject
     private DataBaseHelper dataBaseHelper;
+    @Inject
+    private Repository<FilmType> filmTypeRepository;
     private List<String> neededSelectTableColumns;
 
     public FilmRepositoryImpl() {
         neededSelectTableColumns = Arrays.asList(DataBaseNames.FILMS + ".FILM_ID",
-                                                    DataBaseNames.FILMS + ".FILM_NAME");
+                                                    DataBaseNames.FILMS + ".FILM_NAME",
+                DataBaseNames.FILMS + ".FILM_TYPE_ID",
+                DataBaseNames.FILMS + ".AGE_LIMIT_ID");
     }
     @Override
     public void add(Film item) {
@@ -111,9 +117,15 @@ public class FilmRepositoryImpl implements Repository<Film> {
         while (resultSet.next()) {
             long filmId = resultSet.getLong("FILM_ID");
             String filmName = resultSet.getString("FILM_NAME");
+            long filmTypeId = resultSet.getLong("FILM_TYPE_ID");
+            long ageLimitId = resultSet.getLong("AGE_LIMIT_ID");
+            AgeLimitType ageLimitType = AgeLimitType.getById(ageLimitId);
+            FilmType filmType = filmTypeRepository.query((SqlSpecification)specificationFactory.getFilmTypeByIdSpecification(filmTypeId)).get(0);
             Film film = new Film();
             film.setFilmID(filmId);
             film.setFilmName(filmName);
+            film.setAgeLimitType(ageLimitType);
+            film.setFilmType(filmType);
             films.add(film);
         }
         return films;

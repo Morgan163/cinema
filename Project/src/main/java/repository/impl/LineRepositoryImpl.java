@@ -2,6 +2,7 @@ package repository.impl;
 
 import db.DataBaseNames;
 import model.Line;
+import model.Seat;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
 import specifications.sql.SqlSpecification;
@@ -21,6 +22,8 @@ public class LineRepositoryImpl implements Repository<Line> {
     private SpecificationFactory specificationFactory;
     @Inject
     private DataBaseHelper dataBaseHelper;
+    @Inject
+    private Repository<Seat> seatRepository;
     private List<String> neededSelectTableColumns;
 
     public LineRepositoryImpl() {
@@ -112,9 +115,14 @@ public class LineRepositoryImpl implements Repository<Line> {
         while (resultSet.next()) {
             long lineId = resultSet.getLong("LINE_ID");
             int lineNumber = resultSet.getInt("LINE_NUMBER");
+            List<Seat> seats = seatRepository.query((SqlSpecification)specificationFactory.getSeatByLineIdSpecification(lineId));
             Line line = new Line();
             line.setLineID(lineId);
             line.setLineNumber(lineNumber);
+            for (Seat seat : seats){
+                seat.setLine(line);
+            }
+            line.setSeats(seats);
             lines.add(line);
         }
         return lines;

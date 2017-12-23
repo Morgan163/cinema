@@ -1,6 +1,7 @@
 package repository.impl;
 
 import db.DataBaseNames;
+import model.Film;
 import model.Seance;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
@@ -23,11 +24,14 @@ public class SeanceRepositoryImpl implements Repository<Seance> {
     private SpecificationFactory specificationFactory;
     @Inject
     private DataBaseHelper dataBaseHelper;
+    @Inject
+    private Repository<Film> filmRepository;
     private List<String> neededSelectTableColumns;
 
     public SeanceRepositoryImpl() {
         neededSelectTableColumns = Arrays.asList(DataBaseNames.SEANCES+".SEANCE_ID",
                                                     DataBaseNames.SEANCES + ".BASE_PRICE_VALUE",
+                                                    DataBaseNames.SEANCES + ".FILM_ID",
                                                     DataBaseNames.SEANCES + ".SEANCE_START_DATE");
     }
 
@@ -113,13 +117,16 @@ public class SeanceRepositoryImpl implements Repository<Seance> {
         ArrayList<Seance> seances = new ArrayList<Seance>();
         while (resultSet.next()) {
             long seanceId = resultSet.getLong("SEANCE_ID");
+            long filmId = resultSet.getLong("FILM_ID");
             int basePriceValue = resultSet.getInt("BASE_PRICE_VALUE");
             Calendar startDate = Calendar.getInstance();
             startDate.setTime(resultSet.getDate("SEANCE_START_DATE"));
+            Film film = filmRepository.query((SqlSpecification)specificationFactory.getFilmByIdSpecification(filmId)).get(0);
             Seance seance = new Seance();
             seance.setSeanceID(seanceId);
             seance.setPriceValue(basePriceValue);
             seance.setSeanceStartDate(startDate);
+            seance.setFilm(film);
             seances.add(seance);
         }
         return seances;

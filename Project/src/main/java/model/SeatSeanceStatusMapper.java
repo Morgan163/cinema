@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class SeatSeanceStatusMapper
 {
+    private long mappingId;
     private Seat seat;
     private Seance seance;
     private SeatSeanceStatus seatSeanceStatus;
@@ -13,10 +14,19 @@ public class SeatSeanceStatusMapper
     public SeatSeanceStatusMapper() {
     }
 
-    public SeatSeanceStatusMapper(Seat seat, Seance seance, SeatSeanceStatus seatSeanceStatus){
+    public SeatSeanceStatusMapper(long id, Seat seat, Seance seance, SeatSeanceStatus seatSeanceStatus){
+        this.mappingId = id;
         this.seat = seat;
         this.seance = seance;
         this.seatSeanceStatus = seatSeanceStatus;
+    }
+
+    public long getMappingId() {
+        return mappingId;
+    }
+
+    public void setMappingId(long mappingId) {
+        this.mappingId = mappingId;
     }
 
     public Seat getSeat(){

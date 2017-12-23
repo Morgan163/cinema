@@ -1,5 +1,6 @@
 package repository.impl;
 
+import model.Line;
 import model.Theater;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
@@ -15,6 +16,8 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
     private SpecificationFactory specificationFactory;
     @Inject
     private DataBaseHelper dataBaseHelper;
+    @Inject
+    private Repository<Line> lineRepository;
     private List<String> neededSelectTableColumns;
 
     public TheaterRepositoryImpl(){
@@ -99,7 +102,12 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
         while (resultSet.next()) {
             long theaterId = resultSet.getLong("THEATER_ID");
             int theaterNumber = resultSet.getInt("THEATER_NUMBER");
+            List<Line> lines = lineRepository.query((SqlSpecification)specificationFactory.getLineByTheaterIdSpecification(theaterId));
             Theater theater = new Theater(theaterId, theaterNumber);
+            for (Line line : lines){
+                line.setTheater(theater);
+            }
+            theater.setLines(lines);
             theaters.add(theater);
         }
         return theaters;

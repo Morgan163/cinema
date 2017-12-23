@@ -73,17 +73,12 @@ public class DataManagerImpl implements DataManager
     public Theater getTheater(long theaterId){
         SqlSpecification theaterByIdSpecification = (SqlSpecification) specificationFactory.getTheaterByIdSpecification(theaterId);
         Theater theater = theaterRepository.query(theaterByIdSpecification).get(0);
-        wireWithLines(theater);
         return theater;
     }
 
     public Collection<Theater> getAllTheaters(){
         SqlSpecification anyTheaterSpecification = (SqlSpecification) specificationFactory.getAnyTheaterSpecification();
         Collection<Theater> theaters = theaterRepository.query(anyTheaterSpecification);
-        for (Theater theater : theaters)
-        {
-            wireWithLines(theater);
-        }
         return theaters;
     }
 
@@ -177,32 +172,8 @@ public class DataManagerImpl implements DataManager
     }
 
     private void createSeatSeanceStatusMapper(Seat seat, Seance seance){
-        SeatSeanceStatusMapper mapper = new SeatSeanceStatusMapper(seat, seance, SeatSeanceStatus.FREE);
+        SeatSeanceStatusMapper mapper = new SeatSeanceStatusMapper(-1, seat, seance, SeatSeanceStatus.FREE);
         seatSeanceStatusMapperRepository.add(mapper);
-    }
-
-    private void wireWithLines(Theater theater){
-        List<Line> lines = getLinesForTheater(theater);
-        for (Line line : lines){
-            line.setTheater(theater);
-        }
-        wireWithSeats(lines);
-        theater.addLines(lines);
-    }
-
-    private void wireWithSeats(List<Line> lines){
-        for (Line line : lines)
-        {
-            wireWithSeats(line);
-        }
-    }
-
-    private void wireWithSeats(Line line){
-        List<Seat> seats = getSeatsForLine(line);
-        for (Seat seat : seats){
-            seat.setLine(line);
-        }
-        line.addSeats(seats);
     }
 
     private void updateLinesOrCreateNewOnes(Theater theater){

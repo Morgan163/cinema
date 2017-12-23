@@ -10,7 +10,7 @@ import specifications.sql.impl.SqlCompositeSpecification;
 public interface SpecificationFactory
 {
     Specification getRoleIdEqualsUserRoleIdSpecification();
-    Specification<Seance> getSeanceByIdSqlSpecification(long seanceId);
+    Specification<Seance> getSeanceByIdSpecification(long seanceId);
     CompositeSpecification getCompositeSpecification(Specification leftOperand, Specification rightOperand);
     Specification<Theater> getAnyTheaterSpecification();
     Specification<Seance> getAnySeanceSpecification();

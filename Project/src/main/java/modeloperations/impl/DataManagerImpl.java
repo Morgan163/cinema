@@ -88,7 +88,7 @@ public class DataManagerImpl implements DataManager
     }
 
     public Seance getSeance(long seanceId){
-        SqlSpecification seanceSpecification = (SqlSpecification) specificationFactory.getSeanceByIdSqlSpecification(seanceId);
+        SqlSpecification seanceSpecification = (SqlSpecification) specificationFactory.getSeanceByIdSpecification(seanceId);
         return seanceRepository.query(seanceSpecification).get(0);
     }
 

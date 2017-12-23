@@ -20,7 +20,7 @@ public class SQLSpecificationFactory implements SpecificationFactory
         return new RoleIdEqualsUserRoleIdSqlSpecification();
     }
 
-    public Specification<Seance> getSeanceByIdSqlSpecification(long seanceId){
+    public Specification<Seance> getSeanceByIdSpecification(long seanceId){
         return new SeanceByIdSqlSpecification(seanceId);
     }
 

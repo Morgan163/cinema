@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,7 +25,8 @@ public class FilmRepositoryImpl implements Repository<Film> {
     private List<String> neededSelectTableColumns;
 
     public FilmRepositoryImpl() {
-        neededSelectTableColumns = Collections.singletonList(DataBaseNames.FILMS);
+        neededSelectTableColumns = Arrays.asList(DataBaseNames.FILMS + ".FILM_ID",
+                                                    DataBaseNames.FILMS + ".FILM_NAME");
     }
     @Override
     public void add(Film item) {
@@ -82,7 +84,7 @@ public class FilmRepositoryImpl implements Repository<Film> {
     }
 
     private long generateFilmId() throws SQLException {
-        return Long.valueOf(dataBaseHelper.getNextValueForSequence(DataBaseNames.LINE_ID_SEQUENCE));
+        return Long.valueOf(dataBaseHelper.getNextValueForSequence(DataBaseNames.FILM_ID_SEQUENCE));
     }
 
     private String getInsertSqlForFilm(Film film){

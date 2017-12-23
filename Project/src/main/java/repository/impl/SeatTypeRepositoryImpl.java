@@ -9,10 +9,7 @@ import specifications.sql.SqlSpecification;
 import javax.inject.Inject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by niict on 23.12.2017.
@@ -25,7 +22,7 @@ public class SeatTypeRepositoryImpl implements Repository<SeatType> {
     private List<String> neededSelectTableColumns;
 
     public SeatTypeRepositoryImpl() {
-        neededSelectTableColumns = Collections.singletonList(DataBaseNames.SEAT_TYPES);
+        neededSelectTableColumns = Arrays.asList(DataBaseNames.SEAT_TYPES + ".SEAT_TYPE_ID");
     }
 
     @Override

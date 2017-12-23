@@ -7,6 +7,7 @@ public class Seat {
     private long seatID;
     private SeatType seatType;
     private Line line;
+    private int number;
 
     public Seat() {
     }
@@ -23,6 +24,14 @@ public class Seat {
 
     public void setSeatID(long seatID) {
         this.seatID = seatID;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public SeatType getSeatType() {

@@ -73,4 +73,9 @@ public class SQLSpecificationFactory implements SpecificationFactory
     public Specification<Film> getFilmByIdSpecification(long filmID) {
         return new FilmByIdSqlSpecification(filmID);
     }
+
+    @Override
+    public Specification<Seat> getSeatByIdSpecification(long seatID) {
+        return new SeatByIdSqlSpecification(seatID);
+    }
 }

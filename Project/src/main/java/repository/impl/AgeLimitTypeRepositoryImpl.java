@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class AgeLimitTypeRepositoryImpl implements Repository<AgeLimitType> {
     private List<String> neededSelectTableColumns;
 
     public AgeLimitTypeRepositoryImpl() {
-        neededSelectTableColumns = Collections.singletonList(DataBaseNames.AGE_LIMIT_TYPES);
+        neededSelectTableColumns = Arrays.asList(DataBaseNames.AGE_LIMIT_TYPES + ".AGE_LIMIT_ID");
     }
 
     @Override

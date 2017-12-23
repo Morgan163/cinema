@@ -26,4 +26,5 @@ public interface SpecificationFactory
     Specification<Seat> getSeatByIdSpecification(long seatID);
     Specification<FilmType> getFilmTypeByIdSpecification(long filmTypeID);
     Specification<SeatSeanceStatusMapper> getMapperByIdSpecification(long mappingId);
+    Specification<User> getUserByIdSpecification(long userID);
 }

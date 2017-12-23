@@ -88,4 +88,9 @@ public class SQLSpecificationFactory implements SpecificationFactory
     public Specification<SeatSeanceStatusMapper> getMapperByIdSpecification(long mappingId) {
         return new MapperByIdSqlSpecification(mappingId);
     }
+
+    @Override
+    public Specification<User> getUserByIdSpecification(long userID) {
+        return new UserByIdSqlSpecification(userID);
+    }
 }

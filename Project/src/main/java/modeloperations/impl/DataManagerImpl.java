@@ -121,13 +121,9 @@ public class DataManagerImpl implements DataManager
         }
     }
 
-    public void wireUserWithRole(User user){
-        SqlSpecification specification = buildSpecificationForUserRole(user);
-        UserRole foundRole = userRoleRepository.query(specification).get(0);
-        if (foundRole == null){
-            throw new RuntimeException("Role for user has not been found");
-        }
-        user.setUserRole(foundRole);
+    public User getUserByLoginAndPassword(String login, String password) {
+         SqlSpecification userSpecification = buildSpecificationForUser(login, password);
+         return userRepository.query(userSpecification).get(0);
     }
 
     private void createLines(Iterable<Line> lines){
@@ -221,15 +217,12 @@ public class DataManagerImpl implements DataManager
         return seats;
     }
 
-    private SqlSpecification buildSpecificationForUserRole(User user){
-        SqlSpecification loginSpecification = (SqlSpecification)specificationFactory.getUserByLoginSpecification(user.getLogin());
-        SqlSpecification passwordSpecification = (SqlSpecification)specificationFactory.getUserByPasswordSpecification(user.getPassword());
+    private SqlSpecification buildSpecificationForUser(String login, String password){
+        SqlSpecification loginSpecification = (SqlSpecification)specificationFactory.getUserByLoginSpecification(login);
+        SqlSpecification passwordSpecification = (SqlSpecification)specificationFactory.getUserByPasswordSpecification(password);
         CompositeSpecification userSpecification = specificationFactory.getCompositeSpecification(loginSpecification, passwordSpecification);
         userSpecification.setOperation(CompositeSpecification.Operation.AND);
-        SqlSpecification roleSpecification = (SqlSpecification)specificationFactory.getRoleIdEqualsUserRoleIdSpecification();
-        CompositeSpecification resultSpecification = specificationFactory.getCompositeSpecification(roleSpecification, userSpecification);
-        resultSpecification.setOperation(CompositeSpecification.Operation.AND);
-        return (SqlSpecification)resultSpecification;
+        return (SqlSpecification)userSpecification;
     }
 
     private SqlSpecification buildSpecificationForStatusMapper(Seat seat, Seance seance){

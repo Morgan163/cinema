@@ -125,7 +125,8 @@ public class ModelOperationsImpl implements ModelOperations {
     }
 
     public void authorize(User user){
-        dataManager.wireUserWithRole(user);
+        User foundUser = dataManager.getUserByLoginAndPassword(user.getLogin(), user.getPassword());
+        user.setUserRole(foundUser.getUserRole());
     }
 }
 

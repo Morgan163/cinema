@@ -21,4 +21,5 @@ public class DataBaseNames {
     public static final String SEAT_ID_SEQUENCE = "SEAT_ID_SEQUENCE";
     public static final String FILM_TYPE_ID_SEQUENCE = "FILM_TYPE_ID_SEQUENCE";
     public static final String SEATS_SEANCES_STATUSES_ID_SEQUENCE = "SEATS_SEANCES_STATUSES_ID_SEQUENCE";
+    public static final String USER_ID_SEQUENCE = "USER_ID_SEQUENCE";
 }

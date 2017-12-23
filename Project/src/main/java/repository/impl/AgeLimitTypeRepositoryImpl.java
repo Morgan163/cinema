@@ -1,5 +1,6 @@
 package repository.impl;
 
+import db.DataBaseNames;
 import model.AgeLimitType;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
@@ -9,17 +10,22 @@ import javax.inject.Inject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by niict on 23.12.2017.
  */
-public class AgeLimitTypeRepository implements Repository<AgeLimitType> {
+public class AgeLimitTypeRepositoryImpl implements Repository<AgeLimitType> {
     @Inject
     private SpecificationFactory specificationFactory;
     @Inject
     private DataBaseHelper dataBaseHelper;
     private List<String> neededSelectTableColumns;
+
+    public AgeLimitTypeRepositoryImpl() {
+        neededSelectTableColumns = Collections.singletonList(DataBaseNames.AGE_LIMIT_TYPES);
+    }
 
     @Override
     public void add(AgeLimitType item) {

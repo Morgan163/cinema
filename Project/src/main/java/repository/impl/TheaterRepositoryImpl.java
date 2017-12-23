@@ -72,7 +72,7 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
     }
 
     private long generateTheaterId() throws SQLException {
-        return Long.valueOf(dataBaseHelper.getNextValueForSequence(DataBaseNames.TABLE_ID_SEQUENCE));
+        return Long.valueOf(dataBaseHelper.getNextValueForSequence(DataBaseNames.THEATER_ID_SEQUENCE));
     }
 
     private String getInsertSqlForTheater(Theater theater){

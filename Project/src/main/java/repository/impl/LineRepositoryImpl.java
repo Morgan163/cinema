@@ -84,7 +84,7 @@ public class LineRepositoryImpl implements Repository<Line> {
     }
 
     private long generateLineId() throws SQLException {
-        return Long.valueOf(dataBaseHelper.getNextValueForSequence(DataBaseNames.TABLE_ID_SEQUENCE));
+        return Long.valueOf(dataBaseHelper.getNextValueForSequence(DataBaseNames.LINE_ID_SEQUENCE));
     }
 
     private String getInsertSqlForLine(Line line){
@@ -96,34 +96,35 @@ public class LineRepositoryImpl implements Repository<Line> {
 
     private String getUpdateSqlForLine(Line item) {
         ObjectColumnValues objectColumnValues = getObjectColumnValuesForLine(item);
-        String sql = dataBaseHelper.buildInsertQuery(DataBaseNames.LINES, objectColumnValues);
+        String sql = dataBaseHelper.buildUpdateQuery(DataBaseNames.LINES, objectColumnValues);
         return sql;
     }
 
     private List<Line> executeSelect(String sql) throws SQLException {
         ResultSet resultSet = dataBaseHelper.executeSelectQuery(sql);
-        List<Line> theaters = parseResultSet(resultSet);
+        List<Line> lines = parseResultSet(resultSet);
         resultSet.close();
-        return theaters;
+        return lines;
     }
 
     private List<Line> parseResultSet(ResultSet resultSet) throws SQLException {
-        ArrayList<Line> theaters = new ArrayList<Line>();
+        ArrayList<Line> lines = new ArrayList<Line>();
         while (resultSet.next()) {
             long lineId = resultSet.getLong("LINE_ID");
             int lineNumber = resultSet.getInt("LINE_NUMBER");
             Line line = new Line();
             line.setLineID(lineId);
             line.setLineNumber(lineNumber);
-            theaters.add(line);
+            lines.add(line);
         }
-        return theaters;
+        return lines;
     }
 
     private ObjectColumnValues getObjectColumnValuesForLine(Line line){
         ObjectColumnValues objectColumnValues = new ObjectColumnValues();
         objectColumnValues.setValueByColumnName("line_number", String.valueOf(line.getLineNumber()));
         objectColumnValues.setValueByColumnName("Line_id", String.valueOf(line.getLineID()));
+        objectColumnValues.setValueByColumnName("theater_id", String.valueOf(line.getTheater().getTheaterID()));
         objectColumnValues.setIdColumnName("Line_id");
         objectColumnValues.setObjectId(String.valueOf(line.getLineID()));
         return objectColumnValues;

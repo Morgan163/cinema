@@ -65,6 +65,101 @@ public class AdministratorUI extends UI {
             getUI().getPage().setLocation(newLocation);
         }
 
+        createButton.addClickListener(e -> createButtonListener());
+        setButton.addClickListener(e -> setButtonListener());
+        deleteButton.addClickListener(e -> deleteButtonListener());
+        helpButton.addClickListener(e -> helpButtonListener());
+        exitButton.addClickListener(e -> exitButtonListener());
+        theaterHelpButton.addClickListener(e -> theaterHelpButtonListener());
+        filmTypeHelpButton.addClickListener(e -> filmTypeHelpButtonListener());
+        seanceHelpButton.addClickListener(e -> seanceHelpButtonListener());
+        filmHelpButton.addClickListener(e -> filmHelpButtonListener());
+        operatorHelpButton.addClickListener(e -> operatorHelpButtonListener());
+
+        theaterHeaderLayout.addComponentsAndExpand(theaterLabel,theaterHelpButton);
+        theaterLayout.addComponentsAndExpand(theaterHeaderLayout);
+        initTheaters();
+
+        filmTypeHeaderLayout.addComponentsAndExpand(filmTypeLabel,filmTypeHelpButton);
+        filmTypeLayout.addComponentsAndExpand(filmTypeHeaderLayout);
+        initFilmTypes();
+
+        seanceLayout.addComponentsAndExpand(seanceLabel,seanceHelpButton);
+        seanceLayout.addComponentsAndExpand(seanceHeaderLayout);
+        initSeances();
+
+        filmHeaderLayout.addComponentsAndExpand(filmLabel,filmHelpButton);
+        filmLayout.addComponentsAndExpand(filmHeaderLayout);
+        initFilms();
+
+        operatorHeaderLayout.addComponentsAndExpand(operatorLabel,operatorHelpButton);
+        operatorLayout.addComponentsAndExpand(operatorHeaderLayout);
+        initOperators();
+
+        headerLayout.addComponentsAndExpand(createButton,setButton,deleteButton,nameLabel,exitButton);
+        objectsLayout.addComponentsAndExpand(theaterLayout,filmTypeLayout,seanceLayout,filmLayout,operatorLayout);
+
+
+    }
+
+    private void initTheaters(){
+
+    }
+
+    private void initFilmTypes(){
+
+    }
+
+    private void initSeances(){
+
+    }
+
+    private void initFilms(){
+
+    }
+
+    private void initOperators(){
+
+    }
+
+    private void createButtonListener(){
+
+    }
+
+    private void setButtonListener(){
+
+    }
+
+    private void deleteButtonListener(){
+
+    }
+
+    private void helpButtonListener(){
+
+    }
+
+    private void exitButtonListener(){
+
+    }
+
+    private void theaterHelpButtonListener(){
+
+    }
+
+    private void filmTypeHelpButtonListener(){
+
+    }
+
+    private void seanceHelpButtonListener(){
+
+    }
+
+    private void filmHelpButtonListener(){
+
+    }
+
+    private void operatorHelpButtonListener(){
+
     }
 
 }

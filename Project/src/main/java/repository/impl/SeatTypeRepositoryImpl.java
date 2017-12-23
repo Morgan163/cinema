@@ -40,17 +40,17 @@ public class SeatTypeRepositoryImpl implements Repository<SeatType> {
 
     @Override
     public void update(SeatType item) {
-        throw new UnsupportedOperationException("It's impossible to add SeatTypes");
+        throw new UnsupportedOperationException("It's impossible to update SeatTypes");
     }
 
     @Override
     public void remove(SeatType item) {
-        throw new UnsupportedOperationException("It's impossible to add SeatTypes");
+        throw new UnsupportedOperationException("It's impossible to remove SeatTypes");
     }
 
     @Override
     public void remove(SqlSpecification sqlSpecification) {
-        throw new UnsupportedOperationException("It's impossible to add SeatTypes");
+        throw new UnsupportedOperationException("It's impossible to remove SeatTypes");
     }
 
     @Override
@@ -66,9 +66,9 @@ public class SeatTypeRepositoryImpl implements Repository<SeatType> {
 
     private List<SeatType> executeSelect(String sql) throws SQLException {
         ResultSet resultSet = dataBaseHelper.executeSelectQuery(sql);
-        List<SeatType> theaters = parseResultSet(resultSet);
+        List<SeatType> seatTypes = parseResultSet(resultSet);
         resultSet.close();
-        return theaters;
+        return seatTypes;
     }
 
     private List<SeatType> parseResultSet(ResultSet resultSet) throws SQLException {

@@ -7,6 +7,9 @@
     <groupId>pi-group</groupId>
     <artifactId>cinema</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <vaadin.version>8.2.0</vaadin.version>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -20,6 +23,17 @@
         </plugins>
     </build>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <version>${vaadin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>

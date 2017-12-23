@@ -21,6 +21,9 @@ public class BookingNotifierImpl implements BookingNotifier {
     private final String ENCODING = "UTF-8";
     private final String FROM = "styartmc@yandex.ru";
 
+    public BookingNotifierImpl() {
+    }
+
     public void sendKeyToContacts(String key, String contacts) throws SendMailException {
         String content = "Код бронирования ваших билетов:\n" + key;
         Authenticator auth = null;

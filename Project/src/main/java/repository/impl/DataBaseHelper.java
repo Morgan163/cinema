@@ -18,7 +18,10 @@ import java.util.Set;
 public class DataBaseHelper {
     @Inject
     private ConnectionHolder connectionHolder;
-    Connection connection;
+    private Connection connection;
+
+    public DataBaseHelper() {
+    }
 
     public String buildSelectQueryBySQLSpecification(List<String> nestedTablesColumns, SqlSpecification sqlSpecification){
         String tableNames = resolveTableNamesForSqlQuery(sqlSpecification);

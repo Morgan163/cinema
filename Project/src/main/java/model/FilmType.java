@@ -7,6 +7,9 @@ public class FilmType {
     private long filmTypeID;
     private String folmTypeName;
 
+    public FilmType() {
+    }
+
     public FilmType(long filmTypeID, String folmTypeName) {
         this.filmTypeID = filmTypeID;
         this.folmTypeName = folmTypeName;

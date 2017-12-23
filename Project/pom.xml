@@ -43,30 +43,64 @@
 
 
         <!--JDBC driver-->
-       <!-- <dependency>
+        <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc6</artifactId>
             <version>11.2.0</version>
-        </dependency>-->
-
-        <!--&lt;!&ndash;cdi-api &ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>javax.enterprise</groupId>-->
-        <!--<artifactId>cdi-api</artifactId>-->
-        <!--<version>2.0</version>-->
-        <!--<scope>provided</scope>-->
-        <!--</dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.jboss.weld.se/weld-se-core -->
-        <dependency>
-            <groupId>org.jboss.weld.se</groupId>
-            <artifactId>weld-se-core</artifactId>
-            <version>3.0.2.Final</version>
         </dependency>
+
+
+        <dependency>
+        <groupId>javax.enterprise</groupId>
+        <artifactId>cdi-api</artifactId>
+        <version>2.0</version>
+        <scope>provided</scope>
+        </dependency>
+
+        <!--only For MainForTests-->
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.weld.se</groupId>-->
+            <!--<artifactId>weld-se-core</artifactId>-->
+            <!--<version>3.0.2.Final</version>-->
+        <!--</dependency>-->
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>4.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-push</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-client-compiled</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-themes</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-cdi</artifactId>
+            <version>2.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.2-b01</version>
         </dependency>
 
     </dependencies>

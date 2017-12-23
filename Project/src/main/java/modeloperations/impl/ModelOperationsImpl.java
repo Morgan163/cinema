@@ -1,5 +1,6 @@
 package modeloperations.impl;
 
+import exceptions.SendMailException;
 import model.*;
 import model.user.User;
 import modeloperations.*;
@@ -23,7 +24,10 @@ public class ModelOperationsImpl implements ModelOperations {
     @Inject
     private BookingNotifier bookingNotifier;
 
-    public void bookSeatsForSeance(Collection <Seat> seats, Seance seance, String contacts){
+    public ModelOperationsImpl() {
+    }
+
+    public void bookSeatsForSeance(Collection <Seat> seats, Seance seance, String contacts) throws SendMailException {
         Collection<SeatSeanceStatusMapper> mappersToUpdate = new ArrayList<SeatSeanceStatusMapper>();
         String bookingKey = generateUniqueBookingCode();
         for (Seat seat: seats){

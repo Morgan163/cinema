@@ -13,6 +13,9 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class SQLSpecificationFactory implements SpecificationFactory
 {
+    public SQLSpecificationFactory() {
+    }
+
     public Specification getRoleIdEqualsUserRoleIdSpecification(){
         return new RoleIdEqualsUserRoleIdSqlSpecification();
     }

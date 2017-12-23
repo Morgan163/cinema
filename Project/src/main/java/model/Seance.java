@@ -11,6 +11,9 @@ public class Seance {
     private double priceValue;
     private Calendar seanceStartDate;
 
+    public Seance() {
+    }
+
     public Seance(long seanceID, Film film, double priceValue, Calendar seanceStartDate) {
         this.seanceID = seanceID;
         this.film = film;

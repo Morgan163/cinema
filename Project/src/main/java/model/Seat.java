@@ -8,6 +8,9 @@ public class Seat {
     private SeatType seatType;
     private Line line;
 
+    public Seat() {
+    }
+
     public Seat(long seatID, SeatType seatType, Line line) {
         this.seatID = seatID;
         this.seatType = seatType;

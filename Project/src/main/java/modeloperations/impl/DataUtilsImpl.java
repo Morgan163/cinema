@@ -22,6 +22,9 @@ public class DataUtilsImpl implements DataUtils {
     @Inject
     private SpecificationFactory specificationFactory;
 
+    public DataUtilsImpl() {
+    }
+
     public boolean isObjectContainedInDataBase(Object object) {
         if (object instanceof User){
             return isUserContainedInDataBase((User)object);

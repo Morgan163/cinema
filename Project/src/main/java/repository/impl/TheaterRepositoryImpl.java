@@ -1,6 +1,5 @@
 package repository.impl;
 
-import db.connections.ConnectionHolder;
 import model.Theater;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
@@ -16,10 +15,10 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
     private SpecificationFactory specificationFactory;
     @Inject
     private DataBaseHelper dataBaseHelper;
-    private List<String> nestedSelectTableColumns;
+    private List<String> neededSelectTableColumns;
 
     public TheaterRepositoryImpl(){
-        nestedSelectTableColumns = Arrays.asList(DataBaseNames.THEATERS_TABLE_NAME + ".THEATER_ID",
+        neededSelectTableColumns = Arrays.asList(DataBaseNames.THEATERS_TABLE_NAME + ".THEATER_ID",
                                               DataBaseNames.THEATERS_TABLE_NAME + ".THEATER_NUMBER");
     }
 
@@ -64,7 +63,7 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
 
     public List<Theater> query(SqlSpecification sqlSpecification) {
         try {
-            String sql = dataBaseHelper.buildSelectQueryBySQLSpecification(nestedSelectTableColumns, sqlSpecification);
+            String sql = dataBaseHelper.buildSelectQueryBySQLSpecification(neededSelectTableColumns, sqlSpecification);
             List <Theater> theaters = executeSelect(sql);
             return theaters;
         } catch (SQLException e) {

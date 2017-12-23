@@ -11,6 +11,9 @@ public class Theater {
     private int theaterNumber;
     private List<Line> lines;
 
+    public Theater() {
+    }
+
     public Theater(int theaterNumber) {
         this.theaterNumber = theaterNumber;
         lines = new ArrayList<Line>();

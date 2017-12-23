@@ -12,6 +12,9 @@ public class User {
     private String password;
     private UserRole userRole;
 
+    public User() {
+    }
+
     public User(long userID, String login, String password, UserRole userRole) {
         this.userID = userID;
         this.login = login;

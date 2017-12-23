@@ -45,6 +45,9 @@ public class DataManagerImpl implements DataManager
     @Inject
     private DataUtils dataUtils;
 
+    public DataManagerImpl() {
+    }
+
     public void createTheater(Theater theater){
         theaterRepository.add(theater);
         createLines(theater.getLines());

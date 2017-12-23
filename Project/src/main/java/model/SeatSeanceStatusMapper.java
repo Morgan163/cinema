@@ -10,6 +10,9 @@ public class SeatSeanceStatusMapper
     private SeatSeanceStatus seatSeanceStatus;
     private String bookKey;
 
+    public SeatSeanceStatusMapper() {
+    }
+
     public SeatSeanceStatusMapper(Seat seat, Seance seance, SeatSeanceStatus seatSeanceStatus){
         this.seat = seat;
         this.seance = seance;

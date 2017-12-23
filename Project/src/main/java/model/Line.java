@@ -11,6 +11,9 @@ public class Line {
     private Theater theater;
     private List<Seat> seats;
 
+    public Line() {
+    }
+
     public Line(int lineNumber){
         this.lineNumber = lineNumber;
     }

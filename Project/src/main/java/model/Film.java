@@ -9,6 +9,9 @@ public class Film {
     private FilmType filmType;
     private AgeLimitType ageLimitType;
 
+    public Film() {
+    }
+
     public Film(long filmID, String filmName, FilmType filmType, AgeLimitType ageLimitType) {
         this.filmID = filmID;
         this.filmName = filmName;

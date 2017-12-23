@@ -1,7 +1,7 @@
 import model.Theater;
 import model.user.User;
-import org.jboss.weld.environment.se.Weld;
-import org.jboss.weld.environment.se.WeldContainer;
+//import org.jboss.weld.environment.se.Weld;
+//import org.jboss.weld.environment.se.WeldContainer;
 import repository.impl.TheaterRepositoryImpl;
 import specifications.CompositeSpecification;
 import specifications.factory.SpecificationFactory;

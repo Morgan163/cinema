@@ -6,6 +6,7 @@ import specifications.sql.SqlSpecification;
 import org.apache.log4j.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -16,6 +17,7 @@ import java.util.Set;
 /**
  * Created by niict on 13.12.2017.
  */
+@ApplicationScoped
 public class DataBaseHelper {
     @Inject
     private ConnectionHolder connectionHolder;

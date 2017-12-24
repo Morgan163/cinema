@@ -3,6 +3,7 @@ package repository.impl;
 import db.connections.ConnectionHolder;
 import specifications.sql.SqlSpecification;
 
+import org.apache.log4j.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
@@ -19,6 +20,7 @@ public class DataBaseHelper {
     @Inject
     private ConnectionHolder connectionHolder;
     private Connection connection;
+    private static final Logger LOG = Logger.getLogger(DataBaseHelper.class);
 
     public DataBaseHelper() {
     }
@@ -154,6 +156,7 @@ public class DataBaseHelper {
     private void destroy() {
         try {
             connection.close();
+            connectionHolder.closeAll();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -162,6 +165,7 @@ public class DataBaseHelper {
     @PostConstruct
     private void init(){
         try {
+            LOG.debug("init started...");
             connection = connectionHolder.getConnection();
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -1,0 +1,9 @@
+<Context>
+    <Resource name="jdbc/connection" auth="Container"
+              type="javax.sql.DataSource" maxActive="100"
+              maxIdle="30" maxWait="10000"
+              username="cinema"
+              password="cinema"
+              driverClassName="oracle.jdbc.driver.OracleDriver"
+              url="jdbc:oracle:thin:@localhost:1521:xe"/>
+</Context>

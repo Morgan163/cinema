@@ -6,4 +6,5 @@ import java.sql.SQLException;
 public interface ConnectionHolder
 {
     Connection getConnection() throws SQLException;
+    void closeAll();
 }

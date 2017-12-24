@@ -2,15 +2,23 @@ package ui;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.cdi.CDIUI;
+import com.vaadin.data.provider.DataProvider;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
+import model.Film;
+import model.FilmType;
+import model.Seance;
+import model.Theater;
 import model.user.User;
 import model.user.UserRole;
+import modeloperations.DataManager;
+import modeloperations.impl.DataManagerImpl;
 import ui.utils.Utils;
 
 import javax.inject.Inject;
+import java.util.Collection;
 
-@CDIUI("administrator")
+@CDIUI("admin")
 @Theme("mytheme")
 public class AdministratorUI extends UI {
     @Inject
@@ -25,12 +33,13 @@ public class AdministratorUI extends UI {
     private final VerticalLayout operatorLayout = new VerticalLayout();
 
     //header objects
-    private final Button createButton = new Button();
-    private final Button setButton = new Button();
-    private final Button deleteButton = new Button();
-    private final Button exitButton = new Button();
-    private final Button helpButton = new Button();
-    private final Label nameLabel = new Label(user.getLogin());
+    private final Button createButton = new Button("Создать");
+    private final Button setButton = new Button("Изменить");
+    private final Button deleteButton = new Button("Удалить");
+    private final Button exitButton = new Button("Выйти");
+    private final Button helpButton = new Button("Справка");
+    private final Label nameLabel;
+    private final TextField searchField = new TextField("Поиск");
 
     //theater objects
     private final HorizontalLayout theaterHeaderLayout = new HorizontalLayout();
@@ -57,12 +66,30 @@ public class AdministratorUI extends UI {
     private final Label operatorLabel = new Label("Операторы");
     private final Button operatorHelpButton = new Button();
 
+    private CheckBoxGroup<Theater> theaterCheckBoxGroup;
+    private CheckBoxGroup<FilmType> filmTypeCheckBoxGroup;
+    private CheckBoxGroup<Seance> seanceCheckBoxGroup;
+    private CheckBoxGroup<Film> filmCheckBoxGroup;
+    private CheckBoxGroup<User> operatorCheckBoxGroup;
+
+    private DataManager dataManager;
+
+    public AdministratorUI() {
+        nameLabel = new Label();
+        theaterCheckBoxGroup = new CheckBoxGroup<>();
+        filmTypeCheckBoxGroup = new CheckBoxGroup<>();
+        seanceCheckBoxGroup = new CheckBoxGroup<>();
+        filmCheckBoxGroup = new CheckBoxGroup<>();
+        operatorCheckBoxGroup = new CheckBoxGroup<>();
+
+        dataManager = new DataManagerImpl();
+    }
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        if(Utils.checkUserRoleAndRedirectIfNeeded(user,UserRole.ADMIN)){
+       /* if(Utils.checkUserRoleAndRedirectIfNeeded(user,UserRole.ADMIN)){
             getUI().getPage().setLocation(Utils.redirectToMainPage(getUI().getPage().getLocation().toString()));
-        }
+        }*/
 
         createButton.addClickListener(e -> createButtonListener());
         setButton.addClickListener(e -> setButtonListener());
@@ -76,32 +103,36 @@ public class AdministratorUI extends UI {
         operatorHelpButton.addClickListener(e -> operatorHelpButtonListener());
 
         theaterHeaderLayout.addComponentsAndExpand(theaterLabel,theaterHelpButton);
-        theaterLayout.addComponentsAndExpand(theaterHeaderLayout);
+        theaterLayout.addComponentsAndExpand(theaterHeaderLayout, theaterCheckBoxGroup);
         initTheaters();
 
         filmTypeHeaderLayout.addComponentsAndExpand(filmTypeLabel,filmTypeHelpButton);
-        filmTypeLayout.addComponentsAndExpand(filmTypeHeaderLayout);
+        filmTypeLayout.addComponentsAndExpand(filmTypeHeaderLayout, filmTypeCheckBoxGroup);
         initFilmTypes();
 
         seanceLayout.addComponentsAndExpand(seanceLabel,seanceHelpButton);
-        seanceLayout.addComponentsAndExpand(seanceHeaderLayout);
+        seanceLayout.addComponentsAndExpand(seanceHeaderLayout, seanceCheckBoxGroup);
         initSeances();
 
         filmHeaderLayout.addComponentsAndExpand(filmLabel,filmHelpButton);
-        filmLayout.addComponentsAndExpand(filmHeaderLayout);
+        filmLayout.addComponentsAndExpand(filmHeaderLayout, filmCheckBoxGroup);
         initFilms();
 
         operatorHeaderLayout.addComponentsAndExpand(operatorLabel,operatorHelpButton);
-        operatorLayout.addComponentsAndExpand(operatorHeaderLayout);
+        operatorLayout.addComponentsAndExpand(operatorHeaderLayout, operatorCheckBoxGroup);
         initOperators();
 
-        headerLayout.addComponentsAndExpand(createButton,setButton,deleteButton,nameLabel,exitButton);
-        objectsLayout.addComponentsAndExpand(theaterLayout,filmTypeLayout,seanceLayout,filmLayout,operatorLayout);
+        headerLayout.addComponentsAndExpand(createButton,setButton,deleteButton, searchField,nameLabel,exitButton);
+        objectsLayout.addComponentsAndExpand(headerLayout,theaterLayout,filmTypeLayout,seanceLayout,filmLayout,operatorLayout);
 
-
+        setContent(objectsLayout);
     }
 
     private void initTheaters(){
+      /*  Collection<Theater> theaters = dataManager.getAllTheaters();
+        theaterCheckBoxGroup.setItemCaptionGenerator(item->"Зал "+item.getTheaterNumber());
+
+        theaterCheckBoxGroup.setItems(theaters);*/
 
     }
 

@@ -80,9 +80,17 @@ public class MainUIUtils {
 
     }
 
+    public CalendarPair getEmptyPair(){
+        return new CalendarPair();
+    }
+
     public class CalendarPair{
         private Calendar leftCalendar;
         private Calendar rightCalendar;
+
+        public CalendarPair(){
+
+        }
 
         public CalendarPair(Calendar leftCalendar, Calendar rightCalendar) {
             this.leftCalendar = leftCalendar;

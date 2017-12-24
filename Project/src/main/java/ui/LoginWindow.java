@@ -41,8 +41,10 @@ public class LoginWindow extends Window {
         setModal(true);
         setResizable(false);
         center();
-        setWidth("50%");
-        formLayout.setSizeFull();
+        setSizeUndefined();
+        formLayout.setSizeUndefined();
+        formLayout.setMargin(true);
+        setContent(formLayout);
     }
 
     private void initContent() {
@@ -52,7 +54,7 @@ public class LoginWindow extends Window {
     }
 
     private void initButtons(){
-        VerticalLayout buttonsLayout = new VerticalLayout();
+        HorizontalLayout buttonsLayout = new HorizontalLayout();
         Button singInButton = new Button("Вход");
         Button cancelWindow = new Button("Отмена");
         singInButton.addClickListener((Button.ClickListener) clickEvent -> handleSingInClick());

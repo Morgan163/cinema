@@ -120,6 +120,26 @@ public class DataManagerImpl implements DataManager
          return userRepository.query(userSpecification).get(0);
     }
 
+    @Override
+    public Collection<SeatSeanceStatusMapper> getSeatSeanceStatusMappersBySeance(Seance seance) {
+        SqlSpecification mappersBySeaSpecification = (SqlSpecification)specificationFactory.getMapperBySeanceIdSpecification(seance.getSeanceID());
+        return seatSeanceStatusMapperRepository.query(mappersBySeaSpecification);
+    }
+
+    @Override
+    public Line getLineBySeat(Seat seat) {
+        SqlSpecification lineBySeatSpecification = buildSpecificationForLineBySeat(seat);
+        return lineRepository.query(lineBySeatSpecification).get(0);
+    }
+
+    private SqlSpecification buildSpecificationForLineBySeat(Seat seat) {
+        SqlSpecification seatSpecification = (SqlSpecification)specificationFactory.getSeatByIdSpecification(seat.getSeatID());
+        SqlSpecification lineIdEqualsSeatLineIdSpecification = (SqlSpecification)specificationFactory.getLineIdEqualsSeatLineIdSpecification();
+        CompositeSpecification resultSpecification = specificationFactory.getCompositeSpecification(seatSpecification, lineIdEqualsSeatLineIdSpecification);
+        resultSpecification.setOperation(CompositeSpecification.Operation.AND);
+        return (SqlSpecification)resultSpecification;
+    }
+
     private void createLines(Iterable<Line> lines){
         for (Line line : lines)
         {

@@ -27,6 +27,21 @@ public class MainForTests {
         resultSpecification.setOperation(CompositeSpecification.Operation.AND);
         System.out.println(((SqlSpecification)resultSpecification).toSqlClause());
     }
+//    private static void testSelectSeance() throws ClassNotFoundException {
+//        Class.forName("javax.enterprise.inject.se.SeContainerInitializer");
+//        Weld weld = new Weld();
+//        WeldContainer weldContainer = weld.initialize();
+//
+//        SeanceRepositoryImpl seanceRepository = weldContainer.instance().select(SeanceRepositoryImpl.class).get();
+//        SQLSpecificationFactory factory = new SQLSpecificationFactory();
+//        SqlSpecification sqlSpecification = (SqlSpecification)factory.getSeanceByIdSpecification(1);
+//        List<Seance> seances = seanceRepository.query(sqlSpecification);
+//        for (Seance seance: seances){
+//            System.out.println(seance.getSeanceID());
+//            System.out.println(seance.getSeanceStartDate());
+//            System.out.println(seance.getSeanceStartDate().get(Calendar.HOUR_OF_DAY));
+//        }
+//    }
 
 //    private static void testSelectTheater() throws ClassNotFoundException {
 //        Class.forName("javax.enterprise.inject.se.SeContainerInitializer");

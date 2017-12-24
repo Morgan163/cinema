@@ -3,6 +3,7 @@ package repository.impl;
 import db.DataBaseNames;
 import model.Film;
 import model.Seance;
+import org.apache.log4j.Logger;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
 import specifications.sql.SqlSpecification;
@@ -21,6 +22,7 @@ import java.util.List;
  * Created by niict on 23.12.2017.
  */
 public class SeanceRepositoryImpl implements Repository<Seance> {
+    private static final Logger LOG = Logger.getLogger(SeanceRepositoryImpl.class);
     @Inject
     private SpecificationFactory specificationFactory;
     @Inject
@@ -98,6 +100,7 @@ public class SeanceRepositoryImpl implements Repository<Seance> {
     private String getInsertSqlForSeance(Seance seance){
         ObjectColumnValues objectColumnValues = getObjectColumnValuesForSeance(seance);
         String sql = dataBaseHelper.buildInsertQuery(DataBaseNames.SEANCES, objectColumnValues);
+        LOG.debug(sql);
         return sql;
     }
 
@@ -122,7 +125,7 @@ public class SeanceRepositoryImpl implements Repository<Seance> {
             long filmId = resultSet.getLong("FILM_ID");
             int basePriceValue = resultSet.getInt("BASE_PRICE_VALUE");
             Calendar startDate = Calendar.getInstance();
-            startDate.setTimeInMillis(resultSet.getDate("SEANCE_START_DATE").getTime());
+            startDate.setTime(resultSet.getTimestamp("SEANCE_START_DATE"));
             Film film = filmRepository.query((SqlSpecification)specificationFactory.getFilmByIdSpecification(filmId)).get(0);
             Seance seance = new Seance();
             seance.setSeanceID(seanceId);
@@ -140,7 +143,7 @@ public class SeanceRepositoryImpl implements Repository<Seance> {
         objectColumnValues.setValueByColumnName("SEANCE_ID", String.valueOf(seance.getSeanceID()));
         objectColumnValues.setValueByColumnName("BASE_PRICE_VALUE", String.valueOf(seance.getPriceValue()));
         java.sql.Timestamp startDate = new Timestamp(seance.getSeanceStartDate().getTimeInMillis());
-        objectColumnValues.setValueByColumnName("SEANCE_START_DATE", String.valueOf(startDate));
+        objectColumnValues.setValueByColumnName("SEANCE_START_DATE", String.format("TO_TIMESTAMP('%s', 'YYYY-MM-DD HH24:MI:SS.FF9')",String.valueOf(startDate)));
         objectColumnValues.setIdColumnName("SEANCE_ID");
         objectColumnValues.setObjectId(String.valueOf(seance.getSeanceID()));
         return objectColumnValues;

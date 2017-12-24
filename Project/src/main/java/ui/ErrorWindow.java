@@ -16,8 +16,9 @@ public class ErrorWindow extends Window {
         super("ОШИБКА!");
         this.message = message;
         init();
-        setWidth("50%");
-        formLayout.setSizeFull();
+        formLayout.setSizeUndefined();
+        formLayout.setMargin(true);
+        setSizeUndefined();
         center();
         setModal(true);
     }
@@ -27,5 +28,6 @@ public class ErrorWindow extends Window {
         Button okButton = new Button("ОК");
         okButton.addClickListener(clickEvent -> close());
         formLayout.addComponents(new Label(message),okButton);
+        setContent(formLayout);
     }
 }

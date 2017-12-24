@@ -25,4 +25,6 @@ public interface DataManager {
     void updateTheater(Theater theater);
     void updateSeatSeanceMappers(Collection<SeatSeanceStatusMapper> mapper);
     User getUserByLoginAndPassword(String login, String password);
+    Collection<SeatSeanceStatusMapper> getSeatSeanceStatusMappersBySeance(Seance seance);
+    Line getLineBySeat(Seat seat);
 }

@@ -3,6 +3,7 @@ package repository.impl;
 import db.DataBaseNames;
 import model.Line;
 import model.Seat;
+import org.apache.log4j.Logger;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
 import specifications.sql.SqlSpecification;
@@ -18,6 +19,7 @@ import java.util.List;
  * Created by niict on 23.12.2017.
  */
 public class LineRepositoryImpl implements Repository<Line> {
+    private static final Logger LOG = Logger.getLogger(LineRepositoryImpl.class);
     @Inject
     private SpecificationFactory specificationFactory;
     @Inject
@@ -79,6 +81,7 @@ public class LineRepositoryImpl implements Repository<Line> {
     public List<Line> query(SqlSpecification sqlSpecification) {
         try {
             String sql = dataBaseHelper.buildSelectQueryBySQLSpecification(neededSelectTableColumns, sqlSpecification);
+            LOG.debug("LineRepository Runs sql : " + sql);
             List <Line> lines = executeSelect(sql);
             return lines;
         } catch (SQLException e) {

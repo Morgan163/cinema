@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +19,7 @@ import java.util.Set;
  * Created by niict on 13.12.2017.
  */
 @ApplicationScoped
-public class DataBaseHelper {
+public class DataBaseHelper implements Serializable {
     @Inject
     private ConnectionHolder connectionHolder;
     private Connection connection;
@@ -130,10 +131,12 @@ public class DataBaseHelper {
 
     public void executeUpdateQuery(String sql) throws SQLException {
         System.out.println(sql);
+        initConnection();
         connection.createStatement().executeUpdate(sql);
     }
 
     public ResultSet executeSelectQuery(String sql) throws SQLException {
+        initConnection();
         return connection.createStatement().executeQuery(sql);
     }
 
@@ -156,7 +159,8 @@ public class DataBaseHelper {
 
     @PreDestroy
     private void destroy() {
-        try {
+        if (connection != null)
+        try{
             connection.close();
             connectionHolder.closeAll();
         } catch (SQLException e) {
@@ -164,10 +168,9 @@ public class DataBaseHelper {
         }
     }
 
-    @PostConstruct
-    private void init(){
+    private void initConnection(){
+        if (connection == null)
         try {
-            LOG.debug("init started...");
             connection = connectionHolder.getConnection();
         } catch (SQLException e) {
             throw new RuntimeException(e);

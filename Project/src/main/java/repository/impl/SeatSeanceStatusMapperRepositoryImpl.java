@@ -31,11 +31,11 @@ public class SeatSeanceStatusMapperRepositoryImpl implements Repository<SeatSean
     private List<String> neededSelectTableColumns;
 
     public SeatSeanceStatusMapperRepositoryImpl(){
-        neededSelectTableColumns = Arrays.asList(DataBaseNames.SEATS_SEANCES_STATUSES + ".MAPPING_ID",
-                DataBaseNames.SEATS_SEANCES_STATUSES + ".BOOK_KEY",
-                DataBaseNames.SEATS_SEANCES_STATUSES + ".SEAT_ID",
-                DataBaseNames.SEATS_SEANCES_STATUSES + ".SEANCE_ID",
-                DataBaseNames.SEATS_SEANCES_STATUSES + ".STATUS_ID");
+        neededSelectTableColumns = Arrays.asList(DataBaseNames.SEATS_SEANCES + ".MAPPING_ID",
+                DataBaseNames.SEATS_SEANCES + ".BOOK_KEY",
+                DataBaseNames.SEATS_SEANCES + ".SEAT_ID",
+                DataBaseNames.SEATS_SEANCES + ".SEANCE_ID",
+                DataBaseNames.SEATS_SEANCES + ".STATUS_ID");
     }
 
     @Override
@@ -99,13 +99,13 @@ public class SeatSeanceStatusMapperRepositoryImpl implements Repository<SeatSean
 
     private String getInsertSqlForMapper(SeatSeanceStatusMapper mapper){
         ObjectColumnValues objectColumnValues = getObjectColumnValuesForMapper(mapper);
-        String sql = dataBaseHelper.buildInsertQuery(DataBaseNames.SEATS_SEANCES_STATUSES, objectColumnValues);
+        String sql = dataBaseHelper.buildInsertQuery(DataBaseNames.SEATS_SEANCES, objectColumnValues);
         return sql;
     }
 
     private String getUpdateSqlForMapper(SeatSeanceStatusMapper mapper){
         ObjectColumnValues objectColumnValues = getObjectColumnValuesForMapper(mapper);
-        String sql = dataBaseHelper.buildUpdateQuery(DataBaseNames.SEATS_SEANCES_STATUSES, objectColumnValues);
+        String sql = dataBaseHelper.buildUpdateQuery(DataBaseNames.SEATS_SEANCES, objectColumnValues);
         return sql;
     }
 
@@ -124,11 +124,11 @@ public class SeatSeanceStatusMapperRepositoryImpl implements Repository<SeatSean
             long seanceId = resultSet.getLong("SEANCE_ID");
             long statusId = resultSet.getLong("STATUS_ID");
             String bookKey = resultSet.getString("BOOK_KEY");
-            int theaterNumber = resultSet.getInt("THEATER_NUMBER");
             Seat seat = seatRepository.query((SqlSpecification)specificationFactory.getSeatByIdSpecification(seatId)).get(0);
             Seance seance = seanceRepository.query((SqlSpecification)specificationFactory.getSeanceByIdSpecification(seanceId)).get(0);
             SeatSeanceStatus seatSeanceStatus = SeatSeanceStatus.getById(statusId);
             SeatSeanceStatusMapper mapper = new SeatSeanceStatusMapper(mappingId, seat, seance, seatSeanceStatus);
+            mapper.setBookKey(bookKey);
             mappers.add(mapper);
         }
         return mappers;

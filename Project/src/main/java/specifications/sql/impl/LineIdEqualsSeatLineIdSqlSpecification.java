@@ -1,21 +1,21 @@
 package specifications.sql.impl;
 
 import db.DataBaseNames;
-import model.user.UserRole;
 import specifications.sql.SqlSpecification;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class RoleIdEqualsUserRoleIdSqlSpecification implements SqlSpecification
-{
-
+/**
+ * Created by niict on 24.12.2017.
+ */
+public class LineIdEqualsSeatLineIdSqlSpecification implements SqlSpecification {
     public List<String> getSourceTables(){
-        return Arrays.asList(DataBaseNames.USER_ROLES, DataBaseNames.USERS);
+        return Arrays.asList(DataBaseNames.LINES, DataBaseNames.SEATS);
     }
 
     public String toSqlClause(){
-        return String.format("%s.role_id = %s.role_id", DataBaseNames.USER_ROLES, DataBaseNames.USERS);
+        return String.format("%s.line_id = %s.line_id", DataBaseNames.LINES, DataBaseNames.SEATS);
     }
 
     public boolean specified(Object source){

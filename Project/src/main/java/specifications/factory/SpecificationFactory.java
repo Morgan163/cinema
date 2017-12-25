@@ -2,6 +2,7 @@ package specifications.factory;
 
 import model.*;
 import model.user.User;
+import model.user.UserRole;
 import oracle.sql.OPAQUE;
 import specifications.CompositeSpecification;
 import specifications.Specification;
@@ -35,4 +36,7 @@ public interface SpecificationFactory
     Specification<Seance> getSeanceLaterThanSpecification(Calendar date);
     Specification<SeatSeanceStatusMapper> getMapperByKeySpecification(String code);
     Specification<Film> getFilmByTypeIdSpecification(long filmTypeId);
+    Specification<FilmType> getAnyFilmTypeSpecification();
+    Specification<Film> getAnyFilmSpecification();
+    Specification<User> getUserByRoleIdSpecification(long roleId);
 }

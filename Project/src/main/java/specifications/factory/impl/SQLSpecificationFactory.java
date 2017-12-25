@@ -2,6 +2,7 @@ package specifications.factory.impl;
 
 import model.*;
 import model.user.User;
+import model.user.UserRole;
 import specifications.CompositeSpecification;
 import specifications.Specification;
 import specifications.factory.SpecificationFactory;
@@ -50,19 +51,19 @@ public class SQLSpecificationFactory implements SpecificationFactory
         return new UserByPasswordSqlSpecification(password);
     }
 
-    public SqlSpecification<Seat> getSeatByLineIdSpecification(long lineId){
+    public Specification<Seat> getSeatByLineIdSpecification(long lineId){
         return new SeatByLineIdSqlSpecification(lineId);
     }
 
-    public SqlSpecification<Line> getLineByTheaterIdSpecification(long theaterId){
+    public Specification<Line> getLineByTheaterIdSpecification(long theaterId){
         return new LineByTheaterIdSqlSpecification(theaterId);
     }
 
-    public SqlSpecification<Theater> getTheaterByIdSpecification(long theaterId){
+    public Specification<Theater> getTheaterByIdSpecification(long theaterId){
         return new TheaterByIdSqlSpecification(theaterId);
     }
 
-    public SqlSpecification<SeatSeanceStatusMapper> getMapperBySeanceIdSpecification(long seanceId){
+    public Specification<SeatSeanceStatusMapper> getMapperBySeanceIdSpecification(long seanceId){
         return new MapperBySeanceIdSqlSpecification(seanceId);
     }
 
@@ -111,12 +112,27 @@ public class SQLSpecificationFactory implements SpecificationFactory
     }
 
     @Override
-    public SqlSpecification<SeatSeanceStatusMapper> getMapperByKeySpecification(String code) {
+    public Specification<SeatSeanceStatusMapper> getMapperByKeySpecification(String code) {
         return new MapperByKeySqlSpecification(code);
     }
 
     @Override
     public Specification<Film> getFilmByTypeIdSpecification(long filmTypeId) {
         return new FilmByTypeIdSqlSpecification(filmTypeId);
+    }
+
+    @Override
+    public Specification<FilmType> getAnyFilmTypeSpecification() {
+        return new AnyFilmTypeSqlSpecification();
+    }
+
+    @Override
+    public Specification<Film> getAnyFilmSpecification() {
+        return new AnyFilmSqlSpecification();
+    }
+
+    @Override
+    public Specification<User> getUserByRoleIdSpecification(long roleId) {
+        return new UserByRoleIdSqlSpecification(roleId);
     }
 }

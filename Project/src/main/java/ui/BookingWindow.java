@@ -63,7 +63,7 @@ public class BookingWindow extends Window {
             List<Seat> seats = line.getSeats();
             seats.sort(new SeatComparator());
             for (Seat seat : seats){
-                SeatButton seatButton = new SeatButton(String.valueOf(seat.getNumber()), seat);
+                Button seatButton = new Button(String.valueOf(seat.getNumber()));
                 seatButton.setWidth(seat.getSeatType() == SeatType.GENERIC ? 5 : 11, Unit.EM);
                 for (SeatSeanceStatusMapper mapper: mappersBySeance){
                     if (seat.getSeatID() == mapper.getSeat().getSeatID()){
@@ -140,7 +140,7 @@ public class BookingWindow extends Window {
     }
 
     private void handleClickSeatButtonEvent(Button.ClickEvent clickEvent, Seat seat) {
-        SeatButton sourceButton = (SeatButton)clickEvent.getButton();
+        Button sourceButton = clickEvent.getButton();
         if (sourceButton.getStyleName().equals(ValoTheme.BUTTON_DANGER)){
             selectedSeats.remove(seat);
             sourceButton.setStyleName(ValoTheme.BUTTON_FRIENDLY);
@@ -148,19 +148,6 @@ public class BookingWindow extends Window {
         else {
             sourceButton.setStyleName(ValoTheme.BUTTON_DANGER);
             selectedSeats.add(seat);
-        }
-    }
-
-    private class SeatButton extends Button{
-        private Seat seat;
-
-        public SeatButton(String caption, Seat seat) {
-            super(caption);
-            this.seat = seat;
-        }
-
-        public Seat getSeat(){
-            return seat;
         }
     }
 }

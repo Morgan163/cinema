@@ -22,8 +22,6 @@ public class FilmTypeRepositoryImpl implements Repository<FilmType> {
     private SpecificationFactory specificationFactory;
     @Inject
     private DataBaseHelper dataBaseHelper;
-    @Inject
-    private Repository<Film> filmRepository;
     private List<String> neededSelectTableColumns;
 
     public FilmTypeRepositoryImpl(){

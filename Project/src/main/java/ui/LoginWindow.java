@@ -4,6 +4,7 @@ import com.vaadin.ui.*;
 import model.user.User;
 import model.user.UserRole;
 import modeloperations.ModelOperations;
+import org.apache.log4j.Logger;
 
 import javax.inject.Inject;
 
@@ -72,7 +73,7 @@ public class LoginWindow extends Window {
             user.setPassword(passwordField.getValue());
             if (modelOperations.isUserExists(user)){
                 modelOperations.authorize(user);
-                close();
+                redirectRoot();
             }
             else {
                 showErrorWindow(WRONG_CREDENTIALS);
@@ -91,6 +92,6 @@ public class LoginWindow extends Window {
 
     private void redirectRoot() {
         String currentLocation = rootUI.getPage().getLocation().toString();
-        rootUI.getPage().setLocation(currentLocation.substring(0, currentLocation.lastIndexOf("'/")) + user.getUserRole().getRoleName().toLowerCase());
+        rootUI.getPage().setLocation(currentLocation.substring(0, currentLocation.lastIndexOf("/")+1) + user.getUserRole().getRoleName().toLowerCase());
     }
 }

@@ -97,7 +97,8 @@ public class DataManagerImpl implements DataManager
     }
 
     public User getUser(long userId){
-        return null;
+        SqlSpecification userSpecification = (SqlSpecification)specificationFactory.getUserByIdSpecification(userId);
+        return userRepository.query(userSpecification).get(0);
     }
 
     public void updateTheater(Theater theater){

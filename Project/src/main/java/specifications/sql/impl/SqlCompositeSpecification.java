@@ -1,5 +1,6 @@
 package specifications.sql.impl;
 
+import org.apache.log4j.Logger;
 import specifications.CompositeSpecification;
 import specifications.sql.SqlSpecification;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 public class SqlCompositeSpecification implements SqlSpecification, CompositeSpecification
 {
+    private static final Logger LOG = Logger.getLogger(SqlCompositeSpecification.class);
     private SqlSpecification leftOperand;
     private SqlSpecification rightOperand;
     private Operation operation;
@@ -43,6 +45,7 @@ public class SqlCompositeSpecification implements SqlSpecification, CompositeSpe
     }
 
     public String toSqlClause() {
+        LOG.debug(String.format("Composite spec, specs: %s, %s, operation : %s", leftOperand, rightOperand, operation));
         return operation.createClause(leftOperand, rightOperand);
     }
 

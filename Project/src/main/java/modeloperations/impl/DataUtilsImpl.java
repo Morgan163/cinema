@@ -84,7 +84,7 @@ public class DataUtilsImpl implements DataUtils {
         SqlSpecification passwordSpecification = (SqlSpecification)specificationFactory.getUserByPasswordSpecification(user.getPassword());
         CompositeSpecification resultSpecification = specificationFactory.getCompositeSpecification(loginSpecification, passwordSpecification);
         resultSpecification.setOperation(CompositeSpecification.Operation.AND);
-        return (SqlSpecification) specificationFactory.getCompositeSpecification(loginSpecification, passwordSpecification);
+        return (SqlSpecification) resultSpecification;
     }
 
 }

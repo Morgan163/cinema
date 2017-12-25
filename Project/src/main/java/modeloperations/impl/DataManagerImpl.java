@@ -146,6 +146,12 @@ public class DataManagerImpl implements DataManager
         return userRepository.query(userSpecification);
     }
 
+    @Override
+    public Theater getTheaterBySeance(Seance seance) {
+        //todo
+        return new Theater();
+    }
+
     private SqlSpecification buildSpecificationForLineBySeat(Seat seat) {
         SqlSpecification seatSpecification = (SqlSpecification)specificationFactory.getSeatByIdSpecification(seat.getSeatID());
         SqlSpecification lineIdEqualsSeatLineIdSpecification = (SqlSpecification)specificationFactory.getLineIdEqualsSeatLineIdSpecification();

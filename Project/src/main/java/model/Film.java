@@ -12,6 +12,11 @@ public class Film {
     public Film() {
     }
 
+    public Film(String filmName, FilmType filmType, AgeLimitType ageLimitType) {
+        this.filmName = filmName;
+        this.filmType = filmType;
+        this.ageLimitType = ageLimitType;
+    }
     public Film(long filmID, String filmName, FilmType filmType, AgeLimitType ageLimitType) {
         this.filmID = filmID;
         this.filmName = filmName;

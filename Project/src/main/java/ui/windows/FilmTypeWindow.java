@@ -1,6 +1,7 @@
 package ui.windows;
 
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import model.FilmType;
 import model.user.User;
 import model.user.UserRole;
@@ -57,6 +58,10 @@ public class FilmTypeWindow extends AbstractCreateWindow {
     private void okButtonClickListener() {
         if(!StringUtils.isBlank(typeNameField.getValue())){
             super.getDataManager().createFilmType(new FilmType(typeNameField.getValue()));
+            UserRole role = super.getUser().getUserRole();
+            if (role != null) {
+                redirectRoot();
+            }
         }else{
             showErrorWindow("Необходимо ввести название жанра");
         }

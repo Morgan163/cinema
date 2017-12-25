@@ -39,6 +39,7 @@ public class MainUI extends UI {
     private MainUIUtils mainUIUtils;
     @Inject
     private FilterContext filterContext;
+    Map<Film, Collection<Seance>> filmSeancesMap;
     private Collection<Seance> seances;
     private VerticalLayout mainLayout;
     private VerticalLayout filmLayout;
@@ -52,7 +53,7 @@ public class MainUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
         System.out.println("initializing");
         seances = dataManager.getAllSeances();
-        Map<Film, Collection<Seance>> filmSeancesMap = mainUIUtils.groupSeancesByFilms(seances);
+        filmSeancesMap = mainUIUtils.groupSeancesByFilms(seances);
         Set<FilmType> filmTypes = mainUIUtils.selectAllGenresFromFilms(filmSeancesMap.keySet());
         initTopBar(filmTypes);
         // mainLayout.addComponentsAndExpand(new Label("Фильтры"));
@@ -65,11 +66,11 @@ public class MainUI extends UI {
         System.out.println("initializing top bar");
         Collection<Component> components = new ArrayList<>();
         HorizontalLayout topBarLayout = new HorizontalLayout();
-        topBarLayout.addComponentsAndExpand(new Label("Фильтры:"));
+        topBarLayout.addComponent(new Label("Фильтры:"));
         topBarLayout.addComponentsAndExpand(buildFilmTypeComboBox(filmTypes));
         topBarLayout.addComponentsAndExpand(buildTimeComboBox());
         topBarLayout.addComponentsAndExpand(buildAgeLimitsComboBox());
-        topBarLayout.addComponentsAndExpand(buildLoginButton());
+        topBarLayout.addComponent(buildLoginButton());
         mainLayout.addComponent(topBarLayout);
     }
 
@@ -114,20 +115,20 @@ public class MainUI extends UI {
 
     private void handleFilmTypeValueChangedEvent(HasValue.ValueChangeEvent<FilmType> valueChangeEvent) {
         filterContext.setFilterParameter(FilterContext.FILM_TYPE_PARAMETER, valueChangeEvent.getValue());
-        Map<Film, Collection<Seance>> filmSeancesMap = mainUIUtils.selectFilmSeanceByContext(filterContext);
-        displayFilmSeancesMap(filmSeancesMap);
+        Map<Film, Collection<Seance>> filteredFilmSeancesMap = mainUIUtils.selectFilmSeanceByContext(filmSeancesMap, filterContext);
+        displayFilmSeancesMap(filteredFilmSeancesMap);
     }
 
     private void handleTimeValueChangedEvent(HasValue.ValueChangeEvent<MainUIUtils.CalendarPair> valueChangeEvent) {
         filterContext.setFilterParameter(FilterContext.TIME_RANGE_PARAMETER, valueChangeEvent.getValue());
-        Map<Film, Collection<Seance>> filmSeancesMap = mainUIUtils.selectFilmSeanceByContext(filterContext);
-        displayFilmSeancesMap(filmSeancesMap);
+        Map<Film, Collection<Seance>> filteredFilmSeancesMap = mainUIUtils.selectFilmSeanceByContext(filmSeancesMap, filterContext);
+        displayFilmSeancesMap(filteredFilmSeancesMap);
     }
 
     private void handleAgeLimitValueChangedEvent(HasValue.ValueChangeEvent<AgeLimitType> valueChangeEvent) {
         filterContext.setFilterParameter(FilterContext.AGE_LIMIT_PARAMETER, valueChangeEvent.getValue());
-        Map<Film, Collection<Seance>> filmSeancesMap = mainUIUtils.selectFilmSeanceByContext(filterContext);
-        displayFilmSeancesMap(filmSeancesMap);
+        Map<Film, Collection<Seance>> filteredFilmSeancesMap = mainUIUtils.selectFilmSeanceByContext(filmSeancesMap, filterContext);
+        displayFilmSeancesMap(filteredFilmSeancesMap);
     }
 
     private void displayFilmSeancesMap(Map<Film, Collection<Seance>> filmSeancesMap) {

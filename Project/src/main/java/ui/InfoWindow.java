@@ -21,6 +21,7 @@ public class InfoWindow extends Window {
         setSizeUndefined();
         center();
         setModal(true);
+
     }
 
     private void init() {
@@ -28,6 +29,6 @@ public class InfoWindow extends Window {
         Button okButton = new Button("ОК");
         okButton.addClickListener(clickEvent -> close());
         formLayout.addComponents(new Label(message), okButton);
-
+        setContent(formLayout);
     }
 }

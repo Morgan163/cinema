@@ -72,7 +72,7 @@ public class DataUtilsImpl implements DataUtils {
     }
 
     private boolean isSeatSeanceStatusMapperContainedInDataBase(SeatSeanceStatusMapper mapper) {
-        return false; // TODO доделать, когда будут спецификации
+        return mapper.getMappingId() > 0;
     }
 
     private boolean isTheaterContainedInDataBase(Theater theater) {

@@ -5,6 +5,7 @@ import model.Seance;
 import model.Seat;
 import model.SeatSeanceStatus;
 import model.SeatSeanceStatusMapper;
+import org.apache.log4j.Logger;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
 import specifications.sql.SqlSpecification;
@@ -20,6 +21,7 @@ import java.util.List;
  * Created by niict on 23.12.2017.
  */
 public class SeatSeanceStatusMapperRepositoryImpl implements Repository<SeatSeanceStatusMapper> {
+    private static final Logger LOG = Logger.getLogger(SeatSeanceStatusMapperRepositoryImpl.class);
     @Inject
     private SpecificationFactory specificationFactory;
     @Inject
@@ -60,6 +62,7 @@ public class SeatSeanceStatusMapperRepositoryImpl implements Repository<SeatSean
     public void update(SeatSeanceStatusMapper item) {
         try {
             String sql = getUpdateSqlForMapper(item);
+            LOG.debug("SeatSeanceStatusMapperRepo Runs sql : " + sql);
             dataBaseHelper.executeUpdateQuery(sql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -86,6 +89,7 @@ public class SeatSeanceStatusMapperRepositoryImpl implements Repository<SeatSean
     public List<SeatSeanceStatusMapper> query(SqlSpecification sqlSpecification) {
         try {
             String sql = dataBaseHelper.buildSelectQueryBySQLSpecification(neededSelectTableColumns, sqlSpecification);
+            LOG.debug("SeatSeanceStatusMapperRepo Runs sql : " + sql);
             List <SeatSeanceStatusMapper> mappers = executeSelect(sql);
             return mappers;
         } catch (SQLException e) {
@@ -140,6 +144,7 @@ public class SeatSeanceStatusMapperRepositoryImpl implements Repository<SeatSean
         objectColumnValues.setValueByColumnName("SEAT_ID", String.valueOf(mapper.getSeat().getSeatID()));
         objectColumnValues.setValueByColumnName("SEANCE_ID", String.valueOf(mapper.getSeance().getSeanceID()));
         objectColumnValues.setValueByColumnName("STATUS_ID", String.valueOf(mapper.getSeatSeanceStatus().getStatusID()));
+        objectColumnValues.setValueByColumnName("BOOK_KEY", "'"+String.valueOf(mapper.getBookKey())+"'");
         objectColumnValues.setIdColumnName("MAPPING_ID");
         objectColumnValues.setObjectId(String.valueOf(mapper.getMappingId()));
         return objectColumnValues;

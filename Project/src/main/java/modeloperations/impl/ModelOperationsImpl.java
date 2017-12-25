@@ -29,12 +29,12 @@ public class ModelOperationsImpl implements ModelOperations {
 
     public void bookSeatsForSeance(Collection <Seat> seats, Seance seance, String contacts) throws SendMailException {
         if (CollectionUtils.isEmpty(seats))
-            throw new RuntimeException("emty seats collection");
+            throw new RuntimeException("empty seats collection");
         Collection<SeatSeanceStatusMapper> mappersToUpdate = new ArrayList<SeatSeanceStatusMapper>();
         String bookingKey = generateUniqueBookingCode();
         for (Seat seat: seats){
             SeatSeanceStatusMapper mapper = dataManager.getSeatSeanceStatusMapper(seat, seance);
-            if (SeatSeanceStatus.FREE.equals(mapper.getSeatSeanceStatus())){
+            if (SeatSeanceStatus.FREE.equals(mapper.getSeatSeanceStatus()) || mapper.getSeatSeanceStatus() == null){
                 mapper.setBookKey(bookingKey);
                 mapper.setSeatSeanceStatus(SeatSeanceStatus.RESERVED);
                 mappersToUpdate.add(mapper);
@@ -42,8 +42,8 @@ public class ModelOperationsImpl implements ModelOperations {
         }
         if (CollectionUtils.isNotEmpty(mappersToUpdate))
         {
-            dataManager.updateSeatSeanceMappers(mappersToUpdate);
             bookingNotifier.sendKeyToContacts(bookingKey, contacts);
+            dataManager.updateSeatSeanceMappers(mappersToUpdate);
         }
     }
 

@@ -77,7 +77,12 @@ public class BookingWindow extends Window {
                     }
 
                 }
-                seatButton.addClickListener(this::handleClickSeatButtonEvent);
+                seatButton.addClickListener(new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(Button.ClickEvent clickEvent) {
+                        handleClickSeatButtonEvent(clickEvent, seat);
+                    }
+                });
                 lineLayout.addComponent(seatButton);
                 lineLayout.setWidth("100%");
             }
@@ -116,7 +121,8 @@ public class BookingWindow extends Window {
                 modelOperations.bookSeatsForSeance(selectedSeats, seance, email);
                 showInfoWindow(BOOKED);
             } catch (SendMailException e) {
-                showErrorWindow(SMTH_WRONG);
+                throw new RuntimeException(e);
+                //showErrorWindow(SMTH_WRONG);
             }
         } else {
             showErrorWindow(ILLEGAL_EMAIL);
@@ -133,15 +139,15 @@ public class BookingWindow extends Window {
         UI.getCurrent().addWindow(errorWindow);
     }
 
-    private void handleClickSeatButtonEvent(Button.ClickEvent clickEvent) {
+    private void handleClickSeatButtonEvent(Button.ClickEvent clickEvent, Seat seat) {
         SeatButton sourceButton = (SeatButton)clickEvent.getButton();
         if (sourceButton.getStyleName().equals(ValoTheme.BUTTON_DANGER)){
-            selectedSeats.remove(sourceButton.getSeat());
+            selectedSeats.remove(seat);
             sourceButton.setStyleName(ValoTheme.BUTTON_FRIENDLY);
         }
         else {
             sourceButton.setStyleName(ValoTheme.BUTTON_DANGER);
-            selectedSeats.add(sourceButton.getSeat());
+            selectedSeats.add(seat);
         }
     }
 

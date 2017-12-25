@@ -93,7 +93,8 @@ public class DataManagerImpl implements DataManager
 
     //todo остановился тут
     public Collection<SeatSeanceStatusMapper> getSeatSeanceStatusMappersByKey(String code){
-        return null;
+        SqlSpecification mapperSpecification = specificationFactory.getMapperByKeySpecification(code);
+        return seatSeanceStatusMapperRepository.query(mapperSpecification);
     }
 
     public User getUser(long userId){

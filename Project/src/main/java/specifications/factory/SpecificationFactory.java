@@ -5,6 +5,7 @@ import model.user.User;
 import oracle.sql.OPAQUE;
 import specifications.CompositeSpecification;
 import specifications.Specification;
+import specifications.sql.SqlSpecification;
 import specifications.sql.impl.SqlCompositeSpecification;
 
 import java.util.Calendar;
@@ -32,4 +33,5 @@ public interface SpecificationFactory
     Specification<User> getUserByIdSpecification(long userID);
     Specification<Seance> getSeanceEarlierThanSpecification(Calendar date);
     Specification<Seance> getSeanceLaterThanSpecification(Calendar date);
+    SqlSpecification<SeatSeanceStatusMapper> getMapperByKeySpecification(String code);
 }

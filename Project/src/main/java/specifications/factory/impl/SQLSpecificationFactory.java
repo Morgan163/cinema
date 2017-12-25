@@ -67,7 +67,7 @@ public class SQLSpecificationFactory implements SpecificationFactory
     }
 
     public Specification<SeatSeanceStatusMapper> getMapperBySeatIdSpecification(long seatId){
-        return new MapperBySeanceIdSqlSpecification(seatId);
+        return new MapperBySeatIdSqlSpecification(seatId);
     }
 
     @Override
@@ -108,5 +108,10 @@ public class SQLSpecificationFactory implements SpecificationFactory
     @Override
     public Specification<Seance> getSeanceLaterThanSpecification(Calendar date) {
         return new SeanceLaterThanSqlSpecification(date);
+    }
+
+    @Override
+    public SqlSpecification<SeatSeanceStatusMapper> getMapperByKeySpecification(String code) {
+        return new MapperByKeySqlSpecification(code);
     }
 }

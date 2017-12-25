@@ -2,7 +2,6 @@ package ui;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.cdi.CDIUI;
-import com.vaadin.data.provider.DataProvider;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
 import model.Film;
@@ -10,13 +9,12 @@ import model.FilmType;
 import model.Seance;
 import model.Theater;
 import model.user.User;
-import model.user.UserRole;
 import modeloperations.DataManager;
-import modeloperations.impl.DataManagerImpl;
-import ui.utils.Utils;
 
 import javax.inject.Inject;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Locale;
 
 @CDIUI("admin")
 @Theme("mytheme")
@@ -25,6 +23,7 @@ public class AdministratorUI extends UI {
     private User user;
 
     private final HorizontalLayout headerLayout = new HorizontalLayout();
+    private final VerticalLayout mainLayout = new VerticalLayout();
     private final HorizontalLayout objectsLayout = new HorizontalLayout();
     private final VerticalLayout theaterLayout = new VerticalLayout();
     private final VerticalLayout filmTypeLayout = new VerticalLayout();
@@ -53,7 +52,7 @@ public class AdministratorUI extends UI {
 
     //seance objects
     private final HorizontalLayout seanceHeaderLayout = new HorizontalLayout();
-    private final Label seanceLabel = new Label("Жанры");
+    private final Label seanceLabel = new Label("Сеансы");
     private final Button seanceHelpButton = new Button();
 
     //film objects
@@ -72,6 +71,7 @@ public class AdministratorUI extends UI {
     private CheckBoxGroup<Film> filmCheckBoxGroup;
     private CheckBoxGroup<User> operatorCheckBoxGroup;
 
+    @Inject
     private DataManager dataManager;
 
     public AdministratorUI() {
@@ -81,8 +81,6 @@ public class AdministratorUI extends UI {
         seanceCheckBoxGroup = new CheckBoxGroup<>();
         filmCheckBoxGroup = new CheckBoxGroup<>();
         operatorCheckBoxGroup = new CheckBoxGroup<>();
-
-        dataManager = new DataManagerImpl();
     }
 
     @Override
@@ -110,7 +108,7 @@ public class AdministratorUI extends UI {
         filmTypeLayout.addComponentsAndExpand(filmTypeHeaderLayout, filmTypeCheckBoxGroup);
         initFilmTypes();
 
-        seanceLayout.addComponentsAndExpand(seanceLabel,seanceHelpButton);
+        seanceHeaderLayout.addComponentsAndExpand(seanceLabel,seanceHelpButton);
         seanceLayout.addComponentsAndExpand(seanceHeaderLayout, seanceCheckBoxGroup);
         initSeances();
 
@@ -123,25 +121,33 @@ public class AdministratorUI extends UI {
         initOperators();
 
         headerLayout.addComponentsAndExpand(createButton,setButton,deleteButton, searchField,nameLabel,exitButton);
-        objectsLayout.addComponentsAndExpand(headerLayout,theaterLayout,filmTypeLayout,seanceLayout,filmLayout,operatorLayout);
+        headerLayout.setSizeUndefined();
+        objectsLayout.addComponentsAndExpand(theaterLayout,filmTypeLayout,seanceLayout,filmLayout,operatorLayout);
+        objectsLayout.setSizeUndefined();
+        mainLayout.addComponentsAndExpand(headerLayout,objectsLayout);
+        mainLayout.setSizeUndefined();
 
-        setContent(objectsLayout);
+        setContent(mainLayout);
     }
 
     private void initTheaters(){
-      /*  Collection<Theater> theaters = dataManager.getAllTheaters();
+        Collection<Theater> theaters = dataManager.getAllTheaters();
         theaterCheckBoxGroup.setItemCaptionGenerator(item->"Зал "+item.getTheaterNumber());
 
-        theaterCheckBoxGroup.setItems(theaters);*/
+        theaterCheckBoxGroup.setItems(theaters);
 
     }
 
     private void initFilmTypes(){
-
     }
 
     private void initSeances(){
-
+        Locale locale = Locale.getDefault();
+        Collection<Seance> seances = dataManager.getAllSeances();
+        seanceCheckBoxGroup.setItemCaptionGenerator(item -> "Сеанс "+item.getFilm().getFilmName()+"\n" +
+                item.getSeanceStartDate().getDisplayName(Calendar.DAY_OF_MONTH,Calendar.LONG,locale)+"."+
+        item.getSeanceStartDate().getDisplayName(Calendar.MONTH,Calendar.LONG,locale));
+        seanceCheckBoxGroup.setItems(seances);
     }
 
     private void initFilms(){

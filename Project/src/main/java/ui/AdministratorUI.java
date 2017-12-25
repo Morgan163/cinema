@@ -10,15 +10,24 @@ import model.Seance;
 import model.Theater;
 import model.user.User;
 import modeloperations.DataManager;
+import ui.windows.ErrorWindow;
+import ui.windows.InfoWindow;
 
 import javax.inject.Inject;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Locale;
 
 @CDIUI("admin")
 @Theme("mytheme")
 public class AdministratorUI extends UI {
+    private static final String MAIN_INFO = "Форма администратора, где вы можете управлять имеющимися объектами" +
+            " кинотеатра";
+    private static final String THEATER_INFO = "Редактируйте и удаляйте имеющиеся залы";
+    private static final String FILM_TYPE_INFO = "Редактируйте и удаляйте имеющиеся жанры";
+    private static final String FILM_INFO = "Редактируйте и удаляйте имеющиеся фильмы";
+    private static final String SEANCE_INFO = "Редактируйте и удаляйте имеющиеся сеансы";
+    private static final String OPERATOR_INFO = "Редактируйте и удаляйте операторов системы";
+
     @Inject
     private User user;
 
@@ -139,23 +148,29 @@ public class AdministratorUI extends UI {
     }
 
     private void initFilmTypes(){
+        Collection<FilmType> filmTypes = dataManager.getAllFilmTypes();
+        filmTypeCheckBoxGroup.setItemCaptionGenerator(item -> item.getFilmTypeName());
+        filmTypeCheckBoxGroup.setItems(filmTypes);
     }
 
     private void initSeances(){
         Locale locale = Locale.getDefault();
         Collection<Seance> seances = dataManager.getAllSeances();
         seanceCheckBoxGroup.setItemCaptionGenerator(item -> "Сеанс "+item.getFilm().getFilmName()+"\n" +
-                item.getSeanceStartDate().getDisplayName(Calendar.DAY_OF_MONTH,Calendar.LONG,locale)+"."+
-        item.getSeanceStartDate().getDisplayName(Calendar.MONTH,Calendar.LONG,locale));
+                item.getSeanceStartDate().getTime());
         seanceCheckBoxGroup.setItems(seances);
     }
 
     private void initFilms(){
-
+        Collection<Film> films = dataManager.getAllFilms();
+        filmCheckBoxGroup.setItemCaptionGenerator(item ->  item.getFilmName());
+        filmCheckBoxGroup.setItems(films);
     }
 
     private void initOperators(){
-
+        Collection<User> operators = dataManager.getAllOperators();
+        operatorCheckBoxGroup.setItemCaptionGenerator(item -> item.getLogin());
+        operatorCheckBoxGroup.setItems(operators);
     }
 
     private void createButtonListener(){
@@ -171,7 +186,7 @@ public class AdministratorUI extends UI {
     }
 
     private void helpButtonListener(){
-
+        showInfoWindow(MAIN_INFO);
     }
 
     private void exitButtonListener(){
@@ -179,23 +194,33 @@ public class AdministratorUI extends UI {
     }
 
     private void theaterHelpButtonListener(){
-
+        showInfoWindow(THEATER_INFO);
     }
 
     private void filmTypeHelpButtonListener(){
-
+        showInfoWindow(FILM_TYPE_INFO);
     }
 
     private void seanceHelpButtonListener(){
-
+        showInfoWindow(SEANCE_INFO);
     }
 
     private void filmHelpButtonListener(){
-
+        showInfoWindow(FILM_INFO);
     }
 
     private void operatorHelpButtonListener(){
+        showInfoWindow(OPERATOR_INFO);
+    }
 
+    private void showErrorWindow(String message) {
+        Window errorWindow = new ErrorWindow(message);
+        UI.getCurrent().addWindow(errorWindow);
+    }
+
+    private void showInfoWindow(String message) {
+        Window errorWindow = new InfoWindow(message);
+        UI.getCurrent().addWindow(errorWindow);
     }
 
 

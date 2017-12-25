@@ -11,9 +11,7 @@ import specifications.factory.SpecificationFactory;
 import specifications.sql.SqlSpecification;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class DataManagerImpl implements DataManager
 {
@@ -131,6 +129,21 @@ public class DataManagerImpl implements DataManager
     public Line getLineBySeat(Seat seat) {
         SqlSpecification lineBySeatSpecification = buildSpecificationForLineBySeat(seat);
         return lineRepository.query(lineBySeatSpecification).get(0);
+    }
+    @Override
+    public Collection<FilmType> getAllFilmTypes(){
+        //todo
+        return Collections.EMPTY_LIST;
+    }
+    @Override
+    public Collection<Film> getAllFilms(){
+        //todo
+        return Collections.EMPTY_LIST;
+    }
+    @Override
+    public Collection<User> getAllOperators(){
+        //todo
+        return Collections.EMPTY_LIST;
     }
 
     private SqlSpecification buildSpecificationForLineBySeat(Seat seat) {
@@ -276,4 +289,6 @@ public class DataManagerImpl implements DataManager
         mapperSpecification.setOperation(CompositeSpecification.Operation.AND);
         return (SqlSpecification)mapperSpecification;
     }
+
+
 }

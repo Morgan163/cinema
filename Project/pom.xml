@@ -27,9 +27,6 @@
                 <version>1.2.1.Final</version>
                 <configuration>
                     <filename>${artifactId}-${version}.war</filename>
-                    <port>9999</port>
-                    <username>admin</username>
-                    <password>!1password</password>
                 </configuration>
                 <executions>
                     <execution>

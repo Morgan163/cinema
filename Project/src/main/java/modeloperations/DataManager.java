@@ -21,6 +21,9 @@ public interface DataManager {
     Collection<Seance> getAllSeances();
     SeatSeanceStatusMapper getSeatSeanceStatusMapper(Seat seat, Seance seance);
     Collection<SeatSeanceStatusMapper> getSeatSeanceStatusMappersByKey(String code);
+    Collection<Film> getAllFilms();
+    Collection<FilmType> getAllFilmTypes();
+    Collection<User> getAllOperators();
     User getUser(long userId);
     void updateTheater(Theater theater);
     void updateSeatSeanceMappers(Collection<SeatSeanceStatusMapper> mapper);

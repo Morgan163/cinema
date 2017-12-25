@@ -17,6 +17,8 @@ import modeloperations.ModelOperations;
 import org.apache.log4j.Logger;
 import ui.utils.FilterContext;
 import ui.utils.MainUIUtils;
+import ui.windows.BookingWindow;
+import ui.windows.LoginWindow;
 
 import javax.inject.Inject;
 import java.io.File;

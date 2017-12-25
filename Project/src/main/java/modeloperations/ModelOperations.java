@@ -14,6 +14,7 @@ public interface ModelOperations
     void closeReservationByKey(String key);
     void buySeatsForSeance(Collection<Seat> seat, Seance seance);
     void refund(Collection<Seat> seats, Seance seance);
+    public Seance getSeanceByBookingKey(String key);
     double calculatePriceForSeatsAndSeance(Collection<Seat> seats, Seance seance);
     boolean isUserExists(User user);
     void authorize(User user);

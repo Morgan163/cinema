@@ -14,11 +14,12 @@ public class ChooseObjectWindow extends AbstractCreateWindow{
     private final Button theaterButton = new Button("Зал");
     private final Button seanceButton = new Button("Сеанс");
     private final Button filmButton = new Button("Фильм");
-    private final Button filmTypeButton = new Button("Тип фильма");
+    private final Button filmTypeButton = new Button("Жанр");
     private final Button operatorButton = new Button("Оператор");
 
     public ChooseObjectWindow(UI rootUI, User user, DataManager dataManager) {
         super("Выберите объект для создания",rootUI,user,dataManager);
+        init();
     }
 
     private void init(){
@@ -32,6 +33,11 @@ public class ChooseObjectWindow extends AbstractCreateWindow{
         setResizable(false);
         center();
         setSizeUndefined();
+        theaterButton.addClickListener(e->theaterButtonClickListener());
+        seanceButton.addClickListener(e->seanceButtonClickListener());
+        filmButton.addClickListener(e->filmButtonClickListener());
+        filmTypeButton.addClickListener(e->filmButtonClickListener());
+        operatorButton.addClickListener(e->operatorButtonClickListener());
         formLayout.addComponents(theaterButton,seanceButton,filmButton,filmTypeButton,operatorButton);
         formLayout.setSizeUndefined();
         formLayout.setMargin(true);

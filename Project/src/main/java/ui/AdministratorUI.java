@@ -10,6 +10,7 @@ import model.Seance;
 import model.Theater;
 import model.user.User;
 import modeloperations.DataManager;
+import ui.windows.ChooseObjectWindow;
 import ui.windows.ErrorWindow;
 import ui.windows.InfoWindow;
 
@@ -174,7 +175,8 @@ public class AdministratorUI extends UI {
     }
 
     private void createButtonListener(){
-
+        Window chooseObjectWindow = new ChooseObjectWindow(UI.getCurrent(),user,dataManager);
+        UI.getCurrent().addWindow(chooseObjectWindow);
     }
 
     private void setButtonListener(){

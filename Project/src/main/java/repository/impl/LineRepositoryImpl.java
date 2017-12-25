@@ -70,6 +70,12 @@ public class LineRepositoryImpl implements Repository<Line> {
     @Override
     public void remove(SqlSpecification sqlSpecification) {
         try {
+            List<Line> linesToRemove = query(sqlSpecification);
+            for (Line line : linesToRemove){
+                for (Seat seat : line.getSeats()) {
+                    seatRepository.remove(seat);
+                }
+            }
             String sql = dataBaseHelper.buildDeleteQueryBySQLSpecification(sqlSpecification);
             dataBaseHelper.executeUpdateQuery(sql);
         } catch (SQLException e) {

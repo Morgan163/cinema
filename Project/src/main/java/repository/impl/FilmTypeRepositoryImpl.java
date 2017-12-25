@@ -1,6 +1,7 @@
 package repository.impl;
 
 import db.DataBaseNames;
+import model.Film;
 import model.FilmType;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
@@ -21,6 +22,8 @@ public class FilmTypeRepositoryImpl implements Repository<FilmType> {
     private SpecificationFactory specificationFactory;
     @Inject
     private DataBaseHelper dataBaseHelper;
+    @Inject
+    private Repository<Film> filmRepository;
     private List<String> neededSelectTableColumns;
 
     public FilmTypeRepositoryImpl(){

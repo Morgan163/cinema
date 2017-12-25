@@ -91,9 +91,8 @@ public class DataManagerImpl implements DataManager
         return seatSeanceStatusMapperRepository.query(mapperSpecification).get(0);
     }
 
-    //todo остановился тут
     public Collection<SeatSeanceStatusMapper> getSeatSeanceStatusMappersByKey(String code){
-        SqlSpecification mapperSpecification = specificationFactory.getMapperByKeySpecification(code);
+        SqlSpecification mapperSpecification = (SqlSpecification) specificationFactory.getMapperByKeySpecification(code);
         return seatSeanceStatusMapperRepository.query(mapperSpecification);
     }
 
@@ -199,12 +198,26 @@ public class DataManagerImpl implements DataManager
                 lineRepository.update(incomingLine);
             }
         }
+        if (dataUtils.isObjectContainedInDataBase(theater)){
+            removeExtraLines(theater);
+        }
         updateSeatsOrCreateNewOnes(theater);
+    }
+
+    private void removeExtraLines(Theater theater) {
+        List<Line> incomingLines = theater.getLines();
+        List<Line> existingLines = getLinesForTheater(theater);
+        for (Line existingLine : existingLines){
+            if (!incomingLines.contains(existingLine)){
+                lineRepository.remove(existingLine);
+            }
+        }
     }
 
     private void updateSeatsOrCreateNewOnes(Theater theater){
         List<Seat> seats = new ArrayList<Seat>();
-        for (Line line : theater.getLines())
+        List<Line> lines = theater.getLines();
+        for (Line line : lines)
         {
             seats.addAll(line.getSeats());
         }
@@ -216,6 +229,21 @@ public class DataManagerImpl implements DataManager
             } else
             {
                 seatRepository.update(seat);
+            }
+        }
+        for (Line line : lines){
+            if (dataUtils.isObjectContainedInDataBase(line)){
+                removeExtraSeats(line);
+            }
+        }
+    }
+
+    private void removeExtraSeats(Line line) {
+        List<Seat> incomingSeats = line.getSeats();
+        List<Seat> existingSeats = getSeatsForLine(line);
+        for (Seat existingSeat : existingSeats){
+            if (!incomingSeats.contains(existingSeat)){
+                seatRepository.remove(existingSeat);
             }
         }
     }

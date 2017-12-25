@@ -57,6 +57,12 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
 
     public void remove(SqlSpecification sqlSpecification) {
         try {
+            List<Theater> theatersToRemove = query(sqlSpecification);
+            for (Theater theater : theatersToRemove){
+                for (Line line : theater.getLines()){
+                    lineRepository.remove(line);
+                }
+            }
             String sql = dataBaseHelper.buildDeleteQueryBySQLSpecification(sqlSpecification);
             dataBaseHelper.executeUpdateQuery(sql);
         } catch (SQLException e) {

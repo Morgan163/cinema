@@ -2,6 +2,7 @@ package repository.impl;
 
 import db.DataBaseNames;
 import model.Seat;
+import model.SeatSeanceStatusMapper;
 import model.SeatType;
 import repository.Repository;
 import repository.impl.DataBaseHelper;

@@ -33,5 +33,6 @@ public interface SpecificationFactory
     Specification<User> getUserByIdSpecification(long userID);
     Specification<Seance> getSeanceEarlierThanSpecification(Calendar date);
     Specification<Seance> getSeanceLaterThanSpecification(Calendar date);
-    SqlSpecification<SeatSeanceStatusMapper> getMapperByKeySpecification(String code);
+    Specification<SeatSeanceStatusMapper> getMapperByKeySpecification(String code);
+    Specification<Film> getFilmByTypeIdSpecification(long filmTypeId);
 }

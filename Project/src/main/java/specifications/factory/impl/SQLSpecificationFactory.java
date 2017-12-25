@@ -114,4 +114,9 @@ public class SQLSpecificationFactory implements SpecificationFactory
     public SqlSpecification<SeatSeanceStatusMapper> getMapperByKeySpecification(String code) {
         return new MapperByKeySqlSpecification(code);
     }
+
+    @Override
+    public Specification<Film> getFilmByTypeIdSpecification(long filmTypeId) {
+        return new FilmByTypeIdSqlSpecification(filmTypeId);
+    }
 }

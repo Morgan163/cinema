@@ -5,14 +5,18 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class FilmType {
     private long filmTypeID;
-    private String folmTypeName;
+    private String filmTypeName;
 
     public FilmType() {
     }
 
-    public FilmType(long filmTypeID, String folmTypeName) {
+    public FilmType(String filmTypeName) {
+        this.filmTypeName = filmTypeName;
+    }
+
+    public FilmType(long filmTypeID, String filmTypeName) {
         this.filmTypeID = filmTypeID;
-        this.folmTypeName = folmTypeName;
+        this.filmTypeName = filmTypeName;
     }
 
     public long getFilmTypeID() {
@@ -24,11 +28,11 @@ public class FilmType {
     }
 
     public String getFilmTypeName() {
-        return folmTypeName;
+        return filmTypeName;
     }
 
-    public void setFolmTypeName(String folmTypeName) {
-        this.folmTypeName = folmTypeName;
+    public void setFilmTypeName(String filmTypeName) {
+        this.filmTypeName = filmTypeName;
     }
 
     @Override
@@ -41,7 +45,7 @@ public class FilmType {
 
         return new EqualsBuilder()
                 .append(filmTypeID, filmType.filmTypeID)
-                .append(folmTypeName, filmType.folmTypeName)
+                .append(filmTypeName, filmType.filmTypeName)
                 .isEquals();
     }
 
@@ -49,7 +53,7 @@ public class FilmType {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(filmTypeID)
-                .append(folmTypeName)
+                .append(filmTypeName)
                 .toHashCode();
     }
 }

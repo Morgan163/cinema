@@ -21,14 +21,14 @@ public class FilmWindow extends AbstractCreateWindow {
     private final FormLayout formLayout = new FormLayout();
     private final Button saveButton = new Button("Сохранить");
 
-    public FilmWindow(String caption, UI rootUI, User user, DataManager dataManager) {
-        super(caption, rootUI, user, dataManager);
+    public FilmWindow(UI rootUI, User user, DataManager dataManager) {
+        super("Создание фильма", rootUI, user, dataManager);
         initComponents();
         init();
     }
 
-    public FilmWindow(String caption, UI rootUI, User user, DataManager dataManager, Film film) {
-        super(caption, rootUI, user, dataManager);
+    public FilmWindow( UI rootUI, User user, DataManager dataManager, Film film) {
+        super("Редактирование фильма", rootUI, user, dataManager);
         this.film = film;
         initComponents();
         initValues();

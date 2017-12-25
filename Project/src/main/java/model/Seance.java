@@ -9,6 +9,13 @@ public class Seance {
     private long seanceID;
     private Film film;
     private double priceValue;
+
+    public Seance(Film film, double priceValue, Calendar seanceStartDate) {
+        this.film = film;
+        this.priceValue = priceValue;
+        this.seanceStartDate = seanceStartDate;
+    }
+
     private Calendar seanceStartDate;
 
     public Seance() {

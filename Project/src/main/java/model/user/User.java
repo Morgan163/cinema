@@ -10,6 +10,13 @@ import java.io.Serializable;
 public class User implements Serializable {
     private long userID;
     private String login;
+
+    public User(String login, String password, UserRole userRole) {
+        this.login = login;
+        this.password = password;
+        this.userRole = userRole;
+    }
+
     private String password;
     private UserRole userRole;
 

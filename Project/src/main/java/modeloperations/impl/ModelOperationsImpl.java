@@ -28,6 +28,8 @@ public class ModelOperationsImpl implements ModelOperations {
     }
 
     public void bookSeatsForSeance(Collection <Seat> seats, Seance seance, String contacts) throws SendMailException {
+        if (CollectionUtils.isEmpty(seats))
+            throw new RuntimeException("emty seats collection");
         Collection<SeatSeanceStatusMapper> mappersToUpdate = new ArrayList<SeatSeanceStatusMapper>();
         String bookingKey = generateUniqueBookingCode();
         for (Seat seat: seats){

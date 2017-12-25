@@ -1,8 +1,8 @@
 package model;
 
 public enum  SeatType {
-    VIP(0, "VIP"),
-    GENERIC(1, "GENERIC");
+    VIP(1, "VIP"),
+    GENERIC(0, "GENERIC");
 
     private long seatTypeID;
     private String seatTypeName;

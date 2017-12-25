@@ -1,5 +1,6 @@
 package ui.utils;
 
+import model.AgeLimitType;
 import model.Film;
 import model.FilmType;
 import model.Seance;
@@ -51,8 +52,60 @@ public class MainUIUtils {
         return filmTypes;
     }
 
-    public Map<Film, Collection<Seance>> selectFilmSeanceByContext(FilterContext filmType){
-        return new HashMap<>();
+    public Map<Film, Collection<Seance>> selectFilmSeanceByContext(Map<Film, Collection<Seance>> filmSeancesMap, FilterContext filterContext){
+        Map<Film, Collection<Seance>> filteredFilmSeancesMap = new HashMap<>();
+        filteredFilmSeancesMap.putAll(filmSeancesMap);
+        if(filterContext.getFilterParameter(FilterContext.FILM_TYPE_PARAMETER) != null){
+            FilmType targetType = (FilmType) filterContext.getFilterParameter(FilterContext.FILM_TYPE_PARAMETER);
+            filteredFilmSeancesMap = selectFilmSeanceByFilmType(filteredFilmSeancesMap, targetType);
+        }
+        if(filterContext.getFilterParameter(FilterContext.AGE_LIMIT_PARAMETER) != null){
+            AgeLimitType targetLimit = (AgeLimitType) filterContext.getFilterParameter(FilterContext.AGE_LIMIT_PARAMETER);
+            filteredFilmSeancesMap = selectFilmSeanceByAgeLimit(filteredFilmSeancesMap, targetLimit);
+        }
+        if(filterContext.getFilterParameter(FilterContext.TIME_RANGE_PARAMETER) != null){
+            CalendarPair timeRange = (CalendarPair) filterContext.getFilterParameter(FilterContext.TIME_RANGE_PARAMETER);
+            filteredFilmSeancesMap = selectFilmSeanceByTymeRange(filteredFilmSeancesMap, timeRange);
+        }
+        return filteredFilmSeancesMap;
+    }
+
+    private Map<Film, Collection<Seance>> selectFilmSeanceByTymeRange(Map<Film, Collection<Seance>> filmSeancesMap, CalendarPair timeRange) {
+        Map<Film, Collection<Seance>> filteredFilmSeancesMap = new HashMap<>();
+        for (Film film : filmSeancesMap.keySet()){
+            Collection<Seance> filteredSeances = new ArrayList<>();
+            for (Seance seance : filmSeancesMap.get(film)){
+                Calendar seanceStartDate = seance.getSeanceStartDate();
+                if (seanceStartDate.get(Calendar.HOUR_OF_DAY)>timeRange.leftCalendar.get(Calendar.HOUR_OF_DAY)
+                        && seanceStartDate.get(Calendar.HOUR_OF_DAY) < timeRange.rightCalendar.get(Calendar.HOUR_OF_DAY)) {
+                    filteredSeances.add(seance);
+                }
+            }
+            if (filteredSeances.size() > 0){
+                filteredFilmSeancesMap.put(film, filteredSeances);
+            }
+        }
+        return filteredFilmSeancesMap;
+    }
+
+    private Map<Film, Collection<Seance>> selectFilmSeanceByAgeLimit(Map<Film, Collection<Seance>> filmSeancesMap, AgeLimitType targetLimit) {
+        Map<Film, Collection<Seance>> filteredFilmSeancesMap = new HashMap<>();
+        for (Film film : filmSeancesMap.keySet()){
+            if (film.getAgeLimitType().equals(targetLimit)){
+                filteredFilmSeancesMap.put(film, filmSeancesMap.get(film));
+            }
+        }
+        return filteredFilmSeancesMap;
+    }
+
+    private Map<Film, Collection<Seance>> selectFilmSeanceByFilmType(Map<Film, Collection<Seance>> filmSeancesMap, FilmType targetType) {
+        Map<Film, Collection<Seance>> filteredFilmSeancesMap = new HashMap<>();
+        for (Film film : filmSeancesMap.keySet()){
+            if (film.getFilmType().equals(targetType)){
+                filteredFilmSeancesMap.put(film, filmSeancesMap.get(film));
+            }
+        }
+        return filteredFilmSeancesMap;
     }
 
     public Collection<CalendarPair> buildCalendarPairs() {
@@ -75,6 +128,7 @@ public class MainUIUtils {
         calendarPairs.add(new CalendarPair(calendar_10hours, calendar_13hours));
         calendarPairs.add(new CalendarPair(calendar_13hours, calendar_16hours));
         calendarPairs.add(new CalendarPair(calendar_16hours, calendar_19hours));
+        calendarPairs.add(new CalendarPair(calendar_19hours, calendar_22hours));
         calendarPairs.add(new CalendarPair(calendar_22hours, calendar_0hours));
         return calendarPairs;
 

@@ -53,22 +53,18 @@ public class MainUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        System.out.println("initializing");
         seances = dataManager.getAllSeances();
         filmSeancesMap = mainUIUtils.groupSeancesByFilms(seances);
-        Set<FilmType> filmTypes = mainUIUtils.selectAllGenresFromFilms(filmSeancesMap.keySet());
-        initTopBar(filmTypes);
-        // mainLayout.addComponentsAndExpand(new Label("Фильтры"));
+        initTopBar();
         displayFilmSeancesMap(filmSeancesMap);
         mainLayout.addComponentsAndExpand(filmLayout);
         setContent(mainLayout);
     }
 
-    private void initTopBar(Set<FilmType> filmTypes) {
-        System.out.println("initializing top bar");
-        Collection<Component> components = new ArrayList<>();
+    private void initTopBar() {
         HorizontalLayout topBarLayout = new HorizontalLayout();
         topBarLayout.addComponent(new Label("Фильтры:"));
+        Set<FilmType> filmTypes = mainUIUtils.selectAllGenresFromFilms(filmSeancesMap.keySet());
         topBarLayout.addComponentsAndExpand(buildFilmTypeComboBox(filmTypes));
         topBarLayout.addComponentsAndExpand(buildTimeComboBox());
         topBarLayout.addComponentsAndExpand(buildAgeLimitsComboBox());

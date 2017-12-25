@@ -71,6 +71,16 @@ public class ModelOperationsImpl implements ModelOperations {
         return reservedSeats;
     }
 
+    public Seance getSeanceByBookingKey(String key){
+        Collection<SeatSeanceStatusMapper> mappersWithNeededBookKey = dataManager.getSeatSeanceStatusMappersByKey(key);
+        for (SeatSeanceStatusMapper mapper : mappersWithNeededBookKey){
+            if (SeatSeanceStatus.RESERVED.equals(mapper.getSeatSeanceStatus())){
+                return mapper.getSeance();
+            }
+        }
+        return null;
+    }
+
     public void closeReservationByKey(String key){
         Collection <SeatSeanceStatusMapper> mappersToUpdate = new ArrayList <SeatSeanceStatusMapper>();
         Collection <SeatSeanceStatusMapper> mappersWithNeededBookKey = dataManager.getSeatSeanceStatusMappersByKey(key);

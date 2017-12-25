@@ -36,6 +36,7 @@ public class BookingWindow extends Window {
         init();
         mainLayout.setSizeUndefined();
         mainLayout.setMargin(true);
+        setResizable(false);
         setSizeUndefined();
         center();
         setModal(true);
@@ -97,7 +98,7 @@ public class BookingWindow extends Window {
         HorizontalLayout genericSeatLayout = new HorizontalLayout();
         Button genericButton = new Button();
         genericButton.setWidth(5, Unit.EM);
-        Label genericLabel = new Label("Стандарт- " + seance.getPriceValue() + " рублей");
+        Label genericLabel = new Label("Стандарт - " + seance.getPriceValue() + " рублей");
         HorizontalLayout vipSeatLayout = new HorizontalLayout();
         Button vipButton = new Button();
         vipButton.setWidth(11, Unit.EM);

@@ -1,4 +1,4 @@
-package ui;
+package ui.windows;
 
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;

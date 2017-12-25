@@ -1,12 +1,10 @@
-package ui;
+package ui.windows;
 
 import com.vaadin.ui.*;
 import model.user.User;
 import model.user.UserRole;
 import modeloperations.ModelOperations;
-import org.apache.log4j.Logger;
-
-import javax.inject.Inject;
+import ui.windows.ErrorWindow;
 
 /**
  * Created by niict on 24.12.2017.

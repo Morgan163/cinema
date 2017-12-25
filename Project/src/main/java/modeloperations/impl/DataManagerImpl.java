@@ -132,18 +132,18 @@ public class DataManagerImpl implements DataManager
     }
     @Override
     public Collection<FilmType> getAllFilmTypes(){
-        //todo
-        return Collections.EMPTY_LIST;
+        SqlSpecification anyFilmTypeSpecification = (SqlSpecification)specificationFactory.getAnyFilmTypeSpecification();
+        return filmTypeRepository.query(anyFilmTypeSpecification);
     }
     @Override
     public Collection<Film> getAllFilms(){
-        //todo
-        return Collections.EMPTY_LIST;
+        SqlSpecification anyFilmSpecification = (SqlSpecification)specificationFactory.getAnyFilmSpecification();
+        return filmRepository.query(anyFilmSpecification);
     }
     @Override
     public Collection<User> getAllOperators(){
-        //todo
-        return Collections.EMPTY_LIST;
+        SqlSpecification userSpecification = (SqlSpecification)specificationFactory.getUserByRoleIdSpecification(UserRole.OPERATOR.getRoleID());
+        return userRepository.query(userSpecification);
     }
 
     private SqlSpecification buildSpecificationForLineBySeat(Seat seat) {

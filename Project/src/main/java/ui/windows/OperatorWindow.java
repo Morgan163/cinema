@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class OperatorWindow extends AbstractCreateWindow {
 
-    private User user;
+    private User operator;
 
     private final TextField surnameField = new TextField("Фамилия");
     private final TextField nameField = new TextField("Имя");
@@ -21,13 +21,13 @@ public class OperatorWindow extends AbstractCreateWindow {
 
     public OperatorWindow(UI rootUI, User user, DataManager dataManager, User user1) {
         super("Редактирование оператора", rootUI, user, dataManager);
-        this.user = user1;
+        this.operator = user1;
         initValues();
         init();
     }
 
-    public OperatorWindow(UI rootUI, User user, DataManager dataManager) {
-        super("Создание оператора", rootUI, user, dataManager);
+    public OperatorWindow(UI rootUI, User operator, DataManager dataManager) {
+        super("Создание оператора", rootUI, operator, dataManager);
         init();
     }
 
@@ -50,7 +50,7 @@ public class OperatorWindow extends AbstractCreateWindow {
     }
 
     private void initValues() {
-        login.setValue(user.getLogin());
+        login.setValue(operator.getLogin());
         passwordField.setValue("111111");
     }
 
@@ -60,7 +60,11 @@ public class OperatorWindow extends AbstractCreateWindow {
         } else if (StringUtils.isBlank(passwordField.getValue())) {
             showErrorWindow("Пароль должен быть указанё");
         } else {
-            super.getDataManager().createUser(new User(login.getValue(), passwordField.getValue(), UserRole.OPERATOR));
+            if(operator ==null) {
+                super.getDataManager().createUser(new User(login.getValue(), passwordField.getValue(), UserRole.OPERATOR));
+            }else{
+                //todo update
+            }
             UserRole role = super.getUser().getUserRole();
             if (role != null) {
                 redirectRoot();

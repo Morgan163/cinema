@@ -84,10 +84,14 @@ public class SeanceWindow extends AbstractCreateWindow {
         }else if(StringUtils.isBlank(priceField.getValue())){
             showErrorWindow("Цена должна быть указана");
         }else{
-            super.getDataManager().createSeanceForTheater(new Seance(filmComboBox.getValue(),
-                    Double.valueOf(priceField.getValue()),
-            GregorianCalendar.from(dateTimeField.getValue().atZone(ZoneId.systemDefault()))),
-                    theaterComboBox.getValue());
+            if(seance==null) {
+                super.getDataManager().createSeanceForTheater(new Seance(filmComboBox.getValue(),
+                                Double.valueOf(priceField.getValue()),
+                                GregorianCalendar.from(dateTimeField.getValue().atZone(ZoneId.systemDefault()))),
+                        theaterComboBox.getValue());
+            }else{
+                //todo update
+            }
             UserRole role = super.getUser().getUserRole();
             if (role != null) {
                 redirectRoot();

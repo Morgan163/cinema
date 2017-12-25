@@ -10,9 +10,7 @@ import model.Seance;
 import model.Theater;
 import model.user.User;
 import modeloperations.DataManager;
-import ui.windows.ChooseObjectWindow;
-import ui.windows.ErrorWindow;
-import ui.windows.InfoWindow;
+import ui.windows.*;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -180,11 +178,63 @@ public class AdministratorUI extends UI {
     }
 
     private void setButtonListener(){
+        boolean isSelected = false;
+        for(Theater theater:theaterCheckBoxGroup.getSelectedItems()){
+            isSelected = true;
+            Window changeTheaterWindow = new TheaterWindow(UI.getCurrent(),user,dataManager,theater);
+            UI.getCurrent().addWindow(changeTheaterWindow);
+        }
+        for(FilmType filmType:filmTypeCheckBoxGroup.getSelectedItems()){
+            isSelected = true;
+            Window changeFilmTypeWindow = new FilmTypeWindow(UI.getCurrent(),user,dataManager,filmType);
+            UI.getCurrent().addWindow(changeFilmTypeWindow);
+        }
+        for(Seance seance:seanceCheckBoxGroup.getSelectedItems()){
+            isSelected = true;
+            Window changeSeanceWindow = new SeanceWindow(UI.getCurrent(),user,dataManager,seance);
+            UI.getCurrent().addWindow(changeSeanceWindow);
+        }
+        for (Film film:filmCheckBoxGroup.getSelectedItems()){
+            isSelected = true;
+            Window changeFilmWindow = new FilmWindow(UI.getCurrent(),user,dataManager,film);
+            UI.getCurrent().addWindow(changeFilmWindow);
+        }
+        for (User operator:operatorCheckBoxGroup.getSelectedItems()){
+            isSelected = true;
+            Window changeOperatorWindow = new OperatorWindow(UI.getCurrent(),user,dataManager,operator);
+            UI.getCurrent().addWindow(changeOperatorWindow);
+        }
+        if(!isSelected){
+            showErrorWindow("Для редактирования должен быть выбран как минимум один объект");
+        }
 
     }
 
     private void deleteButtonListener(){
+        boolean isSelected = false;
+        for(Theater theater:theaterCheckBoxGroup.getSelectedItems()){
+            isSelected = true;
+            //todo remove
+        }
+        for(FilmType filmType:filmTypeCheckBoxGroup.getSelectedItems()){
+            isSelected = true;
 
+        }
+        for(Seance seance:seanceCheckBoxGroup.getSelectedItems()){
+            isSelected = true;
+
+        }
+        for (Film film:filmCheckBoxGroup.getSelectedItems()){
+            isSelected = true;
+
+        }
+        for (User operator:operatorCheckBoxGroup.getSelectedItems()){
+            isSelected = true;
+
+        }
+        if(!isSelected){
+            showErrorWindow("Для удаления должен быть выбран как минимум один объект");
+        }
     }
 
     private void helpButtonListener(){

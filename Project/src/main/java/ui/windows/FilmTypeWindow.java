@@ -15,7 +15,7 @@ public class FilmTypeWindow extends AbstractCreateWindow {
     private final TextField typeNameField = new TextField("Название жанра");
     private final Button okButton = new Button("OK");
 
-    public FilmTypeWindow(FilmType filmType, UI rootUI, User user, DataManager dataManager) {
+    public FilmTypeWindow( UI rootUI, User user, DataManager dataManager, FilmType filmType) {
         super("Редактирование жанра", rootUI, user, dataManager);
         this.filmType = filmType;
         init();
@@ -57,7 +57,11 @@ public class FilmTypeWindow extends AbstractCreateWindow {
 
     private void okButtonClickListener() {
         if(!StringUtils.isBlank(typeNameField.getValue())){
-            super.getDataManager().createFilmType(new FilmType(typeNameField.getValue()));
+            if(filmType==null) {
+                super.getDataManager().createFilmType(new FilmType(typeNameField.getValue()));
+            }else{
+                //todo update
+            }
             UserRole role = super.getUser().getUserRole();
             if (role != null) {
                 redirectRoot();

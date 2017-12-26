@@ -15,6 +15,7 @@ public interface SpecificationFactory
 {
     Specification getRoleIdEqualsUserRoleIdSpecification();
     Specification getLineIdEqualsSeatLineIdSpecification();
+    Specification getTheaterIdEqualsLineTheaterIdSpecification();
     Specification<Seance> getSeanceByIdSpecification(long seanceId);
     CompositeSpecification getCompositeSpecification(Specification leftOperand, Specification rightOperand);
     Specification<Theater> getAnyTheaterSpecification();

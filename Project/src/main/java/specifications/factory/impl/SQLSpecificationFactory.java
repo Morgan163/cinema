@@ -27,6 +27,11 @@ public class SQLSpecificationFactory implements SpecificationFactory
         return new LineIdEqualsSeatLineIdSqlSpecification();
     }
 
+    @Override
+    public Specification getTheaterIdEqualsLineTheaterIdSpecification(){
+        return new TheaterIdEqualsLineTheaterIdSqlSpecification();
+    }
+
     public Specification<Seance> getSeanceByIdSpecification(long seanceId){
         return new SeanceByIdSqlSpecification(seanceId);
     }

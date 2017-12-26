@@ -101,16 +101,94 @@ public class DataManagerImpl implements DataManager
 
     public void updateTheater(Theater theater){
         theaterRepository.update(theater);
-        updateLinesOrCreateNewOnes(theater);
+        updateLinesForTheater(theater);
     }
 
-    public void updateSeatSeanceMappers(Collection<SeatSeanceStatusMapper> mappers){
-        for(SeatSeanceStatusMapper mapper : mappers)
+    private void updateLinesForTheater(Theater theater){
+        List<Line> incomingLines = theater.getLines();
+        for (Line incomingLine : incomingLines)
         {
-            if (dataUtils.isObjectContainedInDataBase(mapper))
+            if (dataUtils.isObjectContainedInDataBase(incomingLine))
             {
-                seatSeanceStatusMapperRepository.update(mapper);
+                lineRepository.add(incomingLine);
+            } else
+            {
+                lineRepository.update(incomingLine);
             }
+        }
+        if (dataUtils.isObjectContainedInDataBase(theater))
+        {
+            removeExtraLinesForTheterIfNeeded(theater);
+        }
+        updateSeatsForTheater(theater);
+    }
+
+    private void updateSeatsForTheater(Theater theater){
+        List<Seat> incomingSeats = new ArrayList<Seat>();
+        List<Line> incomingLines = theater.getLines();
+        for (Line line : incomingLines)
+        {
+            incomingSeats.addAll(line.getSeats());
+        }
+        for (Seat seat : incomingSeats)
+        {
+            if (dataUtils.isObjectContainedInDataBase(seat))
+            {
+                seatRepository.add(seat);
+            } else
+            {
+                seatRepository.update(seat);
+            }
+        }
+        for (Line line : incomingLines){
+            if (dataUtils.isObjectContainedInDataBase(line)){
+                removeExtraSeatsForLineIfNeeded(line);
+            }
+        }
+    }
+
+    private void removeExtraLinesForTheterIfNeeded(Theater theater) {
+        List<Line> incomingLines = theater.getLines();
+        List<Line> existingLines = getLinesForTheater(theater);
+        for (Line existingLine : existingLines){
+            if (!incomingLines.contains(existingLine)){
+                lineRepository.remove(existingLine);
+            }
+        }
+    }
+
+    public void updateSeatSeanceMapper(SeatSeanceStatusMapper mapper){
+        if (dataUtils.isObjectContainedInDataBase(mapper))
+        {
+            seatSeanceStatusMapperRepository.update(mapper);
+        }
+    }
+
+    public void updateSeance(Seance seance){
+        if (dataUtils.isObjectContainedInDataBase(seance))
+        {
+            seanceRepository.update(seance);
+        }
+    }
+
+    public void updateFilm(Film film){
+        if (dataUtils.isObjectContainedInDataBase(film))
+        {
+            filmRepository.update(film);
+        }
+    }
+
+    public void updateFilmType(FilmType filmType){
+        if (dataUtils.isObjectContainedInDataBase(filmType))
+        {
+            filmTypeRepository.update(filmType);
+        }
+    }
+
+    public void updateUser(User user){
+        if (dataUtils.isObjectContainedInDataBase(user))
+        {
+            userRepository.update(user);
         }
     }
 
@@ -148,14 +226,34 @@ public class DataManagerImpl implements DataManager
 
     @Override
     public Theater getTheaterBySeance(Seance seance) {
-        //todo
+        Collection<SeatSeanceStatusMapper> mappersForSeance = getSeatSeanceStatusMappersBySeance(seance);
+        if (mappersForSeance.iterator().hasNext()){
+            SeatSeanceStatusMapper mapper = mappersForSeance.iterator().next();
+            Seat seatForMapper = mapper.getSeat();
+            Line lineForSeat = getLineBySeat(seatForMapper);
+            return getTheaterByLine(lineForSeat);
+        }
         return new Theater();
+    }
+
+    public Theater getTheaterByLine(Line line){
+        SqlSpecification theaterByLineSpecification = buildSpecificationForTheaterByLine(line);
+        return theaterRepository.query(theaterByLineSpecification).get(0);
     }
 
     private SqlSpecification buildSpecificationForLineBySeat(Seat seat) {
         SqlSpecification seatSpecification = (SqlSpecification)specificationFactory.getSeatByIdSpecification(seat.getSeatID());
         SqlSpecification lineIdEqualsSeatLineIdSpecification = (SqlSpecification)specificationFactory.getLineIdEqualsSeatLineIdSpecification();
         CompositeSpecification resultSpecification = specificationFactory.getCompositeSpecification(seatSpecification, lineIdEqualsSeatLineIdSpecification);
+        resultSpecification.setOperation(CompositeSpecification.Operation.AND);
+        return (SqlSpecification)resultSpecification;
+    }
+
+
+    private SqlSpecification buildSpecificationForTheaterByLine(Line line) {
+        SqlSpecification lineSpecification = (SqlSpecification)specificationFactory.getLineByIdSpecification(line.getLineID());
+        SqlSpecification theaterIdEqualsLineTheaterIdSpecification = (SqlSpecification)specificationFactory.getTheaterIdEqualsLineTheaterIdSpecification();
+        CompositeSpecification resultSpecification = specificationFactory.getCompositeSpecification(lineSpecification, theaterIdEqualsLineTheaterIdSpecification);
         resultSpecification.setOperation(CompositeSpecification.Operation.AND);
         return (SqlSpecification)resultSpecification;
     }
@@ -206,59 +304,7 @@ public class DataManagerImpl implements DataManager
         seatSeanceStatusMapperRepository.add(mapper);
     }
 
-    private void updateLinesOrCreateNewOnes(Theater theater){
-        List<Line> incomingLines = theater.getLines();
-        for (Line incomingLine : incomingLines)
-        {
-            if (dataUtils.isObjectContainedInDataBase(incomingLine))
-            {
-                lineRepository.add(incomingLine);
-            } else
-            {
-                lineRepository.update(incomingLine);
-            }
-        }
-        if (dataUtils.isObjectContainedInDataBase(theater)){
-            removeExtraLines(theater);
-        }
-        updateSeatsOrCreateNewOnes(theater);
-    }
-
-    private void removeExtraLines(Theater theater) {
-        List<Line> incomingLines = theater.getLines();
-        List<Line> existingLines = getLinesForTheater(theater);
-        for (Line existingLine : existingLines){
-            if (!incomingLines.contains(existingLine)){
-                lineRepository.remove(existingLine);
-            }
-        }
-    }
-
-    private void updateSeatsOrCreateNewOnes(Theater theater){
-        List<Seat> seats = new ArrayList<Seat>();
-        List<Line> lines = theater.getLines();
-        for (Line line : lines)
-        {
-            seats.addAll(line.getSeats());
-        }
-        for (Seat seat : seats)
-        {
-            if (dataUtils.isObjectContainedInDataBase(seat))
-            {
-                seatRepository.add(seat);
-            } else
-            {
-                seatRepository.update(seat);
-            }
-        }
-        for (Line line : lines){
-            if (dataUtils.isObjectContainedInDataBase(line)){
-                removeExtraSeats(line);
-            }
-        }
-    }
-
-    private void removeExtraSeats(Line line) {
+    private void removeExtraSeatsForLineIfNeeded(Line line) {
         List<Seat> incomingSeats = line.getSeats();
         List<Seat> existingSeats = getSeatsForLine(line);
         for (Seat existingSeat : existingSeats){

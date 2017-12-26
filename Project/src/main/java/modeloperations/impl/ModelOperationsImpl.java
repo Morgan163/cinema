@@ -43,7 +43,7 @@ public class ModelOperationsImpl implements ModelOperations {
         if (CollectionUtils.isNotEmpty(mappersToUpdate))
         {
             bookingNotifier.sendKeyToContacts(bookingKey, contacts);
-            dataManager.updateSeatSeanceMappers(mappersToUpdate);
+            updateSeatSeanceMappers(mappersToUpdate);
         }
     }
 
@@ -58,6 +58,12 @@ public class ModelOperationsImpl implements ModelOperations {
 
     private boolean isCodeExists(String code){
         return dataManager.getSeatSeanceStatusMappersByKey(code).size() > 0;
+    }
+
+    private void updateSeatSeanceMappers(Collection<SeatSeanceStatusMapper> mappersToUpdate){
+        for (SeatSeanceStatusMapper mapper : mappersToUpdate){
+            dataManager.updateSeatSeanceMapper(mapper);
+        }
     }
 
     public Collection<Seat> getSeatsByBookingKey(String key){
@@ -93,7 +99,7 @@ public class ModelOperationsImpl implements ModelOperations {
                 mappersToUpdate.add(mapper);
             }
         }
-        dataManager.updateSeatSeanceMappers(mappersToUpdate);
+        updateSeatSeanceMappers(mappersToUpdate);
     }
 
     public void buySeatsForSeance(Collection<Seat> seats, Seance seance){
@@ -105,7 +111,7 @@ public class ModelOperationsImpl implements ModelOperations {
                 mappersToUpdate.add(mapper);
             }
         }
-        dataManager.updateSeatSeanceMappers(mappersToUpdate);
+        updateSeatSeanceMappers(mappersToUpdate);
     }
 
     public void refund(Collection <Seat> seats, Seance seance){
@@ -120,7 +126,7 @@ public class ModelOperationsImpl implements ModelOperations {
                 mappersToUpdate.add(mapper);
             }
         }
-        dataManager.updateSeatSeanceMappers(mappersToUpdate);
+        updateSeatSeanceMappers(mappersToUpdate);
     }
 
     public double calculatePriceForSeatsAndSeance(Collection <Seat> seats, Seance seance){

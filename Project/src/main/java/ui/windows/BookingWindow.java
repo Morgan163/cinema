@@ -121,6 +121,7 @@ public class BookingWindow extends Window {
             try {
                 modelOperations.bookSeatsForSeance(selectedSeats, seance, email);
                 showInfoWindow(BOOKED);
+                close();
             } catch (SendMailException e) {
                 throw new RuntimeException(e);
                 //showErrorWindow(SMTH_WRONG);

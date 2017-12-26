@@ -30,7 +30,10 @@ public class UserRepositoryImpl implements Repository<User> {
         neededSelectTableColumns = Arrays.asList(DataBaseNames.USERS + ".USER_ID",
                 DataBaseNames.USERS + ".LOGIN",
                 DataBaseNames.USERS + ".PASSWORD",
-                DataBaseNames.USERS + ".ROLE_ID");
+                DataBaseNames.USERS + ".ROLE_ID",
+                DataBaseNames.USERS + ".FIRST_NAME",
+                DataBaseNames.USERS + ".SECOND_NAME",
+                DataBaseNames.USERS + ".MIDDLE_NAME");
     }
 
     @Override

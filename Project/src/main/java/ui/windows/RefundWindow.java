@@ -38,7 +38,7 @@ public class RefundWindow extends Window {
 
     private void init() {
         double price = modelOperations.calculatePriceForSeatsAndSeance(seatsForRefund, selectedSeance);
-        mainLayout.addComponent(new Label(String.format("Сумма к возврату - %f рублей", price)));
+        mainLayout.addComponent(new Label(String.format("Сумма к возврату - %2f рублей", price)));
         initButtons();
     }
 

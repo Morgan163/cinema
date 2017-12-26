@@ -118,7 +118,7 @@ public class UserRepositoryImpl implements Repository<User> {
             long userId = resultSet.getLong("USER_ID");
             String login = resultSet.getString("LOGIN");
             String password = resultSet.getString("PASSWORD");
-            String name = resultSet.getString("NAME");
+            String name = resultSet.getString("FIRST_NAME");
             String secondName = resultSet.getString("SECOND_NAME");
             String middleName = resultSet.getString("MIDDLE_NAME");
             long roleId = resultSet.getLong("ROLE_ID");
@@ -134,7 +134,7 @@ public class UserRepositoryImpl implements Repository<User> {
         objectColumnValues.setValueByColumnName("User_id", String.valueOf(user.getUserID()));
         objectColumnValues.setValueByColumnName("LOGIN", String.valueOf("'"+user.getLogin()+"'"));
         objectColumnValues.setValueByColumnName("PASSWORD", String.valueOf("'"+user.getPassword()+"'"));
-        objectColumnValues.setValueByColumnName("NAME", String.valueOf("'"+user.getName()+"'"));
+        objectColumnValues.setValueByColumnName("FIRST_NAME", String.valueOf("'"+user.getName()+"'"));
         objectColumnValues.setValueByColumnName("SECOND_NAME", String.valueOf("'"+user.getSecondName()+"'"));
         objectColumnValues.setValueByColumnName("MIDDLE_NAME", String.valueOf("'"+user.getMiddleName()+"'"));
         objectColumnValues.setValueByColumnName("ROLE_ID", String.valueOf(user.getUserRole().getRoleID()));

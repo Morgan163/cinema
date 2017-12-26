@@ -1,5 +1,6 @@
 package modeloperations.impl;
 
+import exceptions.DependentObjectExistsException;
 import model.*;
 import model.user.User;
 import model.user.UserRole;
@@ -192,6 +193,69 @@ public class DataManagerImpl implements DataManager
         }
     }
 
+    @Override
+    public void removeTheater(Theater theater) throws DependentObjectExistsException{
+        if(isMapperForTheaterExists(theater)){
+            throw new DependentObjectExistsException();
+        }
+        theaterRepository.remove(theater);
+    }
+
+    private boolean isMapperForTheaterExists(Theater theater){
+        Collection<Line> lines = theater.getLines();
+        for (Line line : lines){
+            for (Seat seat : line.getSeats()){
+                if (getSeatSeanceStatusMappersBySeat(seat).size() > 0){
+                    return  true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void removeSeatSeanceMapper(SeatSeanceStatusMapper mapper){
+        seatSeanceStatusMapperRepository.remove(mapper);
+    }
+
+    @Override
+    public void removeSeance(Seance seance) throws DependentObjectExistsException{
+        if(isFilmForSeanceExists(seance) || isMapperForSeanceExists(seance)){
+            throw new DependentObjectExistsException();
+        }
+        seanceRepository.remove(seance);
+    }
+
+    private boolean isMapperForSeanceExists(Seance seance){
+        return getSeatSeanceStatusMappersBySeance(seance).size() > 0;
+    }
+
+    private boolean isFilmForSeanceExists(Seance seance){
+        return dataUtils.isObjectContainedInDataBase(seance.getFilm());
+    }
+
+    @Override
+    public void removeFilm(Film film) throws DependentObjectExistsException{
+        if(isFilmTypeForFilmExists(film)){
+            throw new DependentObjectExistsException();
+        }
+        filmRepository.remove(film);
+    }
+
+    private boolean isFilmTypeForFilmExists(Film film){
+        return dataUtils.isObjectContainedInDataBase(film.getFilmType());
+    }
+
+    @Override
+    public void removeFilmType(FilmType filmType) throws DependentObjectExistsException{
+
+    }
+
+    @Override
+    public void removeUser(User user) throws DependentObjectExistsException{
+        userRepository.remove(user);
+    }
+
     public User getUserByLoginAndPassword(String login, String password) {
          SqlSpecification userSpecification = buildSpecificationForUser(login, password);
          return userRepository.query(userSpecification).get(0);
@@ -199,8 +263,14 @@ public class DataManagerImpl implements DataManager
 
     @Override
     public Collection<SeatSeanceStatusMapper> getSeatSeanceStatusMappersBySeance(Seance seance) {
-        SqlSpecification mappersBySeaSpecification = (SqlSpecification)specificationFactory.getMapperBySeanceIdSpecification(seance.getSeanceID());
-        return seatSeanceStatusMapperRepository.query(mappersBySeaSpecification);
+        SqlSpecification mappersBySeanceSpecification = (SqlSpecification)specificationFactory.getMapperBySeanceIdSpecification(seance.getSeanceID());
+        return seatSeanceStatusMapperRepository.query(mappersBySeanceSpecification);
+    }
+
+    @Override
+    public Collection<SeatSeanceStatusMapper> getSeatSeanceStatusMappersBySeat(Seat seat){
+        SqlSpecification mappersBySeatSpecification = (SqlSpecification)specificationFactory.getMapperBySeatIdSpecification(seat.getSeatID());
+        return seatSeanceStatusMapperRepository.query(mappersBySeatSpecification);
     }
 
     @Override

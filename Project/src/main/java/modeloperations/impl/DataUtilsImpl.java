@@ -32,6 +32,9 @@ public class DataUtilsImpl implements DataUtils {
         if (object instanceof Film){
             return isFilmContainedInDataBase((Film)object);
         }
+        if (object instanceof FilmType){
+            return isFilmTypeContainedInDataBase((FilmType)object);
+        }
         if (object instanceof Line){
             return isLineContainedInDataBase((Line)object);
         }
@@ -48,6 +51,10 @@ public class DataUtilsImpl implements DataUtils {
             return isTheaterContainedInDataBase((Theater)object);
         }
         throw new IllegalArgumentException("Unsupported Object Type");
+    }
+
+    private boolean isFilmTypeContainedInDataBase(FilmType filmType){
+        return filmType.getFilmTypeID() > 0;
     }
 
     private boolean isUserContainedInDataBase(User user) {

@@ -1,5 +1,6 @@
 package modeloperations;
 
+import exceptions.DependentObjectExistsException;
 import model.*;
 import model.user.User;
 
@@ -24,6 +25,7 @@ public interface DataManager {
     User getUserByLoginAndPassword(String login, String password);
     Line getLineBySeat(Seat seat);
     Collection<SeatSeanceStatusMapper> getSeatSeanceStatusMappersBySeance(Seance seance);
+    Collection<SeatSeanceStatusMapper> getSeatSeanceStatusMappersBySeat(Seat seat);
     Collection<Theater> getAllTheaters();
     Collection<Seance> getAllSeances();
     Collection<SeatSeanceStatusMapper> getSeatSeanceStatusMappersByKey(String code);
@@ -33,4 +35,13 @@ public interface DataManager {
     void updateTheater(Theater theater);
     void updateSeatSeanceMapper(SeatSeanceStatusMapper mapper);
     void updateSeance(Seance seance);
+    void updateFilm(Film film);
+    void updateFilmType(FilmType filmType);
+    void updateUser(User user);
+    void removeTheater(Theater theater) throws DependentObjectExistsException;
+    void removeSeatSeanceMapper(SeatSeanceStatusMapper mapper);
+    void removeSeance(Seance seance) throws DependentObjectExistsException;
+    void removeFilm(Film film) throws DependentObjectExistsException;
+    void removeFilmType(FilmType filmType) throws DependentObjectExistsException;
+    void removeUser(User user) throws DependentObjectExistsException;
 }

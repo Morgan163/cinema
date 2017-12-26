@@ -57,10 +57,11 @@ public class FilmTypeWindow extends AbstractCreateWindow {
 
     private void okButtonClickListener() {
         if(!StringUtils.isBlank(typeNameField.getValue())){
+            FilmType newFilmType = new FilmType(typeNameField.getValue());
             if(filmType==null) {
-                super.getDataManager().createFilmType(new FilmType(typeNameField.getValue()));
+                super.getDataManager().createFilmType(newFilmType);
             }else{
-                //todo update
+                super.getDataManager().updateFilmType(newFilmType);
             }
             UserRole role = super.getUser().getUserRole();
             if (role != null) {

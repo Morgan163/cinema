@@ -74,11 +74,12 @@ public class FilmWindow extends AbstractCreateWindow {
         }else if(ageLimitTypeNativeSelect.getValue()==null){
             showErrorWindow("Возрастные ограничения не должна быть пустыми");
         }else{
+            Film newFilm = new Film(nameField.getValue(), filmTypeComboBox.getValue(),
+                    ageLimitTypeNativeSelect.getValue());
             if(film==null) {
-                super.getDataManager().createFilm(new Film(nameField.getValue(), filmTypeComboBox.getValue(),
-                        ageLimitTypeNativeSelect.getValue()));
+                super.getDataManager().createFilm(newFilm);
             }else{
-                //todo update
+                super.getDataManager().updateFilm(newFilm);
             }
             UserRole role = super.getUser().getUserRole();
             if (role != null) {

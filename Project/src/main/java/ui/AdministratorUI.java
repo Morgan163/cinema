@@ -214,23 +214,23 @@ public class AdministratorUI extends UI {
         boolean isSelected = false;
         for(Theater theater:theaterCheckBoxGroup.getSelectedItems()){
             isSelected = true;
-            //todo remove
+            dataManager.removeTheater(theater);
         }
         for(FilmType filmType:filmTypeCheckBoxGroup.getSelectedItems()){
             isSelected = true;
-
+            dataManager.removeFilmType(filmType);
         }
         for(Seance seance:seanceCheckBoxGroup.getSelectedItems()){
             isSelected = true;
-
+            dataManager.removeSeance(seance);
         }
         for (Film film:filmCheckBoxGroup.getSelectedItems()){
             isSelected = true;
-
+            dataManager.removeFilm(film);
         }
         for (User operator:operatorCheckBoxGroup.getSelectedItems()){
             isSelected = true;
-
+            dataManager.removeUser(user);
         }
         if(!isSelected){
             showErrorWindow("Для удаления должен быть выбран как минимум один объект");

@@ -43,19 +43,28 @@ public class OperatorWindow extends AbstractCreateWindow {
         center();
         setSizeUndefined();
         saveButton.addClickListener(e -> saveButtonClickListener());
-        formLayout.addComponents(login, passwordField, saveButton);
+        formLayout.addComponents(nameField,surnameField,secondNameField,login, passwordField, saveButton);
         formLayout.setSizeUndefined();
         formLayout.setMargin(true);
         setContent(formLayout);
     }
 
     private void initValues() {
+        nameField.setValue(operator.getName());
+        surnameField.setValue(operator.getSecondName());
+        secondNameField.setValue(operator.getMiddleName());
         login.setValue(operator.getLogin());
         passwordField.setValue("111111");
     }
 
     private void saveButtonClickListener() {
-        if (StringUtils.isBlank(login.getValue())) {
+        if (StringUtils.isBlank(nameField.getValue())) {
+            showErrorWindow("Имя должно быть указано");
+        } else if (StringUtils.isBlank(surnameField.getValue())) {
+            showErrorWindow("Фамилия должна быть указана");
+        } else if (StringUtils.isBlank(secondNameField.getValue())) {
+            showErrorWindow("Отчество должно быть указано");
+        } else if (StringUtils.isBlank(login.getValue())) {
             showErrorWindow("Логин должен быть указан");
         } else if (StringUtils.isBlank(passwordField.getValue())) {
             showErrorWindow("Пароль должен быть указанё");

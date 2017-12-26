@@ -18,12 +18,12 @@ public class FilmTypeWindow extends AbstractCreateWindow {
     public FilmTypeWindow( UI rootUI, User user, DataManager dataManager, FilmType filmType) {
         super("Редактирование жанра", rootUI, user, dataManager);
         this.filmType = filmType;
+        initFields();
         init();
     }
 
     public FilmTypeWindow(UI rootUI, User user, DataManager dataManager) {
         super("Создание жанра",  rootUI, user, dataManager);
-        initFields();
         init();
     }
 

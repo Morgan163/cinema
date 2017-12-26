@@ -9,6 +9,12 @@ public class Seat {
     private Line line;
     private int number;
 
+    public Seat(SeatType seatType, Line line, int number) {
+        this.seatType = seatType;
+        this.line = line;
+        this.number = number;
+    }
+
     public Seat() {
     }
 

@@ -4,6 +4,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.cdi.CDIUI;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
+import exceptions.DependentObjectExistsException;
 import model.Film;
 import model.FilmType;
 import model.Seance;
@@ -212,25 +213,30 @@ public class AdministratorUI extends UI {
 
     private void deleteButtonListener(){
         boolean isSelected = false;
-        for(Theater theater:theaterCheckBoxGroup.getSelectedItems()){
+        try {
+            for (Theater theater : theaterCheckBoxGroup.getSelectedItems()) {
+                isSelected = true;
+                dataManager.removeTheater(theater);
+            }
+            for (FilmType filmType : filmTypeCheckBoxGroup.getSelectedItems()) {
+                isSelected = true;
+                dataManager.removeFilmType(filmType);
+            }
+            for (Seance seance : seanceCheckBoxGroup.getSelectedItems()) {
+                isSelected = true;
+                dataManager.removeSeance(seance);
+            }
+            for (Film film : filmCheckBoxGroup.getSelectedItems()) {
+                isSelected = true;
+                dataManager.removeFilm(film);
+            }
+            for (User operator : operatorCheckBoxGroup.getSelectedItems()) {
+                isSelected = true;
+                dataManager.removeUser(user);
+            }
+        }catch (DependentObjectExistsException e) {
+            showErrorWindow(e.getMessage());
             isSelected = true;
-            dataManager.removeTheater(theater);
-        }
-        for(FilmType filmType:filmTypeCheckBoxGroup.getSelectedItems()){
-            isSelected = true;
-            dataManager.removeFilmType(filmType);
-        }
-        for(Seance seance:seanceCheckBoxGroup.getSelectedItems()){
-            isSelected = true;
-            dataManager.removeSeance(seance);
-        }
-        for (Film film:filmCheckBoxGroup.getSelectedItems()){
-            isSelected = true;
-            dataManager.removeFilm(film);
-        }
-        for (User operator:operatorCheckBoxGroup.getSelectedItems()){
-            isSelected = true;
-            dataManager.removeUser(user);
         }
         if(!isSelected){
             showErrorWindow("Для удаления должен быть выбран как минимум один объект");

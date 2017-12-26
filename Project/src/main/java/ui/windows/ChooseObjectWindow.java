@@ -36,7 +36,7 @@ public class ChooseObjectWindow extends AbstractCreateWindow{
         theaterButton.addClickListener(e->theaterButtonClickListener());
         seanceButton.addClickListener(e->seanceButtonClickListener());
         filmButton.addClickListener(e->filmButtonClickListener());
-        filmTypeButton.addClickListener(e->filmButtonClickListener());
+        filmTypeButton.addClickListener(e->filmTypeButtonClickListener());
         operatorButton.addClickListener(e->operatorButtonClickListener());
         formLayout.addComponents(theaterButton,seanceButton,filmButton,filmTypeButton,operatorButton);
         formLayout.setSizeUndefined();
@@ -51,18 +51,18 @@ public class ChooseObjectWindow extends AbstractCreateWindow{
     }
 
     private void theaterButtonClickListener(){
-       /* Window createTheaterWindow = new TheaterWindow(UI.getCurrent(),super.getUser(), super.getDataManager());
-        UI.getCurrent().addWindow(createTheaterWindow);*/
+        Window createTheaterWindow = new TheaterWindow(UI.getCurrent(),super.getUser(), super.getDataManager());
+        UI.getCurrent().addWindow(createTheaterWindow);
     }
 
     private void seanceButtonClickListener(){
-       /* Window createSeanceWindow = new SeanceWindow(UI.getCurrent(),super.getUser(), super.getDataManager());
-        UI.getCurrent().addWindow(createSeanceWindow);*/
+        Window createSeanceWindow = new SeanceWindow(UI.getCurrent(),super.getUser(), super.getDataManager());
+        UI.getCurrent().addWindow(createSeanceWindow);
     }
 
     private void filmButtonClickListener(){
-      /*  Window createFilmWindow = new FilmWindow(UI.getCurrent(),super.getUser(), super.getDataManager());
-        UI.getCurrent().addWindow(createFilmWindow);*/
+        Window createFilmWindow = new FilmWindow(UI.getCurrent(),super.getUser(), super.getDataManager());
+        UI.getCurrent().addWindow(createFilmWindow);
     }
 
     private void filmTypeButtonClickListener(){
@@ -71,7 +71,7 @@ public class ChooseObjectWindow extends AbstractCreateWindow{
     }
 
     private void operatorButtonClickListener(){
-       /* Window createOperatorWindow = new OperatorWindow(UI.getCurrent(),super.getUser(), super.getDataManager());
-        UI.getCurrent().addWindow(createOperatorWindow);*/
+        Window createOperatorWindow = new OperatorWindow(UI.getCurrent(),super.getUser(), super.getDataManager());
+        UI.getCurrent().addWindow(createOperatorWindow);
     }
 }

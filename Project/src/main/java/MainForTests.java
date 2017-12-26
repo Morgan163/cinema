@@ -17,7 +17,7 @@ public class MainForTests {
     public static void main(String[] args) throws ClassNotFoundException {
 //        testUpdateTheater();
         SpecificationFactory specificationFactory = new SQLSpecificationFactory();
-        User user = new User(1, "login", "pass", null);
+        User user = new User("name","name","name",1, "login", "pass", null);
         SqlSpecification loginSpecification = (SqlSpecification)specificationFactory.getUserByLoginSpecification(user.getLogin());
         SqlSpecification passwordSpecification = (SqlSpecification)specificationFactory.getUserByPasswordSpecification(user.getPassword());
         CompositeSpecification userSpecification = specificationFactory.getCompositeSpecification(loginSpecification, passwordSpecification);

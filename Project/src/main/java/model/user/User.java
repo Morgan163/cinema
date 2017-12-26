@@ -8,10 +8,16 @@ import java.io.Serializable;
 
 @SessionScoped
 public class User implements Serializable {
+    private String name;
+    private String secondName;
+    private String middleName;
     private long userID;
     private String login;
 
-    public User(String login, String password, UserRole userRole) {
+    public User(String name, String secondName, String middleName, String login, String password, UserRole userRole){
+        this.name = name;
+        this.secondName = secondName;
+        this.middleName = middleName;
         this.login = login;
         this.password = password;
         this.userRole = userRole;
@@ -23,11 +29,38 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(long userID, String login, String password, UserRole userRole) {
+    public User(String name, String secondName, String middleName, long userID, String login, String password, UserRole userRole){
+        this.name = name;
+        this.secondName = secondName;
+        this.middleName = middleName;
         this.userID = userID;
         this.login = login;
         this.password = password;
         this.userRole = userRole;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public String getSecondName(){
+        return secondName;
+    }
+
+    public void setSecondName(String secondName){
+        this.secondName = secondName;
+    }
+
+    public String getMiddleName(){
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName){
+        this.middleName = middleName;
     }
 
     public long getUserID() {

@@ -61,7 +61,7 @@ public class OperatorWindow extends AbstractCreateWindow {
             showErrorWindow("Пароль должен быть указанё");
         } else {
             if(operator ==null) {
-                super.getDataManager().createUser(new User(login.getValue(), passwordField.getValue(), UserRole.OPERATOR));
+                super.getDataManager().createUser(new User("", "", "", login.getValue(), passwordField.getValue(), UserRole.OPERATOR));
             }else{
                 //todo update
             }

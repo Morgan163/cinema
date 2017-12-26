@@ -93,16 +93,15 @@ public class TheaterWindow extends AbstractCreateWindow {
 
         panel.setContent(panelLayout);
 
-        mainLayout.addComponents(panel,controlLayout);
+        mainLayout.addComponents(panel, controlLayout);
 
         setContent(mainLayout);
 
 
-
     }
 
-    private void initValues(){
-        for (Line line: theater.getLines()){
+    private void initValues() {
+        for (Line line : theater.getLines()) {
             HorizontalLayout newLineLayout = new HorizontalLayout();
             newLineLayout.setWidth("100%");
             List<Seat> seats = line.getSeats();
@@ -137,21 +136,21 @@ public class TheaterWindow extends AbstractCreateWindow {
 
     private void deleteLineButtonClickListener() {
         int lineNumber = lineNumberSelect.getValue();
-        panelLayout.removeComponent(lines.get(lineNumber-1));
+        panelLayout.removeComponent(lines.get(lineNumber - 1));
         panel.setContent(panelLayout);
-        lines.remove(lineNumber-1);
+        lines.remove(lineNumber - 1);
         initSelector();
     }
 
     private void lineNumberSelectionListener() {
-        if(selectedLine!=0){
+        if(lines.size()!=0) {
             HorizontalLayout layout = lines.get(selectedLine);
-            for(Component button: IteratorUtils.toList(layout.iterator())){
+            for (Component button : IteratorUtils.toList(layout.iterator())) {
                 ((Button) button).setStyleName(ValoTheme.BUTTON_FRIENDLY);
             }
         }
-        if(lineNumberSelect.getValue()!=null) {
-            selectedLine = lineNumberSelect.getValue() - 1;
+        if (lineNumberSelect.getValue() != null) {
+            selectedLine = lineNumberSelect.getValue()-1;
             HorizontalLayout layout = lines.get(selectedLine);
             for (Component button : IteratorUtils.toList(layout.iterator())) {
                 ((Button) button).setStyleName(ValoTheme.BUTTON_PRIMARY);
@@ -160,45 +159,45 @@ public class TheaterWindow extends AbstractCreateWindow {
     }
 
     private void deleteSeatButtonClickListener() {
-        if(lineNumberSelect.getValue()!=null){
-            HorizontalLayout horizontalLayout = lines.get(lineNumberSelect.getValue()-1);
+        if (lineNumberSelect.getValue() != null) {
+            HorizontalLayout horizontalLayout = lines.get(lineNumberSelect.getValue() - 1);
             horizontalLayout.removeComponent(horizontalLayout.getComponent(
-                    horizontalLayout.getComponentCount()-1));
-        }else{
+                    horizontalLayout.getComponentCount() - 1));
+        } else {
             showErrorWindow("Выберите ряд для удаления мест");
         }
     }
 
     private void genericButtonClickListener() {
-       addSeat(GENERIC_BUTTON_WIDTH);
+        addSeat(GENERIC_BUTTON_WIDTH);
     }
 
     private void vipButtonClickListener() {
-       addSeat(VIP_BUTTON_WIDTH);
+        addSeat(VIP_BUTTON_WIDTH);
     }
 
-    private void addSeat(int width){
-        if(lineNumberSelect.getValue()!=null){
-            HorizontalLayout horizontalLayout = lines.get(lineNumberSelect.getValue()-1);
-            Button seatButton = new Button(String.valueOf(horizontalLayout.getComponentCount()+1));
+    private void addSeat(int width) {
+        if (lineNumberSelect.getValue() != null) {
+            HorizontalLayout horizontalLayout = lines.get(lineNumberSelect.getValue() - 1);
+            Button seatButton = new Button(String.valueOf(horizontalLayout.getComponentCount() + 1));
             seatButton.setStyleName(ValoTheme.BUTTON_FRIENDLY);
             seatButton.setWidth(width, Unit.EM);
             horizontalLayout.addComponent(seatButton);
-        }else{
+        } else {
             showErrorWindow("Выберете ряд для добавления мест мест");
         }
     }
 
     private void saveButtonClickListener() {
-        Theater newTheater = new Theater(super.getDataManager().getAllTheaters().size()+1);
+        Theater newTheater = new Theater(super.getDataManager().getAllTheaters().size() + 1);
         List<Line> newLines = new ArrayList<>();
-        int i=1;
-        for(HorizontalLayout horizontalLayout:lines){
-            Line line = new Line(i,newTheater);
+        int i = 1;
+        for (HorizontalLayout horizontalLayout : lines) {
+            Line line = new Line(i, newTheater);
             int j = 1;
             List<Seat> seats = new ArrayList<>();
-            for(Component button: IteratorUtils.toList(horizontalLayout.iterator())){
-                Seat seat = new Seat(button.getWidth()==GENERIC_BUTTON_WIDTH?SeatType.GENERIC:SeatType.VIP,line,j);
+            for (Component button : IteratorUtils.toList(horizontalLayout.iterator())) {
+                Seat seat = new Seat(button.getWidth() == GENERIC_BUTTON_WIDTH ? SeatType.GENERIC : SeatType.VIP, line, j);
                 seats.add(seat);
                 j++;
             }
@@ -207,9 +206,9 @@ public class TheaterWindow extends AbstractCreateWindow {
             newLines.add(line);
         }
         newTheater.addLines(newLines);
-        if(theater==null) {
+        if (theater == null) {
             super.getDataManager().createTheater(theater);
-        }else{
+        } else {
             super.getDataManager().updateTheater(theater);
         }
     }
@@ -223,6 +222,7 @@ public class TheaterWindow extends AbstractCreateWindow {
         super.getRootUI().getPage().setLocation(currentLocation.substring(0, currentLocation.lastIndexOf("/") + 1)
                 + super.getUser().getUserRole().getRoleName().toLowerCase());
     }
+
     private void showErrorWindow(String message) {
         Window errorWindow = new ErrorWindow(message);
         UI.getCurrent().addWindow(errorWindow);

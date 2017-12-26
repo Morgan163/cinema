@@ -15,11 +15,11 @@ public class DataBaseNames {
     public static final String FILM_TYPES = "FILM_TYPES";
 
     public static final String THEATER_ID_SEQUENCE = "THEATER_ID_SEQUENCE";
-    public static final String FILM_ID_SEQUENCE = "FILM_ID_SEQUENCE";
+    public static final String FILM_ID_SEQUENCE = "FILMS_ID_SEQUENCE";
     public static final String SEANCE_ID_SEQUENCE = "SEANCES_ID_SEQUENCE";
-    public static final String LINE_ID_SEQUENCE = "LINE_ID_SEQUENCE";
-    public static final String SEAT_ID_SEQUENCE = "SEAT_ID_SEQUENCE";
-    public static final String FILM_TYPE_ID_SEQUENCE = "FILM_TYPE_ID_SEQUENCE";
-    public static final String SEATS_SEANCES_STATUSES_ID_SEQUENCE = "SEATS_SEANCES_STATUSES_ID_SEQUENCE";
-    public static final String USER_ID_SEQUENCE = "USER_ID_SEQUENCE";
+    public static final String LINE_ID_SEQUENCE = "LINES_ID_SEQUENCE";
+    public static final String SEAT_ID_SEQUENCE = "SEATS_ID_SEQUENCE";
+    public static final String FILM_TYPE_ID_SEQUENCE = "FILM_TYPES_ID_SEQUENCE";
+    public static final String SEATS_SEANCES_STATUSES_ID_SEQUENCE = "SEAT_SEANC_STAT_ID_SEQUENCE";
+    public static final String USER_ID_SEQUENCE = "USERS_ID_SEQUENCE";
 }

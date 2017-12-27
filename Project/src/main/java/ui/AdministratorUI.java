@@ -89,7 +89,7 @@ public class AdministratorUI extends UI {
     private DataManager dataManager;
 
     public AdministratorUI() {
-        nameLabel = new Label();
+        nameLabel = new Label(user.getLogin());
         theaterCheckBoxGroup = new CheckBoxGroup<>();
         filmTypeCheckBoxGroup = new CheckBoxGroup<>();
         seanceCheckBoxGroup = new CheckBoxGroup<>();
@@ -136,7 +136,8 @@ public class AdministratorUI extends UI {
 
 
         searchField.addValueChangeListener(e -> searchFieldChangeListener());
-        headerLayout.addComponentsAndExpand(createButton, setButton, deleteButton, searchField, nameLabel, exitButton);
+        headerLayout.addComponentsAndExpand(createButton, setButton, deleteButton, searchField, nameLabel,
+                helpButton, exitButton);
         headerLayout.setSizeUndefined();
         objectsLayout.addComponentsAndExpand(theaterLayout, filmTypeLayout, seanceLayout, filmLayout, operatorLayout);
         objectsLayout.setSizeUndefined();

@@ -310,6 +310,12 @@ public class AdministratorUI extends UI {
     }
 
     private void exitButtonListener() {
+        user.setUserID(0);
+        user.setLogin("");
+        user.setMiddleName("");
+        user.setName("");
+        user.setPassword("");
+        user.setSecondName("");
         getUI().getPage().setLocation(Utils.redirectToMainPage(getUI().getPage().getLocation().toString()));
     }
 

@@ -53,12 +53,15 @@ public class MainUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
+        Panel mainPanel = new Panel();
         seances = dataManager.getAllSeances();
         filmSeancesMap = mainUIUtils.groupSeancesByFilms(seances);
         initTopBar();
         displayFilmSeancesMap(filmSeancesMap);
         mainLayout.addComponentsAndExpand(filmLayout);
-        setContent(mainLayout);
+        mainLayout.setSizeFull();
+        mainPanel.setContent(mainLayout);
+        setContent(mainPanel);
     }
 
     private void initTopBar() {

@@ -91,8 +91,6 @@ public class Line {
         Line line = (Line) o;
         return new EqualsBuilder()
                 .append(lineID, line.lineID)
-                .append(lineNumber, line.lineNumber)
-                .append(theater, line.theater)
                 .isEquals();
     }
 

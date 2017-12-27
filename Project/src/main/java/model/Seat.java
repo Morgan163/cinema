@@ -66,8 +66,6 @@ public class Seat {
 
         return new EqualsBuilder()
                 .append(seatID, seat.seatID)
-                .append(seatType, seat.seatType)
-                .append(line, seat.line)
                 .isEquals();
     }
 

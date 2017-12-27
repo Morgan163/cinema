@@ -207,9 +207,10 @@ public class TheaterWindow extends AbstractCreateWindow {
         }
         newTheater.addLines(newLines);
         if (theater == null) {
-            super.getDataManager().createTheater(theater);
+            super.getDataManager().createTheater(newTheater);
         } else {
-            super.getDataManager().updateTheater(theater);
+            newTheater.setTheaterID(theater.getTheaterID());
+            super.getDataManager().updateTheater(newTheater);
         }
     }
 

@@ -90,6 +90,7 @@ public class SeanceWindow extends AbstractCreateWindow {
             if(seance==null) {
                 super.getDataManager().createSeanceForTheater(newSeance, theaterComboBox.getValue());
             }else{
+                newSeance.setSeanceID(seance.getSeanceID());
                 super.getDataManager().updateSeance(newSeance);
             }
             UserRole role = super.getUser().getUserRole();

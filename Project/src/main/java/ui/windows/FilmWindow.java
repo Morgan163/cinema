@@ -79,6 +79,7 @@ public class FilmWindow extends AbstractCreateWindow {
             if(film==null) {
                 super.getDataManager().createFilm(newFilm);
             }else{
+                newFilm.setFilmID(film.getFilmID());
                 super.getDataManager().updateFilm(newFilm);
             }
             UserRole role = super.getUser().getUserRole();

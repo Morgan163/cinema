@@ -38,7 +38,7 @@ public class BuyWindow extends Window {
 
     private void init() {
         double price = modelOperations.calculatePriceForSeatsAndSeance(seatsForBuy, selectedSeance);
-        mainLayout.addComponent(new Label(String.format("Сумма к оплате - %2f рублей", price)));
+        mainLayout.addComponent(new Label(String.format("Сумма к оплате - %.2f рублей", price)));
         initButtons();
     }
 

@@ -103,6 +103,7 @@ public class DataManagerImpl implements DataManager
     }
 
     public void updateTheater(Theater theater){
+        LOG.debug("Updating theater " + theater.getTheaterID());
         theaterRepository.update(theater);
         updateLinesForTheater(theater);
     }
@@ -111,12 +112,13 @@ public class DataManagerImpl implements DataManager
         List<Line> incomingLines = theater.getLines();
         for (Line incomingLine : incomingLines)
         {
+            LOG.debug("For theater " + theater.getTheaterID() + " updateing Line " + incomingLine.getLineID());
             if (dataUtils.isObjectContainedInDataBase(incomingLine))
             {
-                lineRepository.add(incomingLine);
+                lineRepository.update(incomingLine);
             } else
             {
-                lineRepository.update(incomingLine);
+                lineRepository.add(incomingLine);
             }
         }
         if (dataUtils.isObjectContainedInDataBase(theater))
@@ -152,7 +154,13 @@ public class DataManagerImpl implements DataManager
 
     private void removeExtraLinesForTheterIfNeeded(Theater theater) {
         List<Line> incomingLines = theater.getLines();
+        for (Line line : incomingLines){
+            LOG.debug("incomingLine " + line.getLineID());
+        }
         List<Line> existingLines = getLinesForTheater(theater);
+        for (Line line : existingLines){
+            LOG.debug("existingLines " + line.getLineID());
+        }
         for (Line existingLine : existingLines){
             if (!incomingLines.contains(existingLine)){
                 lineRepository.remove(existingLine);

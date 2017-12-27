@@ -5,6 +5,7 @@ import model.Seance;
 import model.Seat;
 import model.SeatSeanceStatus;
 import model.SeatSeanceStatusMapper;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.log4j.Logger;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
@@ -15,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -129,6 +131,11 @@ public class SeatSeanceStatusMapperRepositoryImpl implements Repository<SeatSean
             long seanceId = resultSet.getLong("SEANCE_ID");
             long statusId = resultSet.getLong("STATUS_ID");
             String bookKey = resultSet.getString("BOOK_KEY");
+            Collection<Seat> seatsForMapper = seatRepository.query((SqlSpecification)specificationFactory.getSeatByIdSpecification(seatId));
+            Collection<Seance> seancesForMapper = seanceRepository.query((SqlSpecification)specificationFactory.getSeanceByIdSpecification(seanceId));
+            if (CollectionUtils.isEmpty(seancesForMapper) || CollectionUtils.isEmpty(seatsForMapper)) {
+                continue;
+            }
             Seat seat = seatRepository.query((SqlSpecification)specificationFactory.getSeatByIdSpecification(seatId)).get(0);
             Seance seance = seanceRepository.query((SqlSpecification)specificationFactory.getSeanceByIdSpecification(seanceId)).get(0);
             SeatSeanceStatus seatSeanceStatus = SeatSeanceStatus.getById(statusId);

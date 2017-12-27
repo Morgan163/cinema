@@ -69,6 +69,7 @@ public class SeanceWindow extends AbstractCreateWindow {
     private void initValues(){
         filmComboBox.setValue(seance.getFilm());
         theaterComboBox.setValue(super.getDataManager().getTheaterBySeance(seance));
+        theaterComboBox.setEnabled(false);
         dateTimeField.setValue(LocalDateTime.ofInstant(seance.getSeanceStartDate().toInstant(),
                 ZoneId.systemDefault()));
         priceField.setValue(String.valueOf(seance.getPriceValue()));

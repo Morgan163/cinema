@@ -137,7 +137,8 @@ public class DataManagerImpl implements DataManager
         }
         for (Seat seat : incomingSeats)
         {
-            if (dataUtils.isObjectContainedInDataBase(seat))
+            LOG.debug(String.format("Update seat %d for seat.getLine %d", seat.getSeatID(), seat.getLine().getLineID()));
+            if (!dataUtils.isObjectContainedInDataBase(seat))
             {
                 seatRepository.add(seat);
             } else
@@ -162,7 +163,8 @@ public class DataManagerImpl implements DataManager
             LOG.debug("existingLines " + line.getLineID());
         }
         for (Line existingLine : existingLines){
-            if (!incomingLines.contains(existingLine)){
+            if (incomingLines.contains(existingLine)){
+                LOG.debug("Remove line " + existingLine.getLineID());
                 lineRepository.remove(existingLine);
             }
         }
@@ -391,7 +393,7 @@ public class DataManagerImpl implements DataManager
         List<Seat> incomingSeats = line.getSeats();
         List<Seat> existingSeats = getSeatsForLine(line);
         for (Seat existingSeat : existingSeats){
-            if (!incomingSeats.contains(existingSeat)){
+            if (incomingSeats.contains(existingSeat)){
                 seatRepository.remove(existingSeat);
             }
         }

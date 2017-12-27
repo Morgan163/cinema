@@ -3,6 +3,7 @@ package repository.impl;
 import db.DataBaseNames;
 import model.Film;
 import model.FilmType;
+import org.apache.log4j.Logger;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
 import specifications.sql.SqlSpecification;
@@ -18,6 +19,7 @@ import java.util.List;
  * Created by niict on 23.12.2017.
  */
 public class FilmTypeRepositoryImpl implements Repository<FilmType> {
+    private static final Logger LOG = Logger.getLogger(FilmTypeRepositoryImpl.class);
     @Inject
     private SpecificationFactory specificationFactory;
     @Inject
@@ -67,6 +69,7 @@ public class FilmTypeRepositoryImpl implements Repository<FilmType> {
     public void remove(SqlSpecification sqlSpecification) {
         try {
             String sql = dataBaseHelper.buildDeleteQueryBySQLSpecification(sqlSpecification);
+            LOG.debug("FilmTypeRepository runs sql : " + sql);
             dataBaseHelper.executeUpdateQuery(sql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -121,7 +124,7 @@ public class FilmTypeRepositoryImpl implements Repository<FilmType> {
     private ObjectColumnValues getObjectColumnValuesForType(FilmType filmType){
         ObjectColumnValues objectColumnValues = new ObjectColumnValues();
         objectColumnValues.setValueByColumnName("FILM_TYPE_ID", String.valueOf(filmType.getFilmTypeID()));
-        objectColumnValues.setValueByColumnName("FILM_TYPE_NAME", String.valueOf(filmType.getFilmTypeName()));
+        objectColumnValues.setValueByColumnName("FILM_TYPE_NAME", "'" +String.valueOf( filmType.getFilmTypeName() +"'"));
         objectColumnValues.setIdColumnName("FILM_TYPE_ID");
         objectColumnValues.setObjectId(String.valueOf(filmType.getFilmTypeID()));
         return objectColumnValues;

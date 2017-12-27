@@ -4,6 +4,7 @@ import db.DataBaseNames;
 import model.AgeLimitType;
 import model.Film;
 import model.FilmType;
+import org.apache.log4j.Logger;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
 import specifications.sql.SqlSpecification;
@@ -20,6 +21,7 @@ import java.util.List;
  * Created by niict on 23.12.2017.
  */
 public class FilmRepositoryImpl implements Repository<Film> {
+    private static final Logger LOG = Logger.getLogger(FilmRepositoryImpl.class);
     @Inject
     private SpecificationFactory specificationFactory;
     @Inject
@@ -95,13 +97,13 @@ public class FilmRepositoryImpl implements Repository<Film> {
 
     private String getInsertSqlForFilm(Film film){
         ObjectColumnValues objectColumnValues = getObjectColumnValuesForFilm(film);
-        String sql = dataBaseHelper.buildInsertQuery(DataBaseNames.LINES, objectColumnValues);
+        String sql = dataBaseHelper.buildInsertQuery(DataBaseNames.FILMS, objectColumnValues);
         return sql;
     }
 
     private String getUpdateSqlForFilm(Film film){
         ObjectColumnValues objectColumnValues = getObjectColumnValuesForFilm(film);
-        String sql = dataBaseHelper.buildUpdateQuery(DataBaseNames.LINES, objectColumnValues);
+        String sql = dataBaseHelper.buildUpdateQuery(DataBaseNames.FILMS, objectColumnValues);
         return sql;
     }
 
@@ -127,14 +129,15 @@ public class FilmRepositoryImpl implements Repository<Film> {
             film.setAgeLimitType(ageLimitType);
             film.setFilmType(filmType);
             films.add(film);
+            LOG.debug("parsed filmId " + filmId);
         }
         return films;
     }
 
     private ObjectColumnValues getObjectColumnValuesForFilm(Film film){
         ObjectColumnValues objectColumnValues = new ObjectColumnValues();
-        objectColumnValues.setValueByColumnName("Film_name", String.valueOf(film.getFilmName()));
         objectColumnValues.setValueByColumnName("FILM_ID", String.valueOf(film.getFilmID()));
+        objectColumnValues.setValueByColumnName("Film_name", "'" +String.valueOf(film.getFilmName()) + "'");
         objectColumnValues.setValueByColumnName("FILM_TYPE_ID", String.valueOf(film.getFilmType().getFilmTypeID()));
         objectColumnValues.setValueByColumnName("AGE_LIMIT_ID", String.valueOf(film.getAgeLimitType().getAgeLimitID()));
         objectColumnValues.setIdColumnName("FILM_ID");

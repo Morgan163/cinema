@@ -6,6 +6,7 @@ import model.user.User;
 import model.user.UserRole;
 import modeloperations.DataManager;
 import modeloperations.DataUtils;
+import org.apache.log4j.Logger;
 import repository.Repository;
 import specifications.CompositeSpecification;
 import specifications.factory.SpecificationFactory;
@@ -16,6 +17,7 @@ import java.util.*;
 
 public class DataManagerImpl implements DataManager
 {
+    private static final Logger LOG = Logger.getLogger(DataManagerImpl.class);
     @Inject
     private Repository<User> userRepository;
     @Inject
@@ -173,6 +175,7 @@ public class DataManagerImpl implements DataManager
     }
 
     public void updateFilm(Film film){
+        LOG.debug("updateFilm : " + film.getFilmID());
         if (dataUtils.isObjectContainedInDataBase(film))
         {
             filmRepository.update(film);
@@ -248,7 +251,7 @@ public class DataManagerImpl implements DataManager
 
     @Override
     public void removeFilmType(FilmType filmType) throws DependentObjectExistsException{
-
+        filmTypeRepository.remove(filmType);
     }
 
     @Override

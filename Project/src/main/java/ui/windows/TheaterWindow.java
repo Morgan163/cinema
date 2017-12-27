@@ -190,14 +190,28 @@ public class TheaterWindow extends AbstractCreateWindow {
 
     private void saveButtonClickListener() {
         Theater newTheater = new Theater(super.getDataManager().getAllTheaters().size() + 1);
+        if(theater!=null){
+            newTheater.setTheaterNumber(theater.getTheaterNumber());
+            newTheater.setTheaterID(theater.getTheaterID());
+        }
         List<Line> newLines = new ArrayList<>();
         int i = 1;
         for (HorizontalLayout horizontalLayout : lines) {
             Line line = new Line(i, newTheater);
+            if(theater!=null) {
+                if (i-1 < theater.getLines().size()) {
+                    line.setLineID(theater.getLines().get(i-1).getLineID());
+                }
+            }
             int j = 1;
             List<Seat> seats = new ArrayList<>();
             for (Component button : IteratorUtils.toList(horizontalLayout.iterator())) {
                 Seat seat = new Seat(button.getWidth() == GENERIC_BUTTON_WIDTH ? SeatType.GENERIC : SeatType.VIP, line, j);
+                if(theater!=null){
+                    if ((i-1 < theater.getLines().size())&&(j-1<theater.getLines().get(i-1).getSeats().size())) {
+                        seat.setSeatID(theater.getLines().get(i-1).getSeats().get(j-1).getSeatID());
+                    }
+                }
                 seats.add(seat);
                 j++;
             }
@@ -209,13 +223,6 @@ public class TheaterWindow extends AbstractCreateWindow {
         if (theater == null) {
             super.getDataManager().createTheater(newTheater);
         } else {
-            int k=0;
-            for(Line line:newTheater.getLines()){
-                if(k<theater.getLines().size()){
-                    line.setLineID(theater.getLines().get(k).getLineID());
-                }
-            }
-            newTheater.setTheaterID(theater.getTheaterID());
             super.getDataManager().updateTheater(newTheater);
         }
     }

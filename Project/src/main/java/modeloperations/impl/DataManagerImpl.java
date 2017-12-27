@@ -198,6 +198,7 @@ public class DataManagerImpl implements DataManager
     }
 
     public void updateUser(User user){
+        LOG.debug("Updating user " + user.getUserID());
         if (dataUtils.isObjectContainedInDataBase(user))
         {
             userRepository.update(user);

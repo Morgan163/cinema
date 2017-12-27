@@ -35,7 +35,7 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
 
     public void add(Theater item) {
         try {
-            LOG.debug("theater repo, adding theater : " + item);
+            LOG.debug("theater repo, adding theater : " + item.getTheaterID());
             item.setTheaterID(generateTheaterId());
             String sql = getInsertSqlForTheater(item);
             dataBaseHelper.executeUpdateQuery(sql);
@@ -47,6 +47,7 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
     public void update(Theater item) {
         try {
             String sql = getUpdateSqlForTheater(item);
+            LOG.debug("theaterRepo update theater " + item.getTheaterID());
             dataBaseHelper.executeUpdateQuery(sql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -114,6 +115,7 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
             List<Line> lines = lineRepository.query((SqlSpecification)specificationFactory.getLineByTheaterIdSpecification(theaterId));
             Theater theater = new Theater(theaterId, theaterNumber);
             for (Line line : lines){
+                LOG.debug(String.format("for line %d bind theater %d", line.getLineID(), theater.getTheaterID()));
                 line.setTheater(theater);
             }
             theater.setLines(lines);

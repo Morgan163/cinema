@@ -58,6 +58,8 @@ public class DataUtilsImpl implements DataUtils {
     }
 
     private boolean isUserContainedInDataBase(User user) {
+        if (user.getUserID() > 0)
+            return true;
         SqlSpecification userSpecification = buildSpecificationForCheckUser(user);
         return userRepository.query(userSpecification).size() > 0;
     }

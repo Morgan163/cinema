@@ -3,6 +3,7 @@ package repository.impl;
 import db.DataBaseNames;
 import model.Line;
 import model.Seat;
+import model.Theater;
 import org.apache.log4j.Logger;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;

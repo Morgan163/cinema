@@ -45,6 +45,7 @@ public class SeatSeanceStatusMapperRepositoryImpl implements Repository<SeatSean
         try {
             item.setMappingId(generateMapperId());
             String sql = getInsertSqlForMapper(item);
+            LOG.debug("SeatSeanceStatusMapperRepositoryImpl runs sql " + sql);
             dataBaseHelper.executeUpdateQuery(sql);
         } catch (SQLException e) {
             throw new RuntimeException(e);

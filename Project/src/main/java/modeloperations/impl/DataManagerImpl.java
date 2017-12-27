@@ -57,8 +57,8 @@ public class DataManagerImpl implements DataManager
     }
 
     public void createSeanceForTheater(Seance seance, Theater theater){
-        bindSeanceForTheater(seance, theater);
         seanceRepository.add(seance);
+        bindSeanceForTheater(seance, theater);
     }
 
     public void createUser(User user){
@@ -223,8 +223,9 @@ public class DataManagerImpl implements DataManager
 
     @Override
     public void removeSeance(Seance seance) throws DependentObjectExistsException{
-        if(isFilmForSeanceExists(seance) || isMapperForSeanceExists(seance)){
-            throw new DependentObjectExistsException();
+        if(isMapperForSeanceExists(seance)){
+            for (SeatSeanceStatusMapper mapper : getSeatSeanceStatusMappersBySeance(seance))
+                removeSeatSeanceMapper(mapper);
         }
         seanceRepository.remove(seance);
     }

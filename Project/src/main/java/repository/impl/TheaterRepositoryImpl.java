@@ -2,6 +2,7 @@ package repository.impl;
 
 import model.Line;
 import model.Theater;
+import org.apache.log4j.Logger;
 import repository.Repository;
 import specifications.factory.SpecificationFactory;
 import db.DataBaseNames;
@@ -12,6 +13,7 @@ import java.sql.*;
 import java.util.*;
 
 public class TheaterRepositoryImpl implements Repository<Theater> {
+    private static final Logger LOG = Logger.getLogger(TheaterRepositoryImpl.class);
     @Inject
     private SpecificationFactory specificationFactory;
     @Inject
@@ -33,6 +35,7 @@ public class TheaterRepositoryImpl implements Repository<Theater> {
 
     public void add(Theater item) {
         try {
+            LOG.debug("theater repo, adding theater : " + item);
             item.setTheaterID(generateTheaterId());
             String sql = getInsertSqlForTheater(item);
             dataBaseHelper.executeUpdateQuery(sql);

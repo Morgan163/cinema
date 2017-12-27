@@ -65,7 +65,6 @@ public class Film {
         Film film = (Film) o;
 
         return new EqualsBuilder()
-                .append(filmID, film.filmID)
                 .append(filmName, film.filmName)
                 .append(filmType, film.filmType)
                 .append(ageLimitType, film.ageLimitType)
@@ -75,7 +74,6 @@ public class Film {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(filmID)
                 .append(filmName)
                 .append(filmType)
                 .append(ageLimitType)

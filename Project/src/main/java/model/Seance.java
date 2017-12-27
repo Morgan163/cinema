@@ -69,7 +69,6 @@ public class Seance {
         Seance seance = (Seance) o;
 
         return new EqualsBuilder()
-                .append(seanceID, seance.seanceID)
                 .append(priceValue, seance.priceValue)
                 .append(film, seance.film)
                 .append(seanceStartDate, seance.seanceStartDate)
@@ -79,7 +78,6 @@ public class Seance {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(seanceID)
                 .append(film)
                 .append(priceValue)
                 .append(seanceStartDate)

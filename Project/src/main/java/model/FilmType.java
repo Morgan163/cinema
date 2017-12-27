@@ -44,7 +44,6 @@ public class FilmType {
         FilmType filmType = (FilmType) o;
 
         return new EqualsBuilder()
-                .append(filmTypeID, filmType.filmTypeID)
                 .append(filmTypeName, filmType.filmTypeName)
                 .isEquals();
     }
@@ -52,7 +51,6 @@ public class FilmType {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(filmTypeID)
                 .append(filmTypeName)
                 .toHashCode();
     }

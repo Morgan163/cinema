@@ -104,20 +104,14 @@ public class User implements Serializable {
         User user = (User) o;
 
         return new EqualsBuilder()
-                .append(userID, user.userID)
                 .append(login, user.login)
-                .append(password, user.password)
-                .append(userRole, user.userRole)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(userID)
                 .append(login)
-                .append(password)
-                .append(userRole)
                 .toHashCode();
     }
 }

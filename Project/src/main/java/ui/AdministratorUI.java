@@ -310,7 +310,7 @@ public class AdministratorUI extends UI {
     }
 
     private void exitButtonListener() {
-        Utils.redirectToMainPage(getUI().getPage().getLocation().toString());
+        getUI().getPage().setLocation(Utils.redirectToMainPage(getUI().getPage().getLocation().toString()));
     }
 
     private void theaterHelpButtonListener() {

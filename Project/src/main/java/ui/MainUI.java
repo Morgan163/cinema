@@ -142,10 +142,11 @@ public class MainUI extends UI {
             for (int columns = 0; columns < 2; columns++) {
                 if (filmIterator.hasNext()) {
                     Film currentFilm = filmIterator.next();
-                    filmRow.addComponentsAndExpand(buildFilmBlock(currentFilm, filmSeancesMap.get(currentFilm)));
+                    filmRow.addComponents(buildFilmBlock(currentFilm, filmSeancesMap.get(currentFilm)));
                 }
             }
-            filmLayout.addComponentsAndExpand(filmRow);
+            filmLayout.addComponents(filmRow);
+            filmRow.setWidth("100%");
         }
     }
 
@@ -158,7 +159,8 @@ public class MainUI extends UI {
         Image image = new Image("", resource);
         filmBlock.addComponents(image);
         VerticalLayout verticalLayout = buildFilmDescription(currentFilm, seances);
-        filmBlock.addComponents(verticalLayout);
+        filmBlock.addComponentsAndExpand(verticalLayout);
+        filmBlock.setWidth("100%");
         return filmBlock;
     }
 

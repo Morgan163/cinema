@@ -316,6 +316,7 @@ public class AdministratorUI extends UI {
         user.setName("");
         user.setPassword("");
         user.setSecondName("");
+        user.setUserRole(null);
         getUI().getPage().setLocation(Utils.redirectToMainPage(getUI().getPage().getLocation().toString()));
     }
 

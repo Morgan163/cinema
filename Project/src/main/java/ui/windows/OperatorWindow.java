@@ -74,6 +74,7 @@ public class OperatorWindow extends AbstractCreateWindow {
             if(operator ==null) {
                 super.getDataManager().createUser(newUser);
             }else{
+                newUser.setUserID(operator.getUserID());
                 super.getDataManager().updateUser(newUser);
             }
             UserRole role = super.getUser().getUserRole();

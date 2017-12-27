@@ -99,9 +99,9 @@ public class AdministratorUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        if(Utils.checkUserRoleAndRedirectIfNeeded(user, UserRole.ADMIN)){
+       /* if(Utils.checkUserRoleAndRedirectIfNeeded(user, UserRole.ADMIN)){
             getUI().getPage().setLocation(Utils.redirectToMainPage(getUI().getPage().getLocation().toString()));
-        }
+        }*/
 
         createButton.addClickListener(e -> createButtonListener());
         setButton.addClickListener(e -> setButtonListener());

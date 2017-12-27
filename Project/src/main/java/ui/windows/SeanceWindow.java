@@ -138,7 +138,7 @@ public class SeanceWindow extends AbstractCreateWindow {
     }
 
     private boolean checkPrice(){
-        return priceField.getValue().matches("^0-9]+$");
+        return priceField.getValue().matches("^[0-9]+$");
     }
 
     private boolean checkValues(){

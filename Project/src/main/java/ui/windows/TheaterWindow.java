@@ -148,26 +148,30 @@ public class TheaterWindow extends AbstractCreateWindow {
 
     private void deleteLineButtonClickListener() {
         if (lines.size() != 0) {
-            int lineNumber = lineNumberSelect.getValue();
-            panelLayout.removeComponent(lines.get(lineNumber - 1));
-            panel.setContent(panelLayout);
-            lines.remove(lineNumber - 1);
-            size.remove(lineNumber - 1);
-            initSelector();
+            if(lineNumberSelect.getSelectedItem().isPresent()) {
+                int lineNumber = lineNumberSelect.getSelectedItem().get();
+                panelLayout.removeComponent(lines.get(lineNumber - 1));
+                panel.setContent(panelLayout);
+                lines.remove(lineNumber - 1);
+                size.remove(lineNumber - 1);
+                initSelector();
+            }else{
+                showErrorWindow("Выберите ряд для удаления");
+            }
         } else {
             showErrorWindow("Количество рядов = 0");
         }
     }
 
     private void lineNumberSelectionListener() {
-        if (lines.size() != 0) {
+        if ((lines.size() != 0)&&(selectedLine<lines.size())) {
             HorizontalLayout layout = lines.get(selectedLine);
             for (Component button : IteratorUtils.toList(layout.iterator())) {
                 ((Button) button).setStyleName(ValoTheme.BUTTON_FRIENDLY);
             }
         }
-        if (lineNumberSelect.getValue() != null) {
-            selectedLine = lineNumberSelect.getValue() - 1;
+        if (lineNumberSelect.getSelectedItem().isPresent()) {
+            selectedLine = lineNumberSelect.getSelectedItem().get() - 1;
             HorizontalLayout layout = lines.get(selectedLine);
             for (Component button : IteratorUtils.toList(layout.iterator())) {
                 ((Button) button).setStyleName(ValoTheme.BUTTON_PRIMARY);
@@ -176,12 +180,13 @@ public class TheaterWindow extends AbstractCreateWindow {
     }
 
     private void deleteSeatButtonClickListener() {
-        if (lineNumberSelect.getValue() != null) {
-            if (lines.get(lineNumberSelect.getValue() - 1).getComponentCount() != 0) {
-                HorizontalLayout horizontalLayout = lines.get(lineNumberSelect.getValue() - 1);
-                LineSize value = size.get(lineNumberSelect.getValue() - 1);
-                value.setSize( value.getSize() - horizontalLayout.getComponent(
-                        horizontalLayout.getComponentCount() - 1).getWidth() == GENERIC_BUTTON_WIDTH ? 1 : 2);
+        if (lineNumberSelect.getSelectedItem().isPresent()) {
+            if (lines.get(lineNumberSelect.getSelectedItem().get() - 1).getComponentCount() != 0) {
+                HorizontalLayout horizontalLayout = lines.get(lineNumberSelect.getSelectedItem().get() - 1);
+                LineSize value = size.get(lineNumberSelect.getSelectedItem().get() - 1);
+                value.setSize(value.getSize() - (horizontalLayout.getComponent(
+                        horizontalLayout.getComponentCount() - 1).getWidth()
+                        == GENERIC_BUTTON_WIDTH ? 1 : 2));
                 horizontalLayout.removeComponent(horizontalLayout.getComponent(
                         horizontalLayout.getComponentCount() - 1));
             } else {
@@ -201,16 +206,19 @@ public class TheaterWindow extends AbstractCreateWindow {
     }
 
     private void addSeat(int width) {
-        if (lineNumberSelect.getValue() != null) {
-            if(size.get(lineNumberSelect.getValue()-1).getSize()+width<=MAX_SEATS_COUNT) {
-                HorizontalLayout horizontalLayout = lines.get(lineNumberSelect.getValue() - 1);
+        if (lineNumberSelect.getSelectedItem().isPresent()) {
+            if (size.get(lineNumberSelect.getSelectedItem().get() - 1).getSize() +
+                    (width == GENERIC_BUTTON_WIDTH ? 1 : 2) <= MAX_SEATS_COUNT) {
+                HorizontalLayout horizontalLayout = lines.get(lineNumberSelect.getSelectedItem().get() - 1);
                 Button seatButton = new Button(String.valueOf(horizontalLayout.getComponentCount() + 1));
-                seatButton.setStyleName(ValoTheme.BUTTON_FRIENDLY);
+                seatButton.setStyleName(ValoTheme.BUTTON_PRIMARY);
                 seatButton.setWidth(width, Unit.EM);
                 horizontalLayout.addComponent(seatButton);
-            }else{
-                showErrorWindow("Максимальный размер ряда - " + MAX_SEATS_COUNT + " обычных или "+
-                        MAX_SEATS_COUNT/2 +" VIP мест");
+                size.get(lineNumberSelect.getSelectedItem().get() - 1).setSize(size.get(lineNumberSelect.
+                        getSelectedItem().get() - 1).getSize() + (width == GENERIC_BUTTON_WIDTH ? 1 : 2));
+            } else {
+                showErrorWindow("Максимальный размер ряда - " + MAX_SEATS_COUNT + " обычных или " +
+                        MAX_SEATS_COUNT / 2 + " VIP мест");
             }
         } else {
             showErrorWindow("Выберете ряд для добавления мест мест");
@@ -218,7 +226,7 @@ public class TheaterWindow extends AbstractCreateWindow {
     }
 
     private void saveButtonClickListener() {
-        if(lines.size()>=MIN_LINES_COUNT) {
+        if (lines.size() >= MIN_LINES_COUNT) {
             Theater newTheater = new Theater(super.getDataManager().getAllTheaters().size() + 1);
             if (theater != null) {
                 newTheater.setTheaterNumber(theater.getTheaterNumber());
@@ -259,8 +267,8 @@ public class TheaterWindow extends AbstractCreateWindow {
             if (role != null) {
                 redirectRoot();
             }
-        }else{
-            showErrorWindow("Количество рядов должно быть не менее "+MIN_LINES_COUNT);
+        } else {
+            showErrorWindow("Количество рядов должно быть не менее " + MIN_LINES_COUNT);
         }
     }
 

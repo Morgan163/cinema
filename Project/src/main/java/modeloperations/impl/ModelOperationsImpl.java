@@ -115,7 +115,7 @@ public class ModelOperationsImpl implements ModelOperations {
     }
 
     public void refund(Collection <Seat> seats, Seance seance){
-        if (seance.getSeanceStartDate().compareTo(Calendar.getInstance()) > 0){
+        if (seance.getSeanceStartDate().compareTo(Calendar.getInstance()) < 0){
             throw new RuntimeException("Impossible to make a refund after seance Start Date");
         }
         Collection<SeatSeanceStatusMapper> mappersToUpdate = new ArrayList <SeatSeanceStatusMapper>();
@@ -145,6 +145,9 @@ public class ModelOperationsImpl implements ModelOperations {
     public void authorize(User user){
         User foundUser = dataManager.getUserByLoginAndPassword(user.getLogin(), user.getPassword());
         user.setUserRole(foundUser.getUserRole());
+        user.setName(foundUser.getName());
+        user.setMiddleName(foundUser.getMiddleName());
+        user.setSecondName(foundUser.getSecondName());
     }
 }
 

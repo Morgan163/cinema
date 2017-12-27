@@ -53,7 +53,12 @@ public class RefundWindow extends Window {
     }
 
     private void refundAndClose() {
-        modelOperations.refund(seatsForRefund, selectedSeance);
+        try {
+            modelOperations.refund(seatsForRefund, selectedSeance);
+        }
+        catch (RuntimeException e){
+            UI.getCurrent().addWindow(new ErrorWindow("Сеанс уже начался. невозможно сделать возврат"));
+        }
         root.updateTheaterPanel();
         close();
     }

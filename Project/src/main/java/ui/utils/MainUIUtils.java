@@ -91,7 +91,7 @@ public class MainUIUtils {
     private Map<Film, Collection<Seance>> selectFilmSeanceByAgeLimit(Map<Film, Collection<Seance>> filmSeancesMap, AgeLimitType targetLimit) {
         Map<Film, Collection<Seance>> filteredFilmSeancesMap = new HashMap<>();
         for (Film film : filmSeancesMap.keySet()){
-            if (film.getAgeLimitType().equals(targetLimit)){
+            if (film.getAgeLimitType().getAgeLimitValue() <= targetLimit.getAgeLimitValue()){
                 filteredFilmSeancesMap.put(film, filmSeancesMap.get(film));
             }
         }

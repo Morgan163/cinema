@@ -51,7 +51,7 @@ public class AdministratorUI extends UI {
     private final Button deleteButton = new Button("Удалить");
     private final Button exitButton = new Button("Выйти");
     private final Button helpButton = new Button("Справка");
-    private final Label nameLabel;
+    private Label nameLabel;
     private final TextField searchField = new TextField("Поиск");
 
     //theater objects
@@ -89,7 +89,6 @@ public class AdministratorUI extends UI {
     private DataManager dataManager;
 
     public AdministratorUI() {
-        nameLabel = new Label(user.getLogin());
         theaterCheckBoxGroup = new CheckBoxGroup<>();
         filmTypeCheckBoxGroup = new CheckBoxGroup<>();
         seanceCheckBoxGroup = new CheckBoxGroup<>();
@@ -102,7 +101,7 @@ public class AdministratorUI extends UI {
         if(Utils.checkUserRoleAndRedirectIfNeeded(user, UserRole.ADMIN)){
             getUI().getPage().setLocation(Utils.redirectToMainPage(getUI().getPage().getLocation().toString()));
         }
-
+        nameLabel = new Label(String.format("%s %s %s", user.getName(), user.getMiddleName(), user.getSecondName()));
         createButton.addClickListener(e -> createButtonListener());
         setButton.addClickListener(e -> setButtonListener());
         deleteButton.addClickListener(e -> deleteButtonListener());

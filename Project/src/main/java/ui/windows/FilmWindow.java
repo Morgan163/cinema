@@ -10,6 +10,8 @@ import modeloperations.DataManager;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FilmWindow extends AbstractCreateWindow {
     private Film film;
@@ -46,6 +48,7 @@ public class FilmWindow extends AbstractCreateWindow {
         setResizable(false);
         center();
         setSizeUndefined();
+        nameField.addValueChangeListener(e -> nameFieldChangeListener());
         formLayout.addComponents(nameField,filmTypeComboBox,ageLimitTypeNativeSelect,saveButton);
         formLayout.setSizeUndefined();
         formLayout.setMargin(true);
@@ -76,15 +79,20 @@ public class FilmWindow extends AbstractCreateWindow {
         }else{
             Film newFilm = new Film(nameField.getValue(), filmTypeComboBox.getValue(),
                     ageLimitTypeNativeSelect.getValue());
-            if(film==null) {
-                super.getDataManager().createFilm(newFilm);
+            Set<Film> films = new HashSet<>(super.getDataManager().getAllFilms());
+            if((films.add(newFilm))&&(checkNameValue())) {
+                if (film == null) {
+                    super.getDataManager().createFilm(newFilm);
+                } else {
+                    newFilm.setFilmID(film.getFilmID());
+                    super.getDataManager().updateFilm(newFilm);
+                }
+                UserRole role = super.getUser().getUserRole();
+                if (role != null) {
+                    redirectRoot();
+                }
             }else{
-                newFilm.setFilmID(film.getFilmID());
-                super.getDataManager().updateFilm(newFilm);
-            }
-            UserRole role = super.getUser().getUserRole();
-            if (role != null) {
-                redirectRoot();
+                showErrorWindow("Такой фильм уже существует или неверные данные");
             }
         }
     }
@@ -97,5 +105,15 @@ public class FilmWindow extends AbstractCreateWindow {
     private void showErrorWindow(String message) {
         Window errorWindow = new ErrorWindow(message);
         UI.getCurrent().addWindow(errorWindow);
+    }
+
+    private void nameFieldChangeListener(){
+        if(!checkNameValue()){
+            showErrorWindow("Название может содержать только буквы, цифры и символ тире");
+        }
+    }
+
+    private boolean checkNameValue(){
+        return nameField.getValue().matches("^[А-яA-z0-9-]+$");
     }
 }

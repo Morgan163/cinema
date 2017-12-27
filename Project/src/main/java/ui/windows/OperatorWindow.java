@@ -6,6 +6,9 @@ import model.user.UserRole;
 import modeloperations.DataManager;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class OperatorWindow extends AbstractCreateWindow {
 
     private User operator;
@@ -42,8 +45,13 @@ public class OperatorWindow extends AbstractCreateWindow {
         setResizable(false);
         center();
         setSizeUndefined();
+        nameField.addValueChangeListener(e -> nameFieldChangeListener());
+        surnameField.addValueChangeListener(e -> surnameFieldChangeListener());
+        secondNameField.addValueChangeListener(e -> secondnameFieldChangeListener());
+        login.addValueChangeListener(e -> loginFieldChangeListener());
+        passwordField.addValueChangeListener(e -> passwordFieldChangeListener());
         saveButton.addClickListener(e -> saveButtonClickListener());
-        formLayout.addComponents(nameField,surnameField,secondNameField,login, passwordField, saveButton);
+        formLayout.addComponents(nameField, surnameField, secondNameField, login, passwordField, saveButton);
         formLayout.setSizeUndefined();
         formLayout.setMargin(true);
         setContent(formLayout);
@@ -67,19 +75,24 @@ public class OperatorWindow extends AbstractCreateWindow {
         } else if (StringUtils.isBlank(login.getValue())) {
             showErrorWindow("Логин должен быть указан");
         } else if (StringUtils.isBlank(passwordField.getValue())) {
-            showErrorWindow("Пароль должен быть указанё");
+            showErrorWindow("Пароль должен быть указан");
         } else {
             User newUser = new User(nameField.getValue(), surnameField.getValue(), secondNameField.getValue(),
                     login.getValue(), passwordField.getValue(), UserRole.OPERATOR);
-            if(operator ==null) {
-                super.getDataManager().createUser(newUser);
-            }else{
-                newUser.setUserID(operator.getUserID());
-                super.getDataManager().updateUser(newUser);
-            }
-            UserRole role = super.getUser().getUserRole();
-            if (role != null) {
-                redirectRoot();
+            Set<User> operators = new HashSet<>(super.getDataManager().getAllOperators());
+            if ((operators.add(newUser)) && (checkValues())) {
+                if (operator == null) {
+                    super.getDataManager().createUser(newUser);
+                } else {
+                    newUser.setUserID(operator.getUserID());
+                    super.getDataManager().updateUser(newUser);
+                }
+                UserRole role = super.getUser().getUserRole();
+                if (role != null) {
+                    redirectRoot();
+                }
+            } else {
+                showErrorWindow("Такой оператор уже существует или неверный формат данных");
             }
         }
     }
@@ -93,5 +106,50 @@ public class OperatorWindow extends AbstractCreateWindow {
     private void showErrorWindow(String message) {
         Window errorWindow = new ErrorWindow(message);
         UI.getCurrent().addWindow(errorWindow);
+    }
+
+    private void nameFieldChangeListener() {
+        if (!checkNameValue(nameField.getValue())) {
+            showErrorWindow("Имя должно содержать только буквы");
+        }
+    }
+
+    private void surnameFieldChangeListener() {
+        if (!checkNameValue(surnameField.getValue())) {
+            showErrorWindow("Фамилия должна содержать только буквы");
+        }
+    }
+
+    private void secondnameFieldChangeListener() {
+        if (!checkNameValue(secondNameField.getValue())) {
+            showErrorWindow("Отчество должно содержать только буквы");
+        }
+    }
+
+    private void loginFieldChangeListener() {
+        if (!checkLogin(login.getValue())) {
+            showErrorWindow("Логин может содержать только буквы, цифры и символы -,_");
+        }
+    }
+
+    private void passwordFieldChangeListener() {
+        if (!checkLogin(passwordField.getValue())) {
+            showErrorWindow("Пароль может содержать только буквы, цифры и символы -,_");
+        }
+    }
+
+
+    private boolean checkNameValue(String value) {
+        return value.matches("^[А-я]+$");
+    }
+
+    private boolean checkLogin(String loginStr) {
+        return loginStr.matches("^[А-яA-z0-9-_]+$");
+    }
+
+    private boolean checkValues() {
+        return checkNameValue(nameField.getValue()) && checkNameValue(surnameField.getValue()) &&
+                checkNameValue(secondNameField.getValue()) && checkLogin(login.getValue()) &&
+                checkLogin(passwordField.getValue());
     }
 }

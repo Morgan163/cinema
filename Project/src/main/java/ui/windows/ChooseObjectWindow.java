@@ -32,7 +32,7 @@ public class ChooseObjectWindow extends AbstractCreateWindow{
         setModal(true);
         setResizable(false);
         center();
-        setSizeUndefined();
+        setWidth("40%");
         theaterButton.addClickListener(e->theaterButtonClickListener());
         seanceButton.addClickListener(e->seanceButtonClickListener());
         filmButton.addClickListener(e->filmButtonClickListener());

@@ -8,6 +8,10 @@ import model.user.UserRole;
 import modeloperations.DataManager;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 public class FilmTypeWindow extends AbstractCreateWindow {
     private FilmType filmType;
 
@@ -39,6 +43,7 @@ public class FilmTypeWindow extends AbstractCreateWindow {
         center();
         setSizeUndefined();
         okButton.addClickListener(e -> okButtonClickListener());
+        typeNameField.addValueChangeListener(e -> typeNameFieldChangeListener());
         formLayout.addComponents(typeNameField, okButton);
         formLayout.setSizeUndefined();
         formLayout.setMargin(true);
@@ -58,15 +63,20 @@ public class FilmTypeWindow extends AbstractCreateWindow {
     private void okButtonClickListener() {
         if(!StringUtils.isBlank(typeNameField.getValue())){
             FilmType newFilmType = new FilmType(typeNameField.getValue());
-            if(filmType==null) {
-                super.getDataManager().createFilmType(newFilmType);
+            Set<FilmType> filmTypes = new HashSet<>(super.getDataManager().getAllFilmTypes());
+            if(filmTypes.add(newFilmType)&&(checkNameFieldValue())) {
+                if (filmType == null) {
+                    super.getDataManager().createFilmType(newFilmType);
+                } else {
+                    newFilmType.setFilmTypeID(filmType.getFilmTypeID());
+                    super.getDataManager().updateFilmType(newFilmType);
+                }
+                UserRole role = super.getUser().getUserRole();
+                if (role != null) {
+                    redirectRoot();
+                }
             }else{
-                newFilmType.setFilmTypeID(filmType.getFilmTypeID());
-                super.getDataManager().updateFilmType(newFilmType);
-            }
-            UserRole role = super.getUser().getUserRole();
-            if (role != null) {
-                redirectRoot();
+                showErrorWindow("Такой жанр уже существует или неверные данные");
             }
         }else{
             showErrorWindow("Необходимо ввести название жанра");
@@ -75,6 +85,16 @@ public class FilmTypeWindow extends AbstractCreateWindow {
     private void showErrorWindow(String message) {
         Window errorWindow = new ErrorWindow(message);
         UI.getCurrent().addWindow(errorWindow);
+    }
+
+    private void typeNameFieldChangeListener(){
+        if(!checkNameFieldValue()){
+            showErrorWindow("Название жанра должно содержать только буквы");
+        }
+    }
+
+    private boolean checkNameFieldValue(){
+        return typeNameField.getValue().matches("^[А-я]+$");
     }
 
 

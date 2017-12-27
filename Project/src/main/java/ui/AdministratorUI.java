@@ -55,26 +55,31 @@ public class AdministratorUI extends UI {
     private final TextField searchField = new TextField("Поиск");
 
     //theater objects
+    private final Panel theaterPanel = new Panel();
     private final HorizontalLayout theaterHeaderLayout = new HorizontalLayout();
     private final Label theaterLabel = new Label("Залы");
     private final Button theaterHelpButton = new Button(VaadinIcons.QUESTION_CIRCLE_O);
 
     //film type objects
+    private final Panel filmTypePanel = new Panel();
     private final HorizontalLayout filmTypeHeaderLayout = new HorizontalLayout();
     private final Label filmTypeLabel = new Label("Жанры");
     private final Button filmTypeHelpButton = new Button(VaadinIcons.QUESTION_CIRCLE_O);
 
     //seance objects
+    private final Panel seancePanel = new Panel();
     private final HorizontalLayout seanceHeaderLayout = new HorizontalLayout();
     private final Label seanceLabel = new Label("Сеансы");
     private final Button seanceHelpButton = new Button(VaadinIcons.QUESTION_CIRCLE_O);
 
     //film objects
+    private final Panel filmPanel = new Panel();
     private final HorizontalLayout filmHeaderLayout = new HorizontalLayout();
     private final Label filmLabel = new Label("Фильмы");
     private final Button filmHelpButton = new Button(VaadinIcons.QUESTION_CIRCLE_O);
 
     //operator objects
+    private final Panel operatorPanel = new Panel();
     private final HorizontalLayout operatorHeaderLayout = new HorizontalLayout();
     private final Label operatorLabel = new Label("Операторы");
     private final Button operatorHelpButton = new Button(VaadinIcons.QUESTION_CIRCLE_O);
@@ -115,22 +120,27 @@ public class AdministratorUI extends UI {
 
         theaterHeaderLayout.addComponentsAndExpand(theaterLabel, theaterHelpButton);
         theaterLayout.addComponentsAndExpand(theaterHeaderLayout, theaterCheckBoxGroup);
+        theaterPanel.setContent(theaterLayout);
         initTheaters("");
 
         filmTypeHeaderLayout.addComponentsAndExpand(filmTypeLabel, filmTypeHelpButton);
         filmTypeLayout.addComponentsAndExpand(filmTypeHeaderLayout, filmTypeCheckBoxGroup);
+        filmTypePanel.setContent(filmTypeLayout);
         initFilmTypes("");
 
         seanceHeaderLayout.addComponentsAndExpand(seanceLabel, seanceHelpButton);
         seanceLayout.addComponentsAndExpand(seanceHeaderLayout, seanceCheckBoxGroup);
+        seancePanel.setContent(seanceLayout);
         initSeances("");
 
         filmHeaderLayout.addComponentsAndExpand(filmLabel, filmHelpButton);
         filmLayout.addComponentsAndExpand(filmHeaderLayout, filmCheckBoxGroup);
+        filmPanel.setContent(filmLayout);
         initFilms("");
 
         operatorHeaderLayout.addComponentsAndExpand(operatorLabel, operatorHelpButton);
         operatorLayout.addComponentsAndExpand(operatorHeaderLayout, operatorCheckBoxGroup);
+        operatorPanel.setContent(operatorLayout);
         initOperators("");
 
 
@@ -138,7 +148,7 @@ public class AdministratorUI extends UI {
         headerLayout.addComponentsAndExpand(createButton, setButton, deleteButton, searchField, nameLabel,
                 helpButton, exitButton);
         headerLayout.setSizeUndefined();
-        objectsLayout.addComponentsAndExpand(theaterLayout, filmTypeLayout, seanceLayout, filmLayout, operatorLayout);
+        objectsLayout.addComponentsAndExpand(theaterPanel,filmTypePanel,seancePanel,filmPanel,operatorPanel);
         objectsLayout.setSizeUndefined();
         mainLayout.addComponentsAndExpand(headerLayout, objectsLayout);
         mainLayout.setSizeUndefined();

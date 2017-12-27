@@ -8,6 +8,7 @@ import model.SeatType;
 import model.Theater;
 import model.comparators.SeatComparator;
 import model.user.User;
+import model.user.UserRole;
 import modeloperations.DataManager;
 import org.apache.commons.collections4.IteratorUtils;
 
@@ -224,6 +225,10 @@ public class TheaterWindow extends AbstractCreateWindow {
             super.getDataManager().createTheater(newTheater);
         } else {
             super.getDataManager().updateTheater(newTheater);
+        }
+        UserRole role = super.getUser().getUserRole();
+        if (role != null) {
+            redirectRoot();
         }
     }
 

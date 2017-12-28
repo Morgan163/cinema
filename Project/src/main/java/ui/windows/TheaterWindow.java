@@ -70,7 +70,7 @@ public class TheaterWindow extends AbstractCreateWindow {
 
         HorizontalLayout seatControlLayout = new HorizontalLayout();
         seatControlLayout.setSizeUndefined();
-        initSelector();
+        initSelector(1);
         lineNumberSelect.addSelectionListener(e -> lineNumberSelectionListener());
         deleteSeatButton.addClickListener(e -> deleteSeatButtonClickListener());
         seatControlLayout.addComponents(lineNumberSelect, deleteSeatButton);
@@ -124,13 +124,20 @@ public class TheaterWindow extends AbstractCreateWindow {
         }
     }
 
-    private void initSelector() {
+    private void initSelector(int number) {
         List<Integer> lineNumbers = new ArrayList<>();
         for (int i = 0; i < lines.size(); i++) {
             lineNumbers.add(i + 1);
         }
         lineNumberSelect.setItems(lineNumbers);
         lineNumberSelect.setSelectedItem(null);
+        lineNumberSelect.setEmptySelectionCaption("#");
+        if((number>lineNumbers.size())&&(lineNumbers.size()!=0)){
+            lineNumberSelect.setSelectedItem(lineNumbers.size());
+        }else if(lineNumbers.size()!=0){
+            lineNumberSelect.setSelectedItem(number);
+        }
+
     }
 
     private void newLineButtonClickListener() {
@@ -139,7 +146,7 @@ public class TheaterWindow extends AbstractCreateWindow {
             panelLayout.addComponent(newLine);
             lines.add(newLine);
             size.add(new LineSize(0));
-            initSelector();
+            initSelector(lines.size());
             panel.setContent(panelLayout);
         } else {
             showErrorWindow("Максимальное количество рядов = " + MAX_LINES_COUNT);
@@ -154,7 +161,7 @@ public class TheaterWindow extends AbstractCreateWindow {
                 panel.setContent(panelLayout);
                 lines.remove(lineNumber - 1);
                 size.remove(lineNumber - 1);
-                initSelector();
+                initSelector(lineNumber);
             }else{
                 showErrorWindow("Выберите ряд для удаления");
             }

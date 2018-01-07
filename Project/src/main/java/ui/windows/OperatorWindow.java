@@ -80,9 +80,13 @@ public class OperatorWindow extends AbstractCreateWindow {
             User newUser = new User(nameField.getValue(), surnameField.getValue(), secondNameField.getValue(),
                     login.getValue(), passwordField.getValue(), UserRole.OPERATOR);
             Set<User> operators = new HashSet<>(super.getDataManager().getAllOperators());
-            if ((operators.add(newUser)) && (checkValues())) {
+            if (checkValues()) {
                 if (operator == null) {
-                    super.getDataManager().createUser(newUser);
+                    if (operators.add(newUser)) {
+                        super.getDataManager().createUser(newUser);
+                    } else {
+                        showErrorWindow("Такой оператор уже существует");
+                    }
                 } else {
                     newUser.setUserID(operator.getUserID());
                     super.getDataManager().updateUser(newUser);
@@ -91,8 +95,9 @@ public class OperatorWindow extends AbstractCreateWindow {
                 if (role != null) {
                     redirectRoot();
                 }
+
             } else {
-                showErrorWindow("Такой оператор уже существует или неверный формат данных");
+                showErrorWindow("Неверный формат данных");
             }
         }
     }
@@ -110,19 +115,19 @@ public class OperatorWindow extends AbstractCreateWindow {
 
     private void nameFieldChangeListener() {
         if (!checkNameValue(nameField.getValue())) {
-            showErrorWindow("Имя должно содержать только буквы");
+            showErrorWindow("Имя должно содержать только русские буквы");
         }
     }
 
     private void surnameFieldChangeListener() {
         if (!checkNameValue(surnameField.getValue())) {
-            showErrorWindow("Фамилия должна содержать только буквы");
+            showErrorWindow("Фамилия должна содержать только русские буквы");
         }
     }
 
     private void secondnameFieldChangeListener() {
         if (!checkNameValue(secondNameField.getValue())) {
-            showErrorWindow("Отчество должно содержать только буквы");
+            showErrorWindow("Отчество должно содержать только русские буквы");
         }
     }
 

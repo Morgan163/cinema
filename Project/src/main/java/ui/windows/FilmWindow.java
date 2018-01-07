@@ -29,7 +29,7 @@ public class FilmWindow extends AbstractCreateWindow {
         init();
     }
 
-    public FilmWindow( UI rootUI, User user, DataManager dataManager, Film film) {
+    public FilmWindow(UI rootUI, User user, DataManager dataManager, Film film) {
         super("Редактирование фильма", rootUI, user, dataManager);
         this.film = film;
         initComponents();
@@ -49,7 +49,7 @@ public class FilmWindow extends AbstractCreateWindow {
         center();
         setSizeUndefined();
         nameField.addValueChangeListener(e -> nameFieldChangeListener());
-        formLayout.addComponents(nameField,filmTypeComboBox,ageLimitTypeNativeSelect,saveButton);
+        formLayout.addComponents(nameField, filmTypeComboBox, ageLimitTypeNativeSelect, saveButton);
         formLayout.setSizeUndefined();
         formLayout.setMargin(true);
         setContent(formLayout);
@@ -63,26 +63,31 @@ public class FilmWindow extends AbstractCreateWindow {
         saveButton.addClickListener(e -> saveButtonClickLiistener());
     }
 
-    private void initValues(){
+    private void initValues() {
         filmTypeComboBox.setValue(film.getFilmType());
         nameField.setValue(film.getFilmName());
         ageLimitTypeNativeSelect.setValue(film.getAgeLimitType());
     }
 
     private void saveButtonClickLiistener() {
-        if(StringUtils.isBlank(nameField.getValue())){
+        if (StringUtils.isBlank(nameField.getValue())) {
             showErrorWindow("Название фильма не должно быт пустым");
-        }else if(filmTypeComboBox.getValue()==null){
+        } else if (filmTypeComboBox.getValue() == null) {
             showErrorWindow("Жанр не должен быть пустым");
-        }else if(ageLimitTypeNativeSelect.getValue()==null){
+        } else if (ageLimitTypeNativeSelect.getValue() == null) {
             showErrorWindow("Возрастные ограничения не должна быть пустыми");
-        }else{
+        } else {
             Film newFilm = new Film(nameField.getValue(), filmTypeComboBox.getValue(),
                     ageLimitTypeNativeSelect.getValue());
             Set<Film> films = new HashSet<>(super.getDataManager().getAllFilms());
-            if((films.add(newFilm))&&(checkNameValue())) {
+            if (checkNameValue()) {
+
                 if (film == null) {
-                    super.getDataManager().createFilm(newFilm);
+                    if (films.add(newFilm)) {
+                        super.getDataManager().createFilm(newFilm);
+                    } else {
+                        showErrorWindow("Такой фильм уже существует");
+                    }
                 } else {
                     newFilm.setFilmID(film.getFilmID());
                     super.getDataManager().updateFilm(newFilm);
@@ -91,8 +96,9 @@ public class FilmWindow extends AbstractCreateWindow {
                 if (role != null) {
                     redirectRoot();
                 }
-            }else{
-                showErrorWindow("Такой фильм уже существует или неверные данные");
+
+            } else {
+                showErrorWindow("Неверный формат данных");
             }
         }
     }
@@ -102,18 +108,19 @@ public class FilmWindow extends AbstractCreateWindow {
         super.getRootUI().getPage().setLocation(currentLocation.substring(0, currentLocation.lastIndexOf("/") + 1)
                 + super.getUser().getUserRole().getRoleName().toLowerCase());
     }
+
     private void showErrorWindow(String message) {
         Window errorWindow = new ErrorWindow(message);
         UI.getCurrent().addWindow(errorWindow);
     }
 
-    private void nameFieldChangeListener(){
-        if(!checkNameValue()){
+    private void nameFieldChangeListener() {
+        if (!checkNameValue()) {
             showErrorWindow("Название может содержать только буквы, цифры и символ тире");
         }
     }
 
-    private boolean checkNameValue(){
-        return nameField.getValue().matches("^[А-яA-z0-9-]+$");
+    private boolean checkNameValue() {
+        return nameField.getValue().matches("^[А-яA-z0-9-\\s]+$");
     }
 }

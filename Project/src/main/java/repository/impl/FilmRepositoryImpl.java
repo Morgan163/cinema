@@ -122,7 +122,10 @@ public class FilmRepositoryImpl implements Repository<Film> {
             long filmTypeId = resultSet.getLong("FILM_TYPE_ID");
             long ageLimitId = resultSet.getLong("AGE_LIMIT_ID");
             AgeLimitType ageLimitType = AgeLimitType.getById(ageLimitId);
-            FilmType filmType = filmTypeRepository.query((SqlSpecification)specificationFactory.getFilmTypeByIdSpecification(filmTypeId)).get(0);
+            List<FilmType> filmTypes = filmTypeRepository.query((SqlSpecification)specificationFactory.getFilmTypeByIdSpecification(filmTypeId));
+            if (filmTypes.size() == 0)
+                continue;
+            FilmType filmType = filmTypes.get(0);
             Film film = new Film();
             film.setFilmID(filmId);
             film.setFilmName(filmName);

@@ -19,7 +19,7 @@ public class FilmTypeWindow extends AbstractCreateWindow {
     private final TextField typeNameField = new TextField("Название жанра");
     private final Button okButton = new Button("OK");
 
-    public FilmTypeWindow( UI rootUI, User user, DataManager dataManager, FilmType filmType) {
+    public FilmTypeWindow(UI rootUI, User user, DataManager dataManager, FilmType filmType) {
         super("Редактирование жанра", rootUI, user, dataManager);
         this.filmType = filmType;
         initFields();
@@ -27,7 +27,7 @@ public class FilmTypeWindow extends AbstractCreateWindow {
     }
 
     public FilmTypeWindow(UI rootUI, User user, DataManager dataManager) {
-        super("Создание жанра",  rootUI, user, dataManager);
+        super("Создание жанра", rootUI, user, dataManager);
         init();
     }
 
@@ -61,12 +61,17 @@ public class FilmTypeWindow extends AbstractCreateWindow {
     }
 
     private void okButtonClickListener() {
-        if(!StringUtils.isBlank(typeNameField.getValue())){
+        if (!StringUtils.isBlank(typeNameField.getValue())) {
             FilmType newFilmType = new FilmType(typeNameField.getValue());
             Set<FilmType> filmTypes = new HashSet<>(super.getDataManager().getAllFilmTypes());
-            if(filmTypes.add(newFilmType)&&(checkNameFieldValue())) {
+            if (checkNameFieldValue()) {
+
                 if (filmType == null) {
-                    super.getDataManager().createFilmType(newFilmType);
+                    if (filmTypes.add(newFilmType)) {
+                        super.getDataManager().createFilmType(newFilmType);
+                    } else {
+                        showErrorWindow("Такой жанр уже существует");
+                    }
                 } else {
                     newFilmType.setFilmTypeID(filmType.getFilmTypeID());
                     super.getDataManager().updateFilmType(newFilmType);
@@ -75,25 +80,27 @@ public class FilmTypeWindow extends AbstractCreateWindow {
                 if (role != null) {
                     redirectRoot();
                 }
-            }else{
-                showErrorWindow("Такой жанр уже существует или неверные данные");
+
+            } else {
+                showErrorWindow("Неверный формат данных");
             }
-        }else{
+        } else {
             showErrorWindow("Необходимо ввести название жанра");
         }
     }
+
     private void showErrorWindow(String message) {
         Window errorWindow = new ErrorWindow(message);
         UI.getCurrent().addWindow(errorWindow);
     }
 
-    private void typeNameFieldChangeListener(){
-        if(!checkNameFieldValue()){
-            showErrorWindow("Название жанра должно содержать только буквы");
+    private void typeNameFieldChangeListener() {
+        if (!checkNameFieldValue()) {
+            showErrorWindow("Название жанра должно содержать только русские буквы");
         }
     }
 
-    private boolean checkNameFieldValue(){
+    private boolean checkNameFieldValue() {
         return typeNameField.getValue().matches("^[А-я]+$");
     }
 

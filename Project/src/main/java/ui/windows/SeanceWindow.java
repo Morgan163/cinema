@@ -85,16 +85,20 @@ public class SeanceWindow extends AbstractCreateWindow {
             showErrorWindow("Время сеанса должно быть выбрано");
         } else if (StringUtils.isBlank(priceField.getValue())) {
             showErrorWindow("Цена должна быть указана");
-        } else if((Double.valueOf(priceField.getValue())<50)||(Double.valueOf(priceField.getValue())>5000)) {
+        } else if ((Double.valueOf(priceField.getValue()) < 50) || (Double.valueOf(priceField.getValue()) > 5000)) {
             showErrorWindow("Цена должны быть от 50 до 5000");
-        }else{
+        } else {
             Seance newSeance = new Seance(filmComboBox.getValue(),
                     Double.valueOf(priceField.getValue()),
                     GregorianCalendar.from(dateTimeField.getValue().atZone(ZoneId.systemDefault())));
             Set<Seance> seances = new HashSet<>(super.getDataManager().getAllSeances());
-            if((seances.add(newSeance))&&(checkValues())) {
+            if (checkValues()) {
                 if (seance == null) {
-                    super.getDataManager().createSeanceForTheater(newSeance, theaterComboBox.getValue());
+                    if (seances.add(newSeance)) {
+                        super.getDataManager().createSeanceForTheater(newSeance, theaterComboBox.getValue());
+                    } else {
+                        showErrorWindow("Такой сеанс уже существует");
+                    }
                 } else {
                     newSeance.setSeanceID(seance.getSeanceID());
                     super.getDataManager().updateSeance(newSeance);
@@ -103,8 +107,9 @@ public class SeanceWindow extends AbstractCreateWindow {
                 if (role != null) {
                     redirectRoot();
                 }
-            }else{
-                showErrorWindow("Такой сеанс уже существует или неверный формат введенных данных");
+
+            } else {
+                showErrorWindow("Неверный формат данных");
             }
         }
     }
@@ -132,17 +137,17 @@ public class SeanceWindow extends AbstractCreateWindow {
         }
     }
 
-    private boolean checkDate(){
+    private boolean checkDate() {
         return GregorianCalendar.from(dateTimeField.getValue().atZone(ZoneId.systemDefault())).getTime().getTime()
                 >= Calendar.getInstance().getTime().getTime();
     }
 
-    private boolean checkPrice(){
+    private boolean checkPrice() {
         return priceField.getValue().matches("^[0-9]+$");
     }
 
-    private boolean checkValues(){
-        return checkDate()&&checkPrice();
+    private boolean checkValues() {
+        return checkDate() && checkPrice();
     }
 
 }

@@ -251,9 +251,9 @@ public class DataManagerImpl implements DataManager
 
     @Override
     public void removeFilm(Film film) throws DependentObjectExistsException{
-        if(isFilmTypeForFilmExists(film)){
-            throw new DependentObjectExistsException();
-        }
+        for (Seance seance : getAllSeances())
+            if (seance.getFilm().getFilmID() == film.getFilmID())
+                throw new DependentObjectExistsException();
         filmRepository.remove(film);
     }
 
@@ -263,6 +263,9 @@ public class DataManagerImpl implements DataManager
 
     @Override
     public void removeFilmType(FilmType filmType) throws DependentObjectExistsException{
+        for (Film film : getAllFilms())
+            if (film.getFilmType().getFilmTypeID() == filmType.getFilmTypeID())
+                throw new DependentObjectExistsException();
         filmTypeRepository.remove(filmType);
     }
 

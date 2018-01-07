@@ -4,7 +4,7 @@ package exceptions;
  * Created by niict on 26.12.2017.
  */
 public class DependentObjectExistsException extends Exception {
-    private final static String MESSAGE = "Object has dependent objects. Try to remove them first";
+    private final static String MESSAGE = "Объект имеет зависимые объекты. Попробуйте сначала удалить их.";
     public DependentObjectExistsException() {
         this(MESSAGE);
     }

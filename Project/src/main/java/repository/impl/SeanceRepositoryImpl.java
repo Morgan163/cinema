@@ -126,7 +126,10 @@ public class SeanceRepositoryImpl implements Repository<Seance> {
             int basePriceValue = resultSet.getInt("BASE_PRICE_VALUE");
             Calendar startDate = Calendar.getInstance();
             startDate.setTime(resultSet.getTimestamp("SEANCE_START_DATE"));
-            Film film = filmRepository.query((SqlSpecification)specificationFactory.getFilmByIdSpecification(filmId)).get(0);
+            List<Film> films = filmRepository.query((SqlSpecification)specificationFactory.getFilmByIdSpecification(filmId));
+            if (films.size() == 0)
+                continue;
+            Film film = films.get(0);
             Seance seance = new Seance();
             seance.setSeanceID(seanceId);
             seance.setPriceValue(basePriceValue);

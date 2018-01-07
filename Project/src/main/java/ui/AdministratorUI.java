@@ -26,7 +26,14 @@ import java.util.Locale;
 @Theme("mytheme")
 public class AdministratorUI extends UI {
     private static final String MAIN_INFO = "Форма администратора, где вы можете управлять имеющимися объектами" +
-            " кинотеатра";
+            " кинотеатра\n" +
+            "Для создания нового объекта нажмите \"Создать\", после чего выберите необходимый объект." +
+            "Откроется форма создания, где необходимо ввести все данные и нажать \"Сохранить\"\n" +
+            "Для изменения выберите объект, который хотите редактировать и нажмите \"Изменить\"," +
+            "после чего откроется форма изменения, где есть возможность исправить доступные данные.\n" +
+            "Для удаления выберите объект, который хотите удалить и нажмите \"Удалить\".\n" +
+            "Чтобы найти необходимый объект, введите в поле \"Поиск\" фразу, которую содержит искомый объект.\n" +
+            "Для выхода из режима Администратора нажмите \"Выход\"";
     private static final String THEATER_INFO = "Редактируйте и удаляйте имеющиеся залы";
     private static final String FILM_TYPE_INFO = "Редактируйте и удаляйте имеющиеся жанры";
     private static final String FILM_INFO = "Редактируйте и удаляйте имеющиеся фильмы";
@@ -52,7 +59,7 @@ public class AdministratorUI extends UI {
     private final Button exitButton = new Button("Выйти");
     private final Button helpButton = new Button("Справка");
     private Label nameLabel;
-    private final TextField searchField = new TextField("Поиск");
+    private final TextField searchField = new TextField();
 
     //theater objects
     private final Panel theaterPanel = new Panel();
@@ -145,6 +152,7 @@ public class AdministratorUI extends UI {
 
 
         searchField.addValueChangeListener(e -> searchFieldChangeListener());
+        searchField.setPlaceholder("Поиск");
         headerLayout.addComponentsAndExpand(createButton, setButton, deleteButton, searchField, nameLabel,
                 helpButton, exitButton);
         headerLayout.setSizeUndefined();
@@ -316,7 +324,8 @@ public class AdministratorUI extends UI {
     }
 
     private void helpButtonListener() {
-        showInfoWindow(MAIN_INFO);
+        Window helpWindow = new HelpWindow(MAIN_INFO);
+        UI.getCurrent().addWindow(helpWindow);
     }
 
     private void exitButtonListener() {
